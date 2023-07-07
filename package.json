@@ -2,21 +2,22 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "serve": "turbo run serve",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "*",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
   "name": "pixel-sandbox",
   "packageManager": "yarn@1.22.19",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "templates/jurnal/*",
+    "templates/klikpajak/*",
+    "templates/qontak/*",
+    "templates/talenta/*",
+    "patterns/*"
   ]
 }
