@@ -2,6 +2,7 @@
   "name": "jurnal-report-index",
   "version": "0.1.0",
   "private": true,
+  "author": "Dimas Raka Septiawan <dimas.raka@mekari.com>",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -45,5 +46,7 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "keywords": [],
+  "description": ""
 }

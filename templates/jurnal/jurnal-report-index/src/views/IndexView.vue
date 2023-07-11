@@ -14,13 +14,26 @@
         position="relative"
       >
         <SubHeader>
-          <mp-flex justify="space-between" align-items="center" padding-x="6" padding-y="1.063rem">
-            <mp-heading as="h1" font-size="2xl" font-weight="semibold" mr="2"> Laporan </mp-heading>
+          <mp-flex
+            justify="space-between"
+            align-items="center"
+            padding-x="6"
+            padding-y="1.063rem"
+          >
+            <mp-heading as="h1" font-size="2xl" font-weight="semibold" mr="2">
+              Laporan
+            </mp-heading>
           </mp-flex>
 
           <mp-box px="4" mb="-8" position="relative">
             <mp-tabs :index="currentTab" is-manual @change.self="handleChange">
-              <mp-tab-list id="awesome-tab" border-bottom="0px" overflow-x="auto" p="2" @scroll.native="(e) => handleScrollCalculation(e.target)">
+              <mp-tab-list
+                id="awesome-tab"
+                border-bottom="0px"
+                overflow-x="auto"
+                p="2"
+                @scroll.native="(e) => handleScrollCalculation(e.target)"
+              >
                 <mp-tab flex="none">Sekilas bisnis</mp-tab>
                 <mp-tab flex="none">Penjualan</mp-tab>
                 <mp-tab flex="none">Pembelian</mp-tab>
@@ -77,7 +90,14 @@
           </mp-box>
         </SubHeader>
 
-        <mp-box min-height="calc(100vh - 132px)" border-top-width="1px" border-left-width="1px" rounded-top-left="md" background-color="white" padding="6">
+        <mp-box
+          min-height="calc(100vh - 132px)"
+          border-top-width="1px"
+          border-left-width="1px"
+          rounded-top-left="md"
+          background-color="white"
+          padding="6"
+        >
           <mp-grid
             v-if="currentTab === 0"
             :template-columns="{
@@ -87,13 +107,21 @@
             gap="12"
             pb="16"
           >
-            <mp-flex v-for="report in reportLists" :key="report.id" flex-direction="column" justify-content="space-between" height="100%">
+            <mp-flex
+              v-for="report in reportLists"
+              :key="report.id"
+              flex-direction="column"
+              justify-content="space-between"
+              height="100%"
+            >
               <mp-box>
                 <mp-flex align-items="center">
                   <mp-heading as="h3" font-size="lg" color="dark">
                     {{ report.name }}
 
-                    <mp-badge v-if="report.badgeLabel"> {{ report.badgeLabel }} </mp-badge>
+                    <mp-badge v-if="report.badgeLabel">
+                      {{ report.badgeLabel }}
+                    </mp-badge>
                   </mp-heading>
                   <mp-box
                     v-if="report.isMekariAirine"
@@ -106,7 +134,13 @@
                     py="3px"
                     px="8px"
                   >
-                    <svg width="48" height="14" viewBox="0 0 48 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      width="48"
+                      height="14"
+                      viewBox="0 0 48 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <g clip-path="url(#clip0_1_19)">
                         <path
                           d="M5.24943 14C5.13579 14 5.03309 13.9257 5.00447 13.8139L4.43121 11.5825C3.35034 11.5123 2.61714 10.7483 2.24927 9.30776C2.16509 8.98129 1.98916 8.68338 1.74167 8.44669L0.286207 7.04367C0.253377 7.01428 0.222231 6.98327 0.194452 6.94981C-0.106069 6.5915 -0.0513526 6.06425 0.314828 5.77042C0.699529 5.43007 1.27532 5.40885 1.68527 5.72145C1.6878 5.72308 1.69032 5.72471 1.692 5.72716L2.55653 6.43561L1.35697 4.01807C1.34687 3.99685 1.33929 3.97971 1.33256 3.96339C1.15241 3.50877 1.38391 2.99703 1.84858 2.81665C2.30988 2.5922 2.87978 2.74891 3.15084 3.17659C3.15589 3.18393 3.1601 3.1921 3.16346 3.20026L3.46483 3.81648L3.11043 2.44366C3.10875 2.43794 3.1079 2.43223 3.10706 2.42652C3.00857 1.88539 3.37728 1.36058 3.93118 1.25039C4.4733 1.0945 5.05329 1.38833 5.23007 1.91069C5.23175 1.9164 5.23344 1.92211 5.23512 1.92701L5.71831 3.79526L5.72252 2.39795C5.72252 2.39305 5.72252 2.38815 5.72252 2.38326C5.75535 1.88457 6.18214 1.48464 6.69563 1.46832C6.71331 1.46668 6.73099 1.46505 6.74867 1.46423C7.25038 1.43812 7.68306 1.8103 7.71168 2.29674L8.05766 6.48376L8.82874 5.54107C9.14863 5.14196 9.71768 5.02524 10.179 5.26439C10.227 5.2905 10.2691 5.31825 10.3086 5.34927C10.4862 5.48965 10.5974 5.6888 10.6201 5.9108C10.642 6.12219 10.5822 6.32951 10.45 6.49846L8.66038 9.99091C8.65533 9.99988 8.65028 10.0089 8.64439 10.0178C8.50802 10.2154 8.34471 10.3908 8.15783 10.5418L8.92302 13.2924C8.95922 13.423 8.87925 13.5576 8.74456 13.5927C8.60988 13.6278 8.47098 13.5503 8.43478 13.4197L7.62582 10.5116C7.59804 10.4129 7.63676 10.3084 7.72262 10.2488C7.91624 10.1142 8.08207 9.94928 8.21592 9.75911L10.0098 6.2585C10.0182 6.24217 10.0283 6.22667 10.0401 6.21279C10.0999 6.14178 10.1276 6.052 10.1175 5.96141C10.1074 5.87081 10.062 5.78838 9.98874 5.73043C9.97274 5.71737 9.95506 5.70594 9.93655 5.69615C9.69579 5.57127 9.39527 5.6333 9.22523 5.84551L8.05429 7.27628C7.98947 7.35545 7.88257 7.3881 7.78323 7.35871C7.6839 7.32933 7.61319 7.24445 7.60477 7.14406L7.2066 2.33184C7.19314 2.10902 7.00457 1.9417 6.77645 1.95476C6.76635 1.95476 6.75624 1.95639 6.74698 1.95721C6.73772 1.95803 6.72846 1.95884 6.71836 1.95966C6.46077 1.96456 6.24527 2.16207 6.22591 2.41019L6.21497 5.75818C6.21497 5.88142 6.11901 5.98589 5.99274 6.00058C5.86815 6.01609 5.74862 5.93692 5.71747 5.81694L4.74604 2.0576C4.65091 1.78826 4.34787 1.6389 4.06671 1.72378C4.05745 1.72623 4.04819 1.72868 4.03893 1.73031C3.74935 1.78418 3.5549 2.05434 3.60204 2.3351L4.57347 6.09444C4.60546 6.21687 4.53559 6.34175 4.41353 6.38419C4.29063 6.42663 4.15594 6.37195 4.10038 6.2585L2.7131 3.42389C2.57505 3.2174 2.29389 3.14476 2.06745 3.25902C2.05903 3.2631 2.05061 3.26718 2.04135 3.27045C1.82753 3.34962 1.72063 3.58305 1.80312 3.78954C1.80649 3.7977 1.80986 3.80505 1.81322 3.8124L3.52291 7.25751C3.57426 7.36198 3.54395 7.48685 3.44967 7.55705C3.35539 7.62805 3.22323 7.62479 3.13232 7.55052L1.36791 6.10587C1.15157 5.94345 0.851052 5.95651 0.649863 6.13689C0.645654 6.14015 0.641445 6.14423 0.637236 6.1475C0.481504 6.26992 0.457933 6.49274 0.584203 6.64292C0.59683 6.65761 0.610298 6.67149 0.625451 6.68455C0.628818 6.68781 0.632185 6.69108 0.635552 6.69434L2.09522 8.10226C2.40753 8.40098 2.63061 8.77887 2.73751 9.19268C3.07339 10.5067 3.67275 11.114 4.62482 11.1009H4.62819C4.74435 11.1009 4.84537 11.1776 4.87315 11.2862L5.49271 13.698C5.52638 13.8294 5.44389 13.9625 5.30836 13.9951C5.28815 14 5.26711 14.0024 5.24691 14.0024L5.24943 14Z"
@@ -189,7 +223,11 @@
             </mp-flex>
           </mp-grid>
 
-          <mp-flex v-if="currentTab === 8" align-items="center" justify-content="center">
+          <mp-flex
+            v-if="currentTab === 8"
+            align-items="center"
+            justify-content="center"
+          >
             <BlankSlate
               variant="illustration"
               title="Memperkenalkan Jurnal insight"
@@ -199,10 +237,6 @@
               <mp-button mt="4">Custom laporan</mp-button>
             </BlankSlate>
           </mp-flex>
-
-          <mp-box position="fixed" bottom="8" right="8">
-            <mp-button>Atas</mp-button>
-          </mp-box>
         </mp-box>
       </mp-box>
     </mp-flex>
@@ -210,7 +244,19 @@
 </template>
 
 <script>
-import { MpBox, MpFlex, MpHeading, MpButton, MpTabs, MpTab, MpTabList, MpBadge, MpGrid, MpText, MpIcon } from "@mekari/pixel";
+import {
+  MpBox,
+  MpFlex,
+  MpHeading,
+  MpButton,
+  MpTabs,
+  MpTab,
+  MpTabList,
+  MpBadge,
+  MpGrid,
+  MpText,
+  MpIcon,
+} from "@mekari/pixel";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SubHeader from "../components/SubHeader";
@@ -260,7 +306,8 @@ export default {
         {
           id: 3,
           name: "Laporan Laba-Rugi",
-          description: "Menampilkan setiap tipe transaksi dan jumlah total untuk pendapatan dan pengeluaran anda.",
+          description:
+            "Menampilkan setiap tipe transaksi dan jumlah total untuk pendapatan dan pengeluaran anda.",
           buttonPrimary: "Lihat laporan",
           buttonSecondary: "Lihat versi lama",
         },
@@ -284,21 +331,24 @@ export default {
         {
           id: 6,
           name: "Trial Balance",
-          description: "Menampilkan saldo dari setiap akun, termasuk saldo awal, pergerakan, dan saldo akhir dari periode yang ditentukan.",
+          description:
+            "Menampilkan saldo dari setiap akun, termasuk saldo awal, pergerakan, dan saldo akhir dari periode yang ditentukan.",
           buttonPrimary: "Lihat laporan",
           buttonSecondary: "Lihat versi lama",
         },
         {
           id: 7,
           name: "Perubahan Modal",
-          description: "Menampilkan perubahan atau pergerakan dalam ekuitas pemilik yang terjadi dalam periode tertentu.",
+          description:
+            "Menampilkan perubahan atau pergerakan dalam ekuitas pemilik yang terjadi dalam periode tertentu.",
           buttonPrimary: "Lihat laporan",
           buttonSecondary: "",
         },
         {
           id: 8,
           name: "Ringkasan Bisnis",
-          description: "Laporan Ringkasan Bisnis Menampilkan ringkasan dari laporan keuangan standar beserta wawasannya.",
+          description:
+            "Laporan Ringkasan Bisnis Menampilkan ringkasan dari laporan keuangan standar beserta wawasannya.",
           buttonPrimary: "Lihat laporan",
           buttonSecondary: "",
         },
@@ -306,14 +356,16 @@ export default {
           id: 9,
           name: "Anggaran Laba Rugi",
           badgeLabel: "Baru",
-          description: "Memungkinkan perusahaan untuk membandingkan anggaran keuangan yang sebenarnya.",
+          description:
+            "Memungkinkan perusahaan untuk membandingkan anggaran keuangan yang sebenarnya.",
           buttonPrimary: "Lihat laporan",
           buttonSecondary: "",
         },
         {
           id: 10,
           name: "Manajemen Anggaran",
-          description: "Alat untuk mengatur anggaran pengeluaran dan pemasukan perusahaan.",
+          description:
+            "Alat untuk mengatur anggaran pengeluaran dan pemasukan perusahaan.",
           buttonPrimary: "Lihat laporan",
           buttonSecondary: "",
         },
@@ -327,7 +379,7 @@ export default {
     this.handleActiveObserver();
   },
   beforeDestroy() {
-    this.oberserver.disconnect()
+    this.oberserver.disconnect();
   },
   methods: {
     handleChange(e) {
@@ -366,7 +418,8 @@ export default {
       const isHorizontalScroll = clientWidth < scrollWidth;
 
       if (isHorizontalScroll) {
-        const isScrollRightEnd = Math.round(scrollLeft) >= scrollWidth - clientWidth;
+        const isScrollRightEnd =
+          Math.round(scrollLeft) >= scrollWidth - clientWidth;
         const isScrollLeftEnd = scrollLeft === 0;
         const isScrollBoth = !isScrollLeftEnd && !isScrollRightEnd;
 

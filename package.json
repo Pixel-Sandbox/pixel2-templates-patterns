@@ -4,12 +4,15 @@
     "build": "turbo run build",
     "serve": "turbo run serve",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "new-template": "hygen generator new-template",
+    "new-pattern": "hygen generator new-pattern"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
     "prettier": "^2.5.1",
-    "turbo": "latest"
+    "turbo": "latest",
+    "hygen": "^6.2.11"
   },
   "name": "pixel-sandbox",
   "packageManager": "yarn@1.22.19",
