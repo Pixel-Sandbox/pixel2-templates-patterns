@@ -10,10 +10,10 @@ yarn new-template
 
 // or
 
-yarn new-template --product=jurnal --name=hello-world --author="Dimas Raka Septiawan" --authorEmail="dimas.raka@mekari.com"
+yarn new-template --product=acme --name=hello-world --author="Dimas Raka Septiawan" --authorEmail="dimas.raka@mekari.com"
 ```
 
-Will be generated on 📂 `templates/jurnal/jurnal-hello-world` directory.
+Will be generated on 📂 `templates/acme/jurnal-hello-world` directory.
 
 ### Develop
 
@@ -38,7 +38,7 @@ yarn new-pattern
 yarn new-pattern --name=lorem-ipsum --author="Dimas Raka Septiawan" --authorEmail="dimas.raka@mekari.com"
 ```
 
-Will be generated on 📂  `templates/patterns/lorem-ipsum` directory.
+Will be generated on 📂  `patterns/lorem-ipsum` directory.
 
 ### Develop
 
