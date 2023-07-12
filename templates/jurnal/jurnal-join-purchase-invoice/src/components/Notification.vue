@@ -435,7 +435,7 @@ import {
 } from "@mekari/pixel";
 
 export default {
-  name: "Notification",
+  name: "PixelNotification",
   components: {
     MpAvatar,
     MpPopover,

@@ -54,7 +54,7 @@ import SwitchAccount from "../components/SwitchAccount";
 import Notification from "./Notification";
 
 export default {
-  name: "Header",
+  name: "PixelHeader",
   components: {
     MpBox,
     MpFlex,
