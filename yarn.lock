@@ -6621,6 +6621,11 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
+gridstack@^8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-8.4.0.tgz#7af49159f9dc144c89a2c56246e1710406f75fcf"
+  integrity sha512-qLJuJrBy9bbG3hI+h2cEhiuZ51J3MyEMmv5AXg7MCFiBeG8A4HyIUytueqtD/oZcA3Pccq2Xoj7GrwpmKOS3ig==
+
 gzip-size@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-5.1.1.tgz#cb9bee692f87c0612b232840a873904e4c135274"
