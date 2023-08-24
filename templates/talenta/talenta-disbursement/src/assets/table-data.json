@@ -1,0 +1,272 @@
+{
+  "table_data_a": [
+    {
+      "id": "cdf08cc6-84c6-41b8-80e7-22d60e2259d5",
+      "transaction_id": "230406",
+      "first_name": "Kris",
+      "last_name": "Bendix",
+      "job_position": "Accountant",
+      "employee_id": "MKR2009",
+      "status": "Ready to disburse",
+      "reimbursement_name": "Medical outpatient",
+      "request_date": "29/10/2022",
+      "branch": "HO Jakarta",
+      "actions": [
+        {
+          "name": "Start offboard",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/detail"
+        }
+      ]
+    },
+    {
+      "id": "5b6072fe-3c56-4e59-899a-d8adf659f1b6",
+      "transaction_id": "230405",
+      "first_name": "Buddy",
+      "last_name": "Alexsandrov",
+      "job_position": "Accountant",
+      "employee_id": "MKR1353",
+      "status": "Ready to disburse",
+      "reimbursement_name": "Maternity",
+      "request_date": "29/10/2022",
+      "branch": "Surabaya",
+      "actions": [
+        {
+          "name": "Start offboard",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "f655b79f-63aa-4cd1-bbea-00398f6f79c8",
+      "transaction_id": "230404",
+      "first_name": "Delores",
+      "last_name": "Walters",
+      "job_position": "Head of Accounting",
+      "employee_id": "MKR1397",
+      "status": "Waiting for payment",
+      "reimbursement_name": "Transport claim",
+      "request_date": "29/10/2022",
+      "branch": "Surabaya",
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "65ed771a-1b7d-48a3-8ffe-2f018a7b00b2",
+      "transaction_id": "230403",
+      "first_name": "Isis",
+      "last_name": "Gerssam",
+      "job_position": "Head of Accounting",
+      "employee_id": "MKR1845",
+      "status": "Waiting for payment",
+      "reimbursement_name": "Maternity",
+      "request_date": "29/10/2022",
+      "branch": "Bandung",
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "3edb5950-1ab4-4ccf-af93-4108b821c95e",
+      "transaction_id": "230402",
+      "first_name": "Kelsey",
+      "last_name": "Medeway",
+      "job_position": "Head of Accounting",
+      "employee_id": "MKR944",
+      "status": "Paid",
+      "reimbursement_name": "Medical outpatient",
+      "request_date": "29/10/2022",
+      "branch": "HO Jakarta",
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    }
+  ],
+  "table_data_b": [
+    {
+      "id": "cdf08cc6-84c6-41b8-80e7-22d60e2259d5",
+      "disbursement_id": "DIS202204001",
+      "first_name": "Kris",
+      "last_name": "Bendix",
+      "job_position": "Accountant",
+      "employee_id": "MKR2009",
+      "status": "Waiting for payment",
+      "transactions": "4",
+      "created_date": "2 Mar 2023, 16:30",
+      "amount": "Rp1.800.000",
+      "actions": [
+        {
+          "name": "Start offboard",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/detail"
+        }
+      ]
+    },
+    {
+      "id": "5b6072fe-3c56-4e59-899a-d8adf659f1b6",
+      "disbursement_id": "DIS202204002",
+      "first_name": "Buddy",
+      "last_name": "Alexsandrov",
+      "job_position": "Accountant",
+      "employee_id": "MKR1353",
+      "status": "Paid",
+      "transactions": "5",
+      "created_date": "17 Mar 2023, 16:30",
+      "amount": "Rp2.577.000",
+      "actions": [
+        {
+          "name": "Start offboard",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    }
+  ],
+  "table_data_c": [
+    {
+      "id": "cdf08cc6-84c6-41b8-80e7-22d60e2259d5",
+      "transaction_id": "230406",
+      "first_name": "Kris",
+      "last_name": "Bendix",
+      "job_position": "Accountant",
+      "employee_id": "MKR2009",
+      "amount": "Rp150.000",
+      "reimbursement_name": "Medical outpatient",
+      "organization": "Product design",
+      "branch": "HO Jakarta",
+      "actions": [
+        {
+          "name": "Start offboard",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/detail"
+        }
+      ]
+    },
+    {
+      "id": "5b6072fe-3c56-4e59-899a-d8adf659f1b6",
+      "transaction_id": "230405",
+      "first_name": "Buddy",
+      "last_name": "Alexsandrov",
+      "job_position": "Accountant",
+      "employee_id": "MKR1353",
+      "amount": "Rp1.000.000",
+      "reimbursement_name": "Maternity",
+      "organization": "People ops",
+      "branch": "Surabaya",
+      "actions": [
+        {
+          "name": "Start offboard",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "f655b79f-63aa-4cd1-bbea-00398f6f79c8",
+      "transaction_id": "230404",
+      "first_name": "Delores",
+      "last_name": "Walters",
+      "job_position": "Head of Accounting",
+      "employee_id": "MKR1397",
+      "amount": "Rp350.000",
+      "reimbursement_name": "Transport claim",
+      "organization": "Technology",
+      "branch": "Surabaya",
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "65ed771a-1b7d-48a3-8ffe-2f018a7b00b2",
+      "transaction_id": "230403",
+      "first_name": "Isis",
+      "last_name": "Gerssam",
+      "job_position": "Head of Accounting",
+      "employee_id": "MKR1845",
+      "amount": "Rp1.250.000",
+      "reimbursement_name": "Maternity",
+      "organization": "Marketing and sales",
+      "branch": "Bandung",
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "3edb5950-1ab4-4ccf-af93-4108b821c95e",
+      "transaction_id": "230402",
+      "first_name": "Kelsey",
+      "last_name": "Medeway",
+      "job_position": "Head of Accounting",
+      "employee_id": "MKR944",
+      "amount": "Rp150.000",
+      "reimbursement_name": "Medical outpatient",
+      "organization": "People ops",
+      "branch": "HO Jakarta",
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    }
+  ]
+}
