@@ -21,6 +21,7 @@
     "templates/klikpajak/*",
     "templates/qontak/*",
     "templates/talenta/*",
+    "templates/backyard/*",
     "patterns/*"
   ]
 }
