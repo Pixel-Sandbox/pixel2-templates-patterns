@@ -2,7 +2,7 @@
   "name": "insight-employee-turnover",
   "version": "0.1.0",
   "private": true,
-  "author": "Dirga Prakesha <dirga.prakesha@gmail.com>",
+  "author": "Dirga Prakesha <dirga.prakesha@mekari.com>",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
