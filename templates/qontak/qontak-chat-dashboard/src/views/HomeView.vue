@@ -11,7 +11,7 @@
         overflow-y="auto"
         background-color="background"
       >
-        <SubHeader title="Dashboard" type="home" />
+        <SubHeader title="Inbox" type="" />
         <mp-box
           min-height="calc(100vh - 132px)"
           border-top-width="1px"

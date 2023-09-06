@@ -368,7 +368,7 @@ export default {
           name: "Inbox",
           icon: "inbox",
           link: "/",
-          isActive: this.$router.currentRoute.name === "home",
+          isActive: this.$route.name === "home",
           items: [],
         },
         {
@@ -376,7 +376,7 @@ export default {
           name: "Broadcast",
           icon: "broadcast",
           link: "/broadcast",
-          isActive: this.$router.currentRoute.name === "broadcast",
+          isActive: this.$route.name === "broadcast",
           items: [],
         },
         {
@@ -384,7 +384,7 @@ export default {
           name: "Contacts",
           icon: "contact",
           link: "/contacts",
-          isActive: this.$router.currentRoute.name === "contacts",
+          isActive: this.$route.name === "contacts",
           items: [],
         },
         {
@@ -420,7 +420,7 @@ export default {
           name: "Integrations",
           icon: "add-ons",
           link: "/integrations",
-          isActive: this.$router.currentRoute.name === "integrations",
+          isActive: this.$route.name === "integrations",
           items: [
             // {
             //   id: 1,
@@ -434,8 +434,7 @@ export default {
           name: "Settings",
           icon: "settings",
           link: "",
-          // isActive: this.$router.currentRoute.name === "properties",
-          hasDivider: true,
+          hasDivider: false,
           items: [],
         },
       ],

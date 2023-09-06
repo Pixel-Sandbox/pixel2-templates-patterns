@@ -35,11 +35,6 @@ const routes = [
     name: "embedded chat",
     component: EmbeddedChatView,
   },
-  // {
-  //   path: "/properties",
-  //   name: "properties",
-  //   component: PropertiesView,
-  // },
 ];
 
 const router = new VueRouter({

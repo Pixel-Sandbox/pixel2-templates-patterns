@@ -180,7 +180,6 @@ export default {
         {
           name: "Recipient list",
           isActive: true,
-          isOpen: 0,
         },
         {
           name: "Campaign template",

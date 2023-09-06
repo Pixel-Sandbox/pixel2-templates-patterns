@@ -21,9 +21,10 @@
         <mp-tabs
           id="tabs-contacts"
           :default-index="defaultIndex"
+          :is-show-border="false"
           @change="handleChangeTab"
         >
-          <mp-tab-list border-bottom="0" mb="0" px="6">
+          <mp-tab-list mb="0" pb="1px" px="6">
             <mp-tab> Widget installation </mp-tab>
             <mp-tab> Widget content & appearance </mp-tab>
             <mp-tab> Push notification </mp-tab>
