@@ -22,6 +22,16 @@ const routes = [
     name: "properties",
     component: PropertiesView,
   },
+  {
+    path: "/properties/:type",
+    name: "properties-type",
+    component: PropertiesView,
+  },
+  {
+    path: "/properties/:type/:id",
+    name: "properties-type-id",
+    component: PropertiesView,
+  },
 ];
 
 const router = new VueRouter({

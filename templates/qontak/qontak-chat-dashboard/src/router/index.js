@@ -5,7 +5,6 @@ import ContactView from "../views/ContactView"
 import BroadcastView from "../views/BroadcastView"
 import IntegrationsView from "../views/IntegrationsView"
 import EmbeddedChatView from "../views/EmbeddedChatView"
-// import PropertiesView from "../views/PropertiesView"
 
 Vue.use(VueRouter);
 

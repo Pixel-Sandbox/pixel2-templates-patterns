@@ -15,9 +15,10 @@
         <mp-tabs
           id="tabs-contacts"
           :default-index="defaultIndex"
+          :is-show-border="false"
           @change="handleChange"
         >
-          <mp-tab-list border-bottom="0" mb="0" px="6">
+          <mp-tab-list mb="0" pb="1px" px="6">
             <mp-tab> All contacts </mp-tab>
             <mp-tab> My lists </mp-tab>
           </mp-tab-list>

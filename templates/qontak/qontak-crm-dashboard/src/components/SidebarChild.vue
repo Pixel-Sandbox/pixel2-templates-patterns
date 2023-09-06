@@ -51,16 +51,14 @@
           <mp-box v-for="item in menu" :key="item.name">
             <mp-flex v-if="!item.hasChildMenu" direction="column">
               <mp-pseudo-box
+                as="router-link"
+                :to="item.link || ''"
                 flex="1"
                 role="group"
-                border-radius="md"
                 padding="2"
+                border-radius="md"
                 :background-color="item.isActive ? 'blue.100' : 'transparent'"
                 transition="all 600ms cubic-bezier(0.4, 0, 0.2, 1) 0s"
-                :_hover="{
-                  color: 'blue.400',
-                  cursor: 'pointer',
-                }"
               >
                 <mp-text
                   white-space="nowrap"
@@ -92,11 +90,6 @@
                   border-radius="md"
                   :background-color="item.isActive ? 'blue.100' : 'transparent'"
                   transition="all 600ms cubic-bezier(0.4, 0, 0.2, 1) 0s"
-                  :_hover="{
-                    color: 'blue.400',
-                    backgroundColor: 'blue.100',
-                    cursor: 'pointer',
-                  }"
                 >
                   <mp-flex direction="column">
                     <mp-pseudo-box flex="1" border-radius="sm">
@@ -105,6 +98,10 @@
                           white-space="nowrap"
                           :color="item.isActive ? 'blue.400' : 'dark'"
                           :font-weight="item.isActive ? 'semibold' : 'regular'"
+                          :_hover="{
+                            color: 'blue.400',
+                            cursor: 'pointer',
+                          }"
                         >
                           {{ item.name }}
                         </mp-text>
@@ -120,6 +117,8 @@
                   >
                     <mp-flex direction="column">
                       <mp-pseudo-box
+                        as="router-link"
+                        :to="childItem.link || ''"
                         flex="1"
                         role="group"
                         border-radius="md"
