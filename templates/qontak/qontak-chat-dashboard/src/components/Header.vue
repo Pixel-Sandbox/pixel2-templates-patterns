@@ -50,7 +50,12 @@
                 Omnichannel
                 <mp-icon name="check" size="sm" margin-right="2" />
               </mp-popover-list-item>
-              <mp-popover-list-item as="a" href="https://qontak-crm-dashboard.netlify.app/#/" target="_blank"> CRM </mp-popover-list-item>
+              <mp-popover-list-item
+                as="a"
+                href="https://qontak-crm-dashboard.netlify.app/#/"
+              >
+                CRM
+              </mp-popover-list-item>
               <mp-popover-list-item>
                 <mp-box>
                   Chatbot

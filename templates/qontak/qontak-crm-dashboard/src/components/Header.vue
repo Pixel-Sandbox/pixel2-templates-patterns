@@ -46,7 +46,12 @@
                   SELECT APPS
                 </mp-text>
               </mp-box>
-              <mp-popover-list-item as="a" href="https://qontak-chat-dashboard.netlify.app/#/" target="_blank"> Omnichannel </mp-popover-list-item>
+              <mp-popover-list-item
+                as="a"
+                href="https://qontak-chat-dashboard.netlify.app/#/"
+              >
+                Omnichannel
+              </mp-popover-list-item>
               <mp-popover-list-item>
                 CRM
                 <mp-icon name="check" size="sm" margin-right="2" />
