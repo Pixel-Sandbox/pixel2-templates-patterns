@@ -11,9 +11,10 @@
       border-left-color="gray.100"
       background-color="background"
       :max-width="['full', 'xs']"
-      :margin-top="['51px', '0px']"
-      :height="['calc(100vh - 51px)', '100vh']"
+      :margin-top="['56px', '0px']"
+      :height="['calc(100vh - 56px)', '100vh']"
     >
+      <mp-drawer-close-button top="13px" right="16px" />
       <mp-drawer-body
         background-color="background"
         padding="0"
@@ -52,19 +53,18 @@
           <mp-flex flex-direction="column" v-for="menu in menus" :key="menu.id">
             <mp-pseudo-box
               v-if="!menu.isNested"
+              as="router-link"
+              :to="menu.link"
               role="group"
               flex="1"
               border-radius="sm"
-              as="router-link"
               transition="all .2s ease"
               padding-x="2.5"
               padding-y="2"
-              :to="menu.link"
               :background-color="menu.isActive ? 'ice.50' : 'inherit'"
-              :color="menu.isActive ? 'blue.400' : 'inherit'"
               :_hover="{
                 backgroundColor: 'ice.50',
-                color: 'blue.400',
+                color: menu.isActive ? 'blue.400' : 'gray.600',
                 cursor: 'pointer',
               }"
             >
@@ -72,10 +72,11 @@
                 <mp-flex gap="2">
                   <mp-icon
                     :name="menu.icon"
-                    :color="menu.isActive ? 'blue.400' : 'inherit'"
+                    :color="menu.isActive ? 'blue.400' : 'gray.600'"
                   />
                   <mp-text
                     white-space="nowrap"
+                    :color="menu.isActive ? 'blue.400' : 'gray.600'"
                     :font-weight="menu.isActive ? 'semibold' : 'inherit'"
                   >
                     {{ menu.name }}
@@ -90,6 +91,8 @@
             </mp-pseudo-box>
             <mp-pseudo-box
               v-else
+              as="router-link"
+              :to="menu.link"
               role="group"
               flex="1"
               border-radius="sm"
@@ -97,111 +100,30 @@
               padding-x="2.5"
               padding-y="2"
               :background-color="menu.isActive ? 'ice.50' : 'inherit'"
-              :color="menu.isActive ? 'blue.400' : 'inherit'"
               :_hover="{
                 backgroundColor: 'ice.50',
-                color: 'blue.400',
+                color: menu.isActive ? 'blue.400' : 'gray.600',
                 cursor: 'pointer',
               }"
-              @click="handleToggle(true)"
             >
               <mp-stack direction="row" align="center" justify="space-between">
                 <mp-flex gap="2">
                   <mp-icon
                     :name="menu.icon"
-                    :color="menu.isActive ? 'blue.400' : 'inherit'"
+                    :color="menu.isActive ? 'blue.400' : 'gray.600'"
                   />
                   <mp-text
                     white-space="nowrap"
+                    :color="menu.isActive ? 'blue.400' : 'gray.600'"
                     :font-weight="menu.isActive ? 'semibold' : 'inherit'"
                   >
                     {{ menu.name }}
                   </mp-text>
                 </mp-flex>
-                <mp-icon v-if="menu.isNested" name="chevrons-right" />
               </mp-stack>
             </mp-pseudo-box>
+            <mp-divider v-if="menu.isNested" />
           </mp-flex>
-        </mp-box>
-        <mp-box v-else padding-x="2" padding-y="4" background-color="white">
-          <mp-flex flex-direction="column">
-            <mp-pseudo-box
-              role="group"
-              flex="1"
-              border-radius="sm"
-              transition="all .2s ease"
-              padding-x="2.5"
-              padding-y="2"
-              :_hover="{
-                backgroundColor: 'ice.50',
-                color: 'blue.400',
-                cursor: 'pointer',
-              }"
-              @click="handleToggle(false)"
-            >
-              <mp-stack direction="row" align="center" justify="space-between">
-                <mp-flex gap="2">
-                  <mp-icon name="arrows-left" />
-                  <mp-text white-space="nowrap"> Back </mp-text>
-                </mp-flex>
-              </mp-stack>
-            </mp-pseudo-box>
-          </mp-flex>
-          <mp-divider />
-          <mp-box>
-            <mp-text
-              font-size="md"
-              font-weight="semibold"
-              color="blue.400"
-              padding-x="4"
-              padding-y="2"
-            >
-              MARKETPLACE CMS
-            </mp-text>
-            <mp-box>
-              <mp-flex direction="column">
-                <mp-pseudo-box
-                  flex="1"
-                  role="group"
-                  border-radius="sm"
-                  padding-x="4"
-                  padding-y="2"
-                  color="dark"
-                  font-weight="regular"
-                  :_hover="{
-                    color: 'dark',
-                    cursor: 'pointer',
-                  }"
-                >
-                  <mp-stack direction="row" align="center">
-                    <mp-text font-weight="semibold">Add-ons content</mp-text>
-                  </mp-stack>
-                </mp-pseudo-box>
-              </mp-flex>
-            </mp-box>
-
-            <mp-box>
-              <mp-flex direction="column">
-                <mp-pseudo-box
-                  flex="1"
-                  role="group"
-                  border-radius="sm"
-                  padding-x="4"
-                  padding-y="2"
-                  color="dark"
-                  font-weight="inherit"
-                  :_hover="{
-                    color: 'blue.400',
-                    cursor: 'pointer',
-                  }"
-                >
-                  <mp-stack direction="row" align="center">
-                    <mp-text>Category</mp-text>
-                  </mp-stack>
-                </mp-pseudo-box>
-              </mp-flex>
-            </mp-box>
-          </mp-box>
         </mp-box>
         <mp-box padding="4">
           <mp-flex flex-direction="column">
@@ -261,6 +183,7 @@ import {
   MpDrawer,
   MpDrawerOverlay,
   MpDrawerContent,
+  MpDrawerCloseButton,
   MpDrawerBody,
 } from "@mekari/pixel";
 
@@ -282,31 +205,144 @@ export default {
     MpDrawer,
     MpDrawerOverlay,
     MpDrawerContent,
+    MpDrawerCloseButton,
     MpDrawerBody,
   },
-  data: function () {
+  data() {
     return {
       isActive: 0,
       isToggle: false,
       menus: [
         {
-          id: 1,
-          name: "Marketplace CMS",
-          icon: "application",
+          parentId: 11,
+          name: "Home",
+          icon: "home",
           link: "/",
-          isNested: true,
-          isActive: this.$router.currentRoute.name === "AddonContent",
+          isActive: this.$route.name === "home",
+          hasDivider: true,
+          items: [],
+        },
+        {
+          parentId: 21,
+          name: "Contacts",
+          icon: "contact",
+          link: "/contacts",
+          isActive: this.$route.name === "contacts",
+          items: [],
+        },
+        {
+          parentId: 22,
+          name: "Companies",
+          icon: "company",
+          link: "",
+          isActive: false,
+          hasDivider: true,
+          items: [],
+        },
+        {
+          parentId: 31,
+          name: "Deals",
+          icon: "sales",
+          link: "",
+          isActive: false,
+          isShowBagde: true,
+          badgeText: "9+",
+          items: [],
+        },
+        {
+          parentId: 32,
+          name: "Tasks",
+          icon: "task-todo",
+          link: "",
+          isActive: false,
+          items: [],
+        },
+        {
+          parentId: 33,
+          name: "Tickets",
+          icon: "voucher",
+          link: "",
+          isActive: false,
+          items: [],
+        },
+        {
+          parentId: 34,
+          name: "Email broadcast",
+          icon: "broadcast",
+          link: "",
+          isActive: false,
+          items: [],
+        },
+        {
+          parentId: 35,
+          name: "Custom Goal",
+          icon: "goal",
+          link: "",
+          isActive: false,
+          hasDivider: true,
+          items: [],
+        },
+        {
+          parentId: 61,
+          name: "Call center",
+          icon: "phone",
+          link: "",
+          isActive: false,
+          items: [],
+        },
+        {
+          parentId: 62,
+          name: "Expenses",
+          icon: "expenses",
+          link: "",
+          isActive: false,
+          isShowBagde: true,
+          badgeText: "9+",
+          hasDivider: true,
+          items: [],
+        },
+        {
+          parentId: 41,
+          name: "Product",
+          icon: "products",
+          link: "",
+          isActive: false,
+          items: [],
+        },
+        {
+          parentId: 42,
+          name: "Document",
+          icon: "doc",
+          link: "",
+          isActive: false,
+          hasDivider: true,
+          items: [],
+        },
+        {
+          parentId: 51,
+          name: "Subscriptions",
+          icon: "transfer",
+          link: "",
+          isActive: false,
+          items: [
+            // {
+            //   id: 1,
+            //   name: "Dummy menu",
+            //   isActive: false,
+            // },
+          ],
+        },
+        {
+          parentId: 52,
+          name: "Properties",
+          icon: "settings",
+          link: "/properties/general/basic-information",
+          isActive: this.$route.name === "properties",
+          hasDivider: false,
+          items: [],
         },
       ],
     };
-  },
-  methods: {
-    handleToggle: function (data) {
-      this.isToggle = data;
-    },
-    handleChange: function (data) {
-      this.isActive = data;
-    },
   },
 };
 </script>

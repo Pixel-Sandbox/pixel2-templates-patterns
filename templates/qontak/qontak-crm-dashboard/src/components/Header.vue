@@ -14,7 +14,15 @@
         <mp-box as="router-link" to="/" :display="['none', 'block']">
           <img src="../assets/logo-qontak.svg" alt="logo qontak" />
         </mp-box>
-        <mp-box height="24px" width="1px" bg="gray.100" />
+        <mp-box as="router-link" to="/" :display="['block', 'none']">
+          <mp-icon name="qontak-brand" size="lg" />
+        </mp-box>
+        <mp-box
+          :display="['none', 'block']"
+          height="24px"
+          width="1px"
+          bg="gray.100"
+        />
 
         <!-- MENU APPLICATION -->
         <mp-popover :display="['none', 'block']" use-portal>
