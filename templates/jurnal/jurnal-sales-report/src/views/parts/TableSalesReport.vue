@@ -361,10 +361,6 @@ tbody > tr {
   white-space: normal !important;
 }
 
-table > tr > td:nth-last-child(1) {
-  background: yellow;
-}
-
 table tr:nth-last-child(2) td {
   border-bottom-width: 0px;
 }
