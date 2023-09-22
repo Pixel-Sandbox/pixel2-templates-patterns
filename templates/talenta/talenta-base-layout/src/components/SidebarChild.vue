@@ -32,7 +32,7 @@
         @click.self="handleToggleBlock"
       >
         <mp-box
-          max-height="calc(100vh - 90px)"
+          max-height="calc(100vh - 160px)"
           overflow-y="auto"
           overflow-x="hidden"
         >
@@ -47,44 +47,51 @@
             {{ getTitle }}
           </mp-text>
 
-          <mp-box v-for="menu in menus" :key="menu.id">
-            <mp-flex v-if="menu.items.length === 0" direction="column">
-              <mp-pseudo-box
-                flex="1"
-                as="router-link"
-                role="group"
-                padding="2"
-                border-radius="md"
-                :to="menu.link"
-                :background-color="menu.isActive ? 'blue.100' : 'inherit'"
-                :color="menu.isActive ? 'blue.400' : 'inherit'"
-                :_hover="{
-                  color: 'blue.400',
-                  cursor: 'pointer',
-                }"
+          <mp-accordion
+            allow-toggle
+            allow-multiple
+            :default-index="isActiveStacked"
+          >
+            <template v-for="menu in menus">
+              <mp-flex
+                v-if="menu.items.length === 0"
+                :key="menu.id"
+                direction="column"
               >
-                <mp-stack direction="row" align="center">
-                  <mp-text
-                    white-space="nowrap"
-                    :color="menu.isActive ? 'blue.400' : 'dark'"
-                    :font-weight="menu.isActive ? 'semibold' : 'regular'"
-                    :_hover="{
-                      color: 'blue.400',
-                      cursor: 'pointer',
-                    }"
-                  >
-                    {{ menu.name }}
-                  </mp-text>
-                </mp-stack>
-              </mp-pseudo-box>
-            </mp-flex>
-            <mp-accordion
-              v-else
-              allow-toggle
-              allow-multiple
-              @change="handleChange(menu.id)"
-            >
-              <mp-accordion-item border-bottom-width="0px!important">
+                <mp-pseudo-box
+                  flex="1"
+                  as="router-link"
+                  role="group"
+                  padding="2"
+                  border-radius="md"
+                  background-color="inherit"
+                  :to="menu.link"
+                  :color="menu.isActive ? 'blue.400' : 'inherit'"
+                  :_hover="{
+                    color: 'blue.400',
+                    cursor: 'pointer',
+                  }"
+                >
+                  <mp-stack direction="row" align="center">
+                    <mp-text
+                      white-space="nowrap"
+                      :color="menu.isActive ? 'dark' : 'dark'"
+                      :font-weight="menu.isActive ? 'semibold' : 'regular'"
+                      :_hover="{
+                        color: 'blue.400',
+                        cursor: 'pointer',
+                      }"
+                    >
+                      {{ menu.name }}
+                    </mp-text>
+                  </mp-stack>
+                </mp-pseudo-box>
+              </mp-flex>
+              <mp-accordion-item
+                v-else
+                border-bottom-width="0px!important"
+                :key="menu.id"
+              >
                 <mp-accordion-header
                   gap="1"
                   padding="2"
@@ -127,7 +134,7 @@
                       </mp-pseudo-box>
                     </mp-flex>
                   </mp-box>
-                  <mp-accordion-icon />
+                  <mp-accordion-icon size="sm" />
                 </mp-accordion-header>
                 <mp-accordion-panel padding-y="0">
                   <mp-box v-for="item in menu.items" :key="item.id">
@@ -166,8 +173,8 @@
                   </mp-box>
                 </mp-accordion-panel>
               </mp-accordion-item>
-            </mp-accordion>
-          </mp-box>
+            </template>
+          </mp-accordion>
         </mp-box>
         <mp-flex
           v-if="isToggle"
@@ -296,6 +303,7 @@ export default {
       isActive: 0,
       isToggle: true,
       isHovered: false,
+      isActiveStacked: null,
       menus: [],
     };
   },
@@ -578,7 +586,7 @@ export default {
             isActive: this.$router.currentRoute.name === "Overtimes",
           },
           {
-            id: 35,
+            id: 36,
             name: "Holiday",
             link: "/holiday",
             isActive: this.$router.currentRoute.name === "Holiday",
@@ -755,6 +763,64 @@ export default {
     } else if (settingChildRoute.includes(this.$router.currentRoute.name)) {
       this.menus = settingMenu;
     }
+
+    if (
+      [
+        "Company info",
+        "Group structure",
+        "Branch",
+        "Organization",
+        "Job level",
+        "Job position",
+        "Grade & class",
+        "Auto generate format",
+        "Files category",
+        "Custom fields",
+        "NPP",
+        "Employment status",
+      ].includes(this.$router.currentRoute.name)
+    ) {
+      this.isActiveStacked = [1];
+    } else if (
+      [
+        "Attendances",
+        "Live attendance",
+        "Portal",
+        "Times off",
+        "Overtimes",
+        "Holiday",
+      ].includes(this.$router.currentRoute.name)
+    ) {
+      this.isActiveStacked = [2];
+    } else if (
+      [
+        "Payroll schedule",
+        "Cut off & tax setting",
+        "Payroll component",
+        "Payslip",
+        "Taxslip",
+        "Pro-rate",
+        "Absence",
+        "THR",
+        "Time off compensation",
+        "Payment schedule",
+        "Resign compensation",
+      ].includes(this.$router.currentRoute.name)
+    ) {
+      this.isActiveStacked = [3];
+    } else if (
+      ["Reimbursements", "Cash advance"].includes(
+        this.$router.currentRoute.name
+      )
+    ) {
+      this.isActiveStacked = [4];
+    } else if (
+      ["Users", "Access role", "Onboardings", "Offboardings"].includes(
+        this.$router.currentRoute.name
+      )
+    ) {
+      this.isActiveStacked = [6];
+    }
   },
   beforeDestroy() {
     window.removeEventListener("keydown", this.handleKeydown);
@@ -826,7 +892,9 @@ export default {
   },
   methods: {
     handleChange: function (data) {
+      console.log(data);
       this.isActive = data;
+      this.isActiveStacked = data;
     },
     handleToggle: function () {
       this.isToggle = !this.isToggle;

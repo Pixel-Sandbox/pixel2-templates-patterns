@@ -110,7 +110,7 @@
                       background-color="transparent"
                       color="white"
                       :_hover="{
-                        color: 'sky.100',
+                        backgroundColor: 'blue.400',
                       }"
                     >
                       New employee
@@ -119,7 +119,7 @@
                       background-color="transparent"
                       color="white"
                       :_hover="{
-                        color: 'sky.100',
+                        backgroundColor: 'blue.400',
                       }"
                     >
                       Employee transfer
@@ -133,7 +133,7 @@
                       background-color="transparent"
                       color="white"
                       :_hover="{
-                        color: 'sky.100',
+                        backgroundColor: 'blue.400',
                       }"
                     >
                       Live attendance
@@ -142,7 +142,7 @@
                       background-color="transparent"
                       color="white"
                       :_hover="{
-                        color: 'sky.100',
+                        backgroundColor: 'blue.400',
                       }"
                     >
                       Overtime
@@ -151,7 +151,7 @@
                       background-color="transparent"
                       color="white"
                       :_hover="{
-                        color: 'sky.100',
+                        backgroundColor: 'blue.400',
                       }"
                     >
                       Time off
@@ -160,7 +160,7 @@
                       background-color="transparent"
                       color="white"
                       :_hover="{
-                        color: 'sky.100',
+                        backgroundColor: 'blue.400',
                       }"
                     >
                       Change shift
@@ -169,7 +169,7 @@
                       background-color="transparent"
                       color="white"
                       :_hover="{
-                        color: 'sky.100',
+                        backgroundColor: 'blue.400',
                       }"
                     >
                       Attendance
@@ -178,7 +178,7 @@
                       background-color="transparent"
                       color="white"
                       :_hover="{
-                        color: 'sky.100',
+                        backgroundColor: 'blue.400',
                       }"
                     >
                       Reimbursement

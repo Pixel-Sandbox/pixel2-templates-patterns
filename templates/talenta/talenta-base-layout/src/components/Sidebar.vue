@@ -164,6 +164,7 @@
                       </mp-flex>
                       <mp-icon
                         name="chevrons-right"
+                        size="sm"
                         :color="
                           menu.isActive
                             ? 'blue.400'
@@ -224,6 +225,7 @@
                     </mp-text>
                   </mp-box>
                   <mp-popover-list-item
+                    role="group"
                     v-for="item_child in item.items"
                     white-space="nowrap"
                     :as="item_child.isLink ? 'a' : 'router-link'"
@@ -237,7 +239,8 @@
                     :is-active="item_child.isActive"
                     :key="item_child.id"
                     :_hover="{
-                      color: item_child.isActive ? 'white' : 'sky.100',
+                      backgroundColor: 'blue.400',
+                      color: 'white',
                       cursor: 'pointer',
                     }"
                     transition="all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s"
@@ -247,6 +250,10 @@
                       v-if="item_child.isUpgradeable"
                       name="upgrade"
                       color="sky.100"
+                      transition="all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s"
+                      :_groupHover="{
+                        color: 'white',
+                      }"
                       variant="fill"
                       size="sm"
                     />
