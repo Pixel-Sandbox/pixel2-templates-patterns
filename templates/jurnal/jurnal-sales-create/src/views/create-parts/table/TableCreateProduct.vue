@@ -4,38 +4,109 @@
       <mp-table :isHoverable="false">
         <mp-table-head>
           <mp-table-row>
-            <mp-table-cell as="th" scope="col" width="226px">Produk*</mp-table-cell>
-            <mp-table-cell as="th" scope="col" width="210px">Deskripsi</mp-table-cell>
-            <mp-table-cell as="th" scope="col" width="100px">Kuantitas</mp-table-cell>
-            <mp-table-cell as="th" scope="col" width="124px">Unit</mp-table-cell>
-            <mp-table-cell as="th" scope="col" width="180px" text-align="right">Harga satuan</mp-table-cell>
-            <mp-table-cell as="th" scope="col" width="140px">Diskon</mp-table-cell>
-            <mp-table-cell as="th" scope="col" width="120px">Pajak</mp-table-cell>
-            <mp-table-cell as="th" scope="col" width="180px" text-align="right">Jumlah</mp-table-cell>
+            <mp-table-cell as="th" scope="col" width="226px" pl="3"
+              >Produk*</mp-table-cell
+            >
+            <mp-table-cell as="th" scope="col" width="210px"
+              >Deskripsi</mp-table-cell
+            >
+            <mp-table-cell as="th" scope="col" width="100px"
+              >Kuantitas</mp-table-cell
+            >
+            <mp-table-cell as="th" scope="col" width="124px"
+              >Unit</mp-table-cell
+            >
+            <mp-table-cell as="th" scope="col" width="180px" text-align="right"
+              >Harga satuan</mp-table-cell
+            >
+            <mp-table-cell as="th" scope="col" width="140px"
+              >Diskon</mp-table-cell
+            >
+            <mp-table-cell as="th" scope="col" width="120px"
+              >Pajak</mp-table-cell
+            >
+            <mp-table-cell as="th" scope="col" width="180px" text-align="right"
+              >Jumlah</mp-table-cell
+            >
             <mp-table-cell as="th" scope="col"></mp-table-cell>
           </mp-table-row>
         </mp-table-head>
-        <mp-table-body>
+
+        <Draggable
+          tag="tbody"
+          v-model="products"
+          v-bind="dragOptions"
+          handle=".handle"
+          @start="drag = true"
+          @end="drag = false"
+        >
           <mp-table-row v-for="(value, index) in products" :key="index">
-            <mp-table-cell as="td" scope="row" vertical-align="top">
-              <mp-tooltip :label="products[index]" use-portal>
-                <mp-form-control width="226px">
-                  <mp-autocomplete
-                    use-portal
-                    is-clearable
-                    is-searchable
-                    :content-style="{ zIndex: 'popover', width: 'max-content', maxWidth: '90vw', minWidth: '226px' }"
-                    :id="`pilih-product-${index}`"
-                    placeholder="Pilih produk"
-                    :data="['Macbook Pro M1', 'Macbook Air M1', 'iPhone 13 Pro Max 256GB', 'iPhone 13 Pro 256GB', 'iPhone 13 256GB', 'iPad Pro Max 1TB']"
-                    :value="products[index]"
-                    is-show-button-action
-                    button-action-text="Tambah produk"
-                    @button-action="isModalAddProductOpen = true"
-                  >
-                  </mp-autocomplete>
-                </mp-form-control>
-              </mp-tooltip>
+            <mp-table-cell
+              as="td"
+              scope="row"
+              vertical-align="top"
+              position="relative"
+              pl="3"
+            >
+              <mp-box>
+                <mp-box
+                  position="absolute"
+                  top="0"
+                  left="0"
+                  width="16px"
+                  height="100%"
+                  background="linear-gradient(90deg, #FFF 80.00%, rgba(255, 255, 255, 0.00) 100%)"
+                  z-index="50"
+                  transition="all 300ms"
+                  opacity="0"
+                  transform="translateX(-6px)"
+                  :_hover="{
+                    opacity: 100,
+                    transform: 'translateX(0px)',
+                  }"
+                >
+                  <mp-icon
+                    class="handle"
+                    cursor="pointer"
+                    name="drag"
+                    size="sm"
+                    position="absolute"
+                    top="4"
+                    left="0"
+                  />
+                </mp-box>
+
+                <mp-tooltip :label="products[index]" use-portal>
+                  <mp-form-control width="226px">
+                    <mp-autocomplete
+                      use-portal
+                      is-clearable
+                      is-searchable
+                      :content-style="{
+                        zIndex: 'popover',
+                        width: 'max-content',
+                        maxWidth: '90vw',
+                        minWidth: '226px',
+                      }"
+                      :id="`pilih-product-${index}`"
+                      placeholder="Pilih produk"
+                      :data="[
+                        'Macbook Pro M1',
+                        'Macbook Air M1',
+                        'iPhone 13 Pro Max 256GB',
+                        'iPhone 13 Pro 256GB',
+                        'iPhone 13 256GB',
+                        'iPad Pro Max 1TB',
+                      ]"
+                      :value="products[index]"
+                      is-show-button-action
+                      button-action-text="Tambah produk"
+                      @button-action="isModalAddProductOpen = true"
+                    >
+                    </mp-autocomplete>
+                  </mp-form-control>
+                </mp-tooltip>
+              </mp-box>
             </mp-table-cell>
             <mp-table-cell as="td" scope="row" vertical-align="top">
               <mp-flex flex-direction="column">
@@ -71,25 +142,43 @@
               </mp-form-control>
             </mp-table-cell>
             <mp-table-cell as="td" scope="row" vertical-align="top">
-              <mp-tooltip is-controlled :controlled-is-open="indexShowTooltip === index">
+              <mp-tooltip
+                is-controlled
+                :controlled-is-open="indexShowTooltip === index"
+              >
                 <mp-form-control>
                   <mp-input-group>
                     <mp-input-left-addon>
                       <mp-text px="2" font-weight="semibold">Rp</mp-text>
                     </mp-input-left-addon>
-                    <mp-input text-align="right" @focus="indexShowTooltip = index" @blur="indexShowTooltip = null" />
+                    <mp-input
+                      text-align="right"
+                      @focus="indexShowTooltip = index"
+                      @blur="indexShowTooltip = null"
+                    />
                   </mp-input-group>
                 </mp-form-control>
 
                 <template #label>
-                  <mp-text color="white"> Average price = Rp14.000.000,00/unit </mp-text>
-                  <mp-text color="white"> Last buy = Rp14.000.000,00/unit </mp-text>
+                  <mp-text color="white">
+                    Average price = Rp14.000.000,00/unit
+                  </mp-text>
+                  <mp-text color="white">
+                    Last buy = Rp14.000.000,00/unit
+                  </mp-text>
                   <mp-text color="green.500">Profit margin = 10.00%</mp-text>
                 </template>
               </mp-tooltip>
 
               <mp-text font-size="sm" color="gray.600" mt="1">
-                Aturan harga tersedia <mp-text as="span" font-size="sm" is-link @click.native="isModalPriceRuleOpen = true">pilih</mp-text>
+                Aturan harga tersedia
+                <mp-text
+                  as="span"
+                  font-size="sm"
+                  is-link
+                  @click.native="isModalPriceRuleOpen = true"
+                  >pilih</mp-text
+                >
               </mp-text>
             </mp-table-cell>
             <mp-table-cell as="td" scope="row" vertical-align="top">
@@ -99,7 +188,12 @@
                     <mp-box>
                       <mp-popover use-portal>
                         <mp-popover-trigger>
-                          <mp-flex as="button" padding-x="2" gap="2" align-items="center">
+                          <mp-flex
+                            as="button"
+                            padding-x="2"
+                            gap="2"
+                            align-items="center"
+                          >
                             <mp-text font-weight="semibold">%</mp-text>
                             <mp-icon name="chevrons-down" size="sm" />
                           </mp-flex>
@@ -114,7 +208,9 @@
                           box-shadow="lg"
                         >
                           <mp-popover-list>
-                            <mp-popover-list-item is-active> % </mp-popover-list-item>
+                            <mp-popover-list-item is-active>
+                              %
+                            </mp-popover-list-item>
                             <mp-popover-list-item> Rp </mp-popover-list-item>
                           </mp-popover-list>
                         </mp-popover-content>
@@ -152,20 +248,35 @@
             <mp-table-cell as="td" scope="row" vertical-align="top">
               <mp-flex justify-content="flex-end">
                 <mp-tooltip label="Hapus" :id="`delete-product-${index}`">
-                  <mp-button-icon @click="products.splice(index, 1)" name="minus-circular" />
+                  <mp-button-icon
+                    @click="products.splice(index, 1)"
+                    name="minus-circular"
+                  />
                 </mp-tooltip>
               </mp-flex>
             </mp-table-cell>
           </mp-table-row>
-
+        </Draggable>
+        <mp-table-body>
           <mp-table-row>
-            <mp-table-cell as="td" scope="row" colspan="9" vertical-align="center">
+            <mp-table-cell
+              as="td"
+              scope="row"
+              colspan="9"
+              vertical-align="center"
+              pl="3"
+            >
               <mp-form-control max-width="226px">
                 <mp-autocomplete
                   use-portal
                   is-clearable
                   is-searchable
-                  :content-style="{ zIndex: 'popover', width: 'max-content', maxWidth: '90vw', minWidth: '226px' }"
+                  :content-style="{
+                    zIndex: 'popover',
+                    width: 'max-content',
+                    maxWidth: '90vw',
+                    minWidth: '226px',
+                  }"
                   id="pilih-product"
                   placeholder="Pilih produk"
                   :data="[
@@ -192,9 +303,18 @@
       </mp-table>
     </mp-table-container>
 
-    <ModalPriceRule :isOpen="isModalPriceRuleOpen" @handleClose="isModalPriceRuleOpen = false" />
-    <ModalAddProduct :isOpen="isModalAddProductOpen" @handleClose="isModalAddProductOpen = false" />
-    <ModalAddNewTax :isOpen="isModalAddNewTaxOpen" @handleClose="isModalAddNewTaxOpen = false" />
+    <ModalPriceRule
+      :isOpen="isModalPriceRuleOpen"
+      @handleClose="isModalPriceRuleOpen = false"
+    />
+    <ModalAddProduct
+      :isOpen="isModalAddProductOpen"
+      @handleClose="isModalAddProductOpen = false"
+    />
+    <ModalAddNewTax
+      :isOpen="isModalAddNewTaxOpen"
+      @handleClose="isModalAddNewTaxOpen = false"
+    />
   </div>
 </template>
 
@@ -227,6 +347,7 @@ import {
 import ModalPriceRule from "../modal/ModalPriceRule.vue";
 import ModalAddProduct from "../modal/ModalAddProduct.vue";
 import ModalAddNewTax from "../modal/ModalAddNewTax.vue";
+import Draggable from "vuedraggable";
 
 export default {
   components: {
@@ -258,9 +379,13 @@ export default {
     ModalPriceRule,
     ModalAddProduct,
     ModalAddNewTax,
+
+    // Third Party Component
+    Draggable,
   },
   data() {
     return {
+      drag: false,
       select: "",
       products: [],
       isModalPriceRuleOpen: false,
@@ -268,6 +393,16 @@ export default {
       isModalAddNewTaxOpen: false,
       indexShowTooltip: null,
     };
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    },
   },
   methods: {
     handleSelect(value) {
@@ -282,3 +417,13 @@ export default {
   },
 };
 </script>
+
+<style>
+.flip-list-move {
+  transition: transform 0.8s;
+}
+
+.no-move {
+  transition: transform 0s;
+}
+</style>
