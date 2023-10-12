@@ -40,13 +40,17 @@
             Atur template laporan sesuai kebutuhan perusahaan Anda
           </mp-text>
 
-          <mp-grid mt="4" gap="6" templateColumns="repeat(4, 1fr)">
-            <mp-form-control>
+          <mp-flex
+            :flex-direction="{ base: 'column', md: 'row' }"
+            gap="6"
+            mt="3"
+          >
+            <mp-form-control :width="{ base: 'full', md: '240px' }">
               <mp-form-label> Nama template </mp-form-label>
               <mp-input />
             </mp-form-control>
 
-            <mp-form-control>
+            <mp-form-control :width="{ base: 'full', md: '240px' }">
               <mp-form-label> Tipe transaksi </mp-form-label>
               <mp-autocomplete
                 :data="['Faktur penjualan']"
@@ -59,7 +63,7 @@
             <mp-flex align-items="end" pb="2">
               <mp-checkbox> Atur template sebagai default </mp-checkbox>
             </mp-flex>
-          </mp-grid>
+          </mp-flex>
 
           <mp-divider border-style="dashed" my="5" />
 
@@ -68,9 +72,14 @@
             ditampilkan di laporan
           </mp-text>
 
-          <mp-flex mt="6" gap="6">
-            <mp-box width="full">
-              <mp-box border-width="1px" rounded="md">
+          <mp-box>
+            <mp-flex mt="6" gap="6" overflow-x="auto">
+              <mp-box
+                border-width="1px"
+                rounded="md"
+                min-width="350px"
+                width="full"
+              >
                 <mp-box>
                   <mp-box
                     px="2"
@@ -130,95 +139,106 @@
                   </mp-box>
                 </mp-box>
               </mp-box>
-            </mp-box>
 
-            <mp-box
-              display="flex"
-              flex="none"
-              width="93px"
-              flex-direction="column"
-              align-items="center"
-              justify-content="center"
-            >
-              <mp-button width="full" mb="6">
-                <mp-icon name="arrows-right" color="white" />
-              </mp-button>
+              <mp-box
+                display="flex"
+                flex="none"
+                :width="{ base: '70px', md: '70px' }"
+                flex-direction="column"
+                align-items="center"
+                justify-content="center"
+              >
+                <mp-button variant="outline" width="full" mb="6">
+                  <mp-icon name="arrows-right" />
+                </mp-button>
 
-              <mp-button variant="outline" width="full">
-                <mp-icon name="arrows-left" />
-              </mp-button>
-            </mp-box>
+                <mp-button variant="outline" width="full">
+                  <mp-icon name="arrows-left" />
+                </mp-button>
+              </mp-box>
 
-            <mp-box width="full">
-              <mp-box border-width="1px" rounded="md">
-                <mp-box list-style-type="none">
-                  <mp-box px="2" py="4" bg="gray.25" rounded-top="md" border-bottom-width="1px">
-                    <mp-flex justify-content="space-between">
-                      <mp-checkbox
-                        >Daftar kolom untuk ditampilkan di laporan</mp-checkbox
+              <mp-box min-width="350px" width="full">
+                <mp-box border-width="1px" rounded="md">
+                  <mp-box list-style-type="none">
+                    <mp-box
+                      px="2"
+                      py="4"
+                      bg="gray.25"
+                      rounded-top="md"
+                      border-bottom-width="1px"
+                    >
+                      <mp-flex
+                        justify-content="space-between"
+                        align-items="center"
                       >
+                        <mp-checkbox
+                          >Daftar kolom untuk ditampilkan di
+                          laporan</mp-checkbox
+                        >
 
-                      <mp-flex gap="1">
-                        <mp-button size="sm" variant="outline">
-                          <mp-icon name="chevrons-up" />
-                        </mp-button>
-                        <mp-button size="sm" variant="outline">
-                          <mp-icon name="chevrons-down" />
-                        </mp-button>
+                        <mp-flex gap="1">
+                          <mp-button variant="outline">
+                            <mp-icon name="chevrons-up" />
+                          </mp-button>
+                          <mp-button variant="outline">
+                            <mp-icon name="chevrons-down" />
+                          </mp-button>
+                        </mp-flex>
                       </mp-flex>
-                    </mp-flex>
-                  </mp-box>
-
-                  <mp-box
-                    as="ul"
-                    list-style-type="none"
-                    height="550px"
-                    overflow-y="auto"
-                  >
-                    <mp-box as="li" px="2" py="4" border-bottom-width="1px">
-                      <mp-checkbox>Tanggal</mp-checkbox>
                     </mp-box>
 
-                    <mp-box as="li" px="2" py="4" border-bottom-width="1px">
-                      <mp-checkbox>Tipe Transaksi</mp-checkbox>
-                    </mp-box>
+                    <mp-box
+                      as="ul"
+                      list-style-type="none"
+                      height="550px"
+                      overflow-y="auto"
+                    >
+                      <mp-box as="li" px="2" py="4" border-bottom-width="1px">
+                        <mp-checkbox>Tanggal</mp-checkbox>
+                      </mp-box>
 
-                    <mp-box as="li" px="2" py="4" border-bottom-width="1px">
-                      <mp-checkbox>Nomor Transaksi</mp-checkbox>
-                    </mp-box>
+                      <mp-box as="li" px="2" py="4" border-bottom-width="1px">
+                        <mp-checkbox>Tipe Transaksi</mp-checkbox>
+                      </mp-box>
 
-                    <mp-box as="li" px="2" py="4" border-bottom-width="1px">
-                      <mp-checkbox>Nama Panggilan Pelanggan</mp-checkbox>
-                    </mp-box>
+                      <mp-box as="li" px="2" py="4" border-bottom-width="1px">
+                        <mp-checkbox>Nomor Transaksi</mp-checkbox>
+                      </mp-box>
 
-                    <mp-box as="li" px="2" py="4" border-bottom-width="1px">
-                      <mp-checkbox>Status Hari Ini</mp-checkbox>
-                    </mp-box>
+                      <mp-box as="li" px="2" py="4" border-bottom-width="1px">
+                        <mp-checkbox>Nama Panggilan Pelanggan</mp-checkbox>
+                      </mp-box>
 
-                    <mp-box as="li" px="2" py="4" border-bottom-width="1px">
-                      <mp-checkbox>Total</mp-checkbox>
-                    </mp-box>
+                      <mp-box as="li" px="2" py="4" border-bottom-width="1px">
+                        <mp-checkbox>Status Hari Ini</mp-checkbox>
+                      </mp-box>
 
-                    <mp-box as="li" px="2" py="4" border-bottom-width="1px">
-                      <mp-checkbox>Sisa Tagihan</mp-checkbox>
-                    </mp-box>
+                      <mp-box as="li" px="2" py="4" border-bottom-width="1px">
+                        <mp-checkbox>Total</mp-checkbox>
+                      </mp-box>
 
-                    <mp-box as="li" px="2" py="4" border-bottom-width="1px">
-                      <mp-checkbox>Tanggal jatuh tempo</mp-checkbox>
-                    </mp-box>
+                      <mp-box as="li" px="2" py="4" border-bottom-width="1px">
+                        <mp-checkbox>Sisa Tagihan</mp-checkbox>
+                      </mp-box>
 
-                    <mp-box as="li" px="2" py="4">
-                      <mp-checkbox>Pembayaran</mp-checkbox>
+                      <mp-box as="li" px="2" py="4" border-bottom-width="1px">
+                        <mp-checkbox>Tanggal jatuh tempo</mp-checkbox>
+                      </mp-box>
+
+                      <mp-box as="li" px="2" py="4">
+                        <mp-checkbox>Pembayaran</mp-checkbox>
+                      </mp-box>
                     </mp-box>
                   </mp-box>
                 </mp-box>
-              </mp-box>
 
-              <mp-text color="gray.600" mt="2"
-                >Baris dengan tulisan abu-abu tidak akan tersimpan</mp-text
-              >
-            </mp-box>
-          </mp-flex>
+                <mp-text color="gray.600" mt="2"
+                  >Kolom tabel dengan warna tulisan abu-abu tidak akan
+                  disimpan</mp-text
+                >
+              </mp-box>
+            </mp-flex>
+          </mp-box>
 
           <mp-flex justify-content="flex-end" mt="6">
             <mp-flex gap="2">
@@ -247,7 +267,6 @@ import {
   MpInput,
   MpAutocomplete,
   MpCheckbox,
-  MpGrid,
   MpDivider,
   MpButton,
   MpIcon,
@@ -267,7 +286,6 @@ export default {
     MpInput,
     MpAutocomplete,
     MpCheckbox,
-    MpGrid,
     MpDivider,
     MpButton,
     MpIcon,
