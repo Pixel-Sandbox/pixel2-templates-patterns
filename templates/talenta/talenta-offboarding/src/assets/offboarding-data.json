@@ -1,0 +1,393 @@
+{
+  "filter_option": [
+    {
+      "id": "pFDRySfn",
+      "name": "Job position",
+      "is_search": true,
+      "items": [
+        {
+          "id": "jkHhf1hB",
+          "name": "Accountant"
+        },
+        {
+          "id": "fVQTs9g7",
+          "name": "CEO"
+        },
+        {
+          "id": "PV3F6LG2",
+          "name": "HR Admin"
+        },
+        {
+          "id": "FyfJ0URY",
+          "name": "Head of Accounting"
+        },
+        {
+          "id": "pWRiN7ck",
+          "name": "Head of Marketing"
+        },
+        {
+          "id": "WU86RQtF",
+          "name": "Head of People"
+        },
+        {
+          "id": "AcIo5VCP",
+          "name": "Sales Director"
+        }
+      ]
+    },
+    {
+      "id": "R9VC0R2l",
+      "name": "Status",
+      "is_search": false,
+      "items": [
+        {
+          "id": "SBGzhCmt",
+          "name": "Ready to offboard"
+        },
+        {
+          "id": "2pYz8wcM",
+          "name": "In progress"
+        },
+        {
+          "id": "MtslT7mi",
+          "name": "Completed"
+        },
+        {
+          "id": "h4F1VYRA",
+          "name": "Cancel resign"
+        }
+      ]
+    }
+  ],
+  "table_data": [
+    {
+      "id": "cdf08cc6-84c6-41b8-80e7-22d60e2259d5",
+      "first_name": "Kris",
+      "last_name": "Bendix",
+      "job_position": "Accountant",
+      "resign_date": "19/09/2022",
+      "status": "Ready to offboard",
+      "last_updated": "29/10/2022",
+      "task_progress": 0,
+      "actions": [
+        {
+          "name": "Start offboard",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/detail"
+        }
+      ]
+    },
+    {
+      "id": "5b6072fe-3c56-4e59-899a-d8adf659f1b6",
+      "first_name": "Buddy",
+      "last_name": "Alexsandrov",
+      "job_position": "Accountant",
+      "resign_date": "26/06/2022",
+      "status": "Ready to offboard",
+      "last_updated": "29/10/2022",
+      "task_progress": 0,
+      "actions": [
+        {
+          "name": "Start offboard",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "f655b79f-63aa-4cd1-bbea-00398f6f79c8",
+      "first_name": "Delores",
+      "last_name": "Walters",
+      "job_position": "Head of Accounting",
+      "resign_date": "21/05/2022",
+      "status": "In progress",
+      "last_updated": "29/10/2022",
+      "task_progress": 80,
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "65ed771a-1b7d-48a3-8ffe-2f018a7b00b2",
+      "first_name": "Isis",
+      "last_name": "Gerssam",
+      "job_position": "Head of Accounting",
+      "resign_date": "26/12/2022",
+      "status": "In progress",
+      "last_updated": "29/10/2022",
+      "task_progress": 90,
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "3edb5950-1ab4-4ccf-af93-4108b821c95e",
+      "first_name": "Kelsey",
+      "last_name": "Medeway",
+      "job_position": "Head of Accounting",
+      "resign_date": "04/10/2022",
+      "status": "In progress",
+      "last_updated": "29/10/2022",
+      "task_progress": 90,
+      "actions": [
+        {
+          "name": "Complete offboarding",
+          "link": "/"
+        },
+        {
+          "name": "Detail",
+          "link": "/"
+        }
+      ]
+    },
+    {
+      "id": "e27adfc1-cb7f-49a1-80f9-5a34d023a418",
+      "first_name": "Dominik",
+      "last_name": "Leathers",
+      "job_position": "Head of Marketing",
+      "resign_date": "24/11/2022",
+      "status": "Completed",
+      "last_updated": "29/10/2022",
+      "task_progress": 100,
+      "actions": []
+    },
+    {
+      "id": "7fbffb0c-8e00-4e48-afd3-53e077a2b2cf",
+      "first_name": "Breena",
+      "last_name": "Ludovici",
+      "job_position": "Head of Marketing",
+      "resign_date": "18/09/2022",
+      "status": "Completed",
+      "last_updated": "29/10/2022",
+      "task_progress": 100,
+      "actions": []
+    },
+    {
+      "id": "854ada5f-ce75-4d2e-8e68-31c0e9cb4e25",
+      "first_name": "Colette",
+      "last_name": "Fillary",
+      "job_position": "Head of Marketing",
+      "resign_date": "20/05/2022",
+      "status": "Completed",
+      "last_updated": "29/10/2022",
+      "task_progress": 100,
+      "actions": []
+    },
+    {
+      "id": "4ca53a8c-a680-4219-b39c-c5b13c4fd96a",
+      "first_name": "Zechariah",
+      "last_name": "Kopta",
+      "job_position": "Head of People",
+      "resign_date": "21/01/2023",
+      "status": "Completed",
+      "last_updated": "29/10/2022",
+      "task_progress": 100,
+      "actions": []
+    },
+    {
+      "id": "bb642e72-76ce-45af-bb45-42855c6891a8",
+      "first_name": "Davin",
+      "last_name": "Worthington",
+      "job_position": "Sales Director",
+      "resign_date": "18/10/2022",
+      "status": "Cancel resign",
+      "last_updated": "29/10/2022",
+      "task_progress": 10,
+      "actions": []
+    }
+  ],
+  "modal_data": {
+    "table_todo_data": [
+      {
+        "id": "4JqUKHUF",
+        "name": "Conduct an Exit Interview",
+        "caption": "Due date: 23 Mar 2023",
+        "is_disabled": false,
+        "status": "To do",
+        "teams": [
+          {
+            "id": "4JqUKHUF",
+            "name": "Jessie Tan"
+          }
+        ]
+      },
+      {
+        "id": "KXmuPvNP",
+        "name": "Notify Relevant Parties",
+        "caption": "Due date: 23 Mar 2023",
+        "is_disabled": false,
+        "status": "In progress",
+        "teams": [
+          {
+            "id": "4JqUKHUF",
+            "name": "Jessie Tan"
+          }
+        ]
+      },
+      {
+        "id": "GYI2p464",
+        "name": "Remove Access",
+        "caption": "Due date: 23 Mar 2023",
+        "is_disabled": false,
+        "status": "To do",
+        "teams": [
+          {
+            "id": "4JqUKHUF",
+            "name": "Jessie Tan"
+          },
+          {
+            "id": "EmwuKzzm",
+            "name": "Ridwan Alwi"
+          }
+        ]
+      },
+      {
+        "id": "jhifd3Vr",
+        "name": "Communicate with the Team",
+        "caption": "Due date: 23 Mar 2023",
+        "is_disabled": false,
+        "status": "Done",
+        "teams": [
+          {
+            "id": "4JqUKHUF",
+            "name": "Jessie Tan"
+          }
+        ]
+      },
+      {
+        "id": "YEy6JLXm",
+        "name": "Finalize Payments and Benefits",
+        "caption": "Due date: 23 Mar 2023",
+        "is_disabled": true,
+        "status": "In progress",
+        "teams": [
+          {
+            "id": "4JqUKHUF",
+            "name": "Jessie Tan"
+          },
+          {
+            "id": "EmwuKzzm",
+            "name": "Ridwan Alwi"
+          },
+          {
+            "id": "RzpeCMud",
+            "name": "Dirga Prakesha"
+          },
+          {
+            "id": "PKblwq6q",
+            "name": "Rachel Kurniawan"
+          },
+          {
+            "id": "MgTHKHau",
+            "name": "Dion Musalimah"
+          }
+        ]
+      },
+      {
+        "id": "jZ5PsLyg",
+        "name": "Collect all assets",
+        "caption": "Due date: 23 Mar 2023",
+        "is_disabled": true,
+        "status": "In progress",
+        "teams": [
+          {
+            "id": "4JqUKHUF",
+            "name": "Jessie Tan"
+          }
+        ]
+      }
+    ],
+    "table_form_data": [
+      {
+        "id": "viSY0wXc",
+        "name": "Exit interview",
+        "status": "Not submitted"
+      },
+      {
+        "id": "Smm2LawX",
+        "name": "Company survey",
+        "status": "Submitted"
+      }
+    ],
+    "table_document_data": [
+      {
+        "id": "rsyokr4u",
+        "name": "Paklaring letter",
+        "caption": "Email delivery schedule: After the offboarding is completed",
+        "is_downloadable": false
+      },
+      {
+        "id": "DaU0IKI7",
+        "name": "Insurance info and benefits",
+        "caption": "Email delivery schedule: Direct download only",
+        "is_downloadable": true
+      }
+    ],
+    "table_asset_data": [
+      {
+        "id": "5ZSeBV8a",
+        "name": "MacBook Pro",
+        "caption": "Lorem ipsum dolor sit amet consectetur.",
+        "serial_number": "C02TK1234FVH",
+        "lending_date": "22 Jan 2022"
+      },
+      {
+        "id": "exfxaF31",
+        "name": "Macbook Adapter",
+        "caption": "Lorem ipsum dolor sit amet consectetur.",
+        "serial_number": "A1424 123456789",
+        "lending_date": "22 Jan 2022"
+      },
+      {
+        "id": "YFYvsay8",
+        "name": "WD portable harddisc",
+        "caption": "Lorem ipsum dolor sit amet consectetur.",
+        "serial_number": "WD-WX1234567890",
+        "lending_date": "22 Jan 2022"
+      }
+    ],
+    "table_loan_data": [
+      {
+        "id": "5ZSeBV8a",
+        "transaction_id": "LN2020111023",
+        "name": "MacBook Pro",
+        "amount": "Rp10.000.000",
+        "remain_unpaid": "-"
+      }
+    ],
+    "file_list": [
+      {
+        "id": "XAHWhiRb",
+        "name": "101 exit Interview guidebook.pdf",
+        "icon": "pdf-document",
+        "size": "2.6 MB"
+      },
+      {
+        "id": "qOQKXOBN",
+        "name": "101 exit Interview guidebook.docs",
+        "icon": "word-document",
+        "size": "2.6 MB"
+      }
+    ]
+  }
+}

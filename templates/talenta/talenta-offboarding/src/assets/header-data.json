@@ -1,0 +1,212 @@
+{
+  "select_app": [
+    {
+      "id": "e1mkhZrE",
+      "name": "HRIS (Main product)",
+      "short_name": "HRIS",
+      "is_active": true
+    },
+    {
+      "id": "PU6CKQOl",
+      "name": "Insights",
+      "short_name": "Insights",
+      "is_active": false
+    },
+    {
+      "id": "KpzdmZ9M",
+      "name": "Performance management",
+      "short_name": "Performance management",
+      "is_active": false
+    }
+  ],
+  "quick_action": [
+    {
+      "id": "mCHVLTRi",
+      "group_name": "CREATE",
+      "items": [
+        {
+          "id": "UygR4S94",
+          "name": "New employee"
+        },
+        {
+          "id": "KxvFWce9",
+          "name": "Employee transfer"
+        }
+      ]
+    },
+    {
+      "id": "AcjpuBTY",
+      "group_name": "REQUEST",
+      "items": [
+        {
+          "id": "kXwSRO0c",
+          "name": "Live attendance"
+        },
+        {
+          "id": "lXKbMJy4",
+          "name": "Overtime"
+        },
+        {
+          "id": "xDfTqpHq",
+          "name": "Time off"
+        },
+        {
+          "id": "ygt0iLcL",
+          "name": "Change shift"
+        },
+        {
+          "id": "cODJ3GLz",
+          "name": "Attendance"
+        },
+        {
+          "id": "MEiI6iWf",
+          "name": "Reimbursement"
+        }
+      ]
+    }
+  ],
+  "switch_app": [
+    {
+      "id": "09JEc2B5",
+      "group_description": null,
+      "items": [
+        {
+          "id": "UygR4S94",
+          "name": "Mekari Talenta",
+          "description": "Advanced payroll automation & HR solution",
+          "icon": "talenta-brand"
+        },
+        {
+          "id": "IHT2cXKK",
+          "name": "Mekari Jurnal",
+          "description": "Integrated online accounting software",
+          "icon": "jurnal-brand"
+        }
+      ]
+    },
+    {
+      "id": "Mvjvljm0",
+      "group_description": "Other apps by Mekari that might suit your business needs.",
+      "items": [
+        {
+          "id": "Rgv78E7j",
+          "name": "Mekari Klikpajak",
+          "description": "Simple tax management platform",
+          "icon": "klikpajak-brand"
+        },
+        {
+          "id": "XwIg9lAB",
+          "name": "Mekari Qontak",
+          "description": "Complete CRM software",
+          "icon": "qontak-brand"
+        },
+        {
+          "id": "WbIg46Ch",
+          "name": "Mekari Flex",
+          "description": "Flexible employee benefits management",
+          "icon": "flex-brand"
+        },
+        {
+          "id": "ecXisjJS",
+          "name": "Mekari Sign",
+          "description": "Digital signature app",
+          "icon": "sign-brand"
+        }
+      ]
+    },
+    {
+      "id": "lc8N41Y2",
+      "group_description": null,
+      "items": [
+        {
+          "id": "nzsq7IIS",
+          "name": "Mekari University",
+          "description": "Professional learning platform",
+          "icon": "mekari-brand"
+        },
+        {
+          "id": "I3zu3KQW",
+          "name": "Mekari Hub",
+          "description": "Launchpad",
+          "icon": "mekari-brand"
+        }
+      ]
+    }
+  ],
+  "switch_account": {
+    "first_section": [
+      {
+        "id": "wDs3RqpG",
+        "name": "Account settings",
+        "items": []
+      },
+      {
+        "id": "4SD4AL8t",
+        "name": "Company info",
+        "items": []
+      },
+      {
+        "id": "WE9ujTXo",
+        "name": "Company list",
+        "items": [
+          {
+            "id": "5FjbmovF",
+            "name": "PT Central Perk Indonesia",
+            "is_active": true
+          },
+          {
+            "id": "43NikIeN",
+            "name": "PT Talenta Digital Indonesia",
+            "is_active": false
+          },
+          {
+            "id": "6LuZDEjL",
+            "name": "SP-holding",
+            "is_active": false
+          }
+        ]
+      },
+      {
+        "id": "9qR9SNtk",
+        "name": "Change language",
+        "selected": "English",
+        "items": [
+          {
+            "id": "eU2QrCff",
+            "name": "English",
+            "is_active": true
+          },
+          {
+            "id": "2F417TjU",
+            "name": "Indonesia",
+            "is_active": false
+          }
+        ]
+      }
+    ],
+    "second_section": [
+      {
+        "id": "vSohokeb",
+        "name": "Switch account",
+        "items": [
+          {
+            "id": "eU2QrCff",
+            "name": "rizal.candra@centraperk.co.id",
+            "is_active": true
+          },
+          {
+            "id": "2F417TjU",
+            "name": "rizal.candra@harnods.com",
+            "is_active": false
+          }
+        ]
+      },
+      {
+        "id": "k3TGGE4u",
+        "name": "Sign out",
+        "items": []
+      }
+    ],
+    "third_section": ["Privacy", "Terms of Use", "About Mekari Account", "Mekari © 2023"]
+  }
+}
