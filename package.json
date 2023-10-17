@@ -22,6 +22,7 @@
     "templates/qontak/*",
     "templates/talenta/*",
     "templates/insight/*",
+    "templates/mekari-partners/*",
     "patterns/*"
   ]
 }
