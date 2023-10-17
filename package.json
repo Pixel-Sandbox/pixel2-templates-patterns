@@ -10,9 +10,9 @@
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
+    "hygen": "^6.2.11",
     "prettier": "^2.5.1",
-    "turbo": "latest",
-    "hygen": "^6.2.11"
+    "turbo": "^1.10.13"
   },
   "name": "pixel-sandbox",
   "packageManager": "yarn@1.22.19",
@@ -22,6 +22,9 @@
     "templates/qontak/*",
     "templates/talenta/*",
     "templates/backyard/*",
+    "templates/insight/*",
+    "templates/mekari-partners/*",
+    "templates/mekari-account/*",
     "patterns/*"
   ]
 }
