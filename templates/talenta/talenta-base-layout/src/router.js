@@ -3,6 +3,7 @@ import Router from "vue-router";
 
 import Global from "./views/Global";
 import Employee from "./views/employee/Employee";
+import EmployeeDetail from "./views/employee/EmployeeDetail";
 import ReportBuilder from "./views/report-builder/ReportBuilder";
 import CreateReportBuilder from "./views/report-builder/CreateReportBuilder";
 import EditorReportBuilder from "./views/report-builder/EditorReportBuilder";
@@ -17,17 +18,8 @@ Vue.use(Router);
 const globalPrototypeRoute = [
   { path: "/", name: "Dashboard", component: Dashboard },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
-  { path: "/employee-transfer", name: "Employee transfer", component: Global },
-  { path: "/mass-resign", name: "Mass resign", component: Global },
-  { path: "/prorate", name: "Prorate", component: Global },
-  {
-    path: "/ptkp-status-adjust",
-    name: "PTKP status adjust",
-    component: Global
-  },
-  { path: "/custom-field", name: "Custom field", component: Global },
-  { path: "/cost-center", name: "Cost center", component: Global },
-  { path: "/report", name: "Report", component: Global },
+  { path: "/personal", name: "Personal", component: Global },
+  { path: "/manpower-planning", name: "Manpower planning", component: Global },
   { path: "/attendance", name: "Attendance", component: Global },
   { path: "/overtime", name: "Overtime", component: Global },
   { path: "/time-off", name: "Time off", component: Global },
@@ -114,9 +106,14 @@ export default new Router({
   routes: [
     ...globalPrototypeRoute,
     {
-      path: "/employee",
-      name: "Employee",
+      path: "/employee-directory",
+      name: "Employee directory",
       component: Employee
+    },
+    {
+      path: "/employee-directory/1",
+      name: "Employee directory detail",
+      component: EmployeeDetail
     },
     {
       path: "/report-builder",

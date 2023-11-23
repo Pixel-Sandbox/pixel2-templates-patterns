@@ -7,7 +7,7 @@
     />
     <Header />
     <mp-flex as="main" max-height="calc(100vh - 100px)">
-      <Sidebar default-is-toggle is-custom with-child />
+      <Sidebar is-alternate is-custom />
       <mp-box
         as="section"
         data-id="content"
@@ -25,7 +25,7 @@
         >
           <mp-box>
             <mp-heading as="h1" font-size="2xl" font-weight="semibold">
-              Directory
+              Employees
             </mp-heading>
           </mp-box>
           <mp-box
@@ -45,6 +45,50 @@
               <mp-button right-icon="caret-down" :display="['block', 'none']">
                 Add employee
               </mp-button>
+              <mp-button variant="outline" :display="['block', 'none']">
+                Employee transfer
+              </mp-button>
+              <mp-button variant="outline" :display="['block', 'none']">
+                More
+              </mp-button>
+              <mp-popover use-portal>
+                <mp-popover-trigger>
+                  <mp-button
+                    variant="outline"
+                    right-icon="caret-down"
+                    :display="['none', 'block']"
+                  >
+                    More
+                  </mp-button>
+                </mp-popover-trigger>
+                <mp-popover-content
+                  max-width="230px"
+                  background-color="white"
+                  box-shadow="lg"
+                  border="1px solid"
+                  border-color="gray.400"
+                  border-radius="md"
+                  z-index="popover"
+                >
+                  <mp-popover-list>
+                    <mp-popover-list-item>
+                      New joiner submission
+                    </mp-popover-list-item>
+                    <mp-popover-list-item>
+                      Mass resign
+                    </mp-popover-list-item>
+                    <mp-popover-list-item>
+                      Import/export prorate
+                    </mp-popover-list-item>
+                    <mp-popover-list-item>
+                      PTKP status adjustment
+                    </mp-popover-list-item>
+                  </mp-popover-list>
+                </mp-popover-content>
+              </mp-popover>
+              <mp-button variant="outline" :display="['none', 'block']">
+                Employee transfer
+              </mp-button>
               <mp-popover use-portal>
                 <mp-popover-trigger>
                   <mp-button
@@ -56,7 +100,7 @@
                   </mp-button>
                 </mp-popover-trigger>
                 <mp-popover-content
-                  max-width="40"
+                  max-width="230px"
                   background-color="white"
                   box-shadow="lg"
                   border="1px solid"

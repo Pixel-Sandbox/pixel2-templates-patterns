@@ -320,7 +320,8 @@
         </mp-flex>
       </mp-box>
     </mp-box>
-    <SidebarChild v-if="withChild" @toggle="handleChildToggle" />
+    <SidebarChild v-if="withChild && !isEmployee" @toggle="handleChildToggle" />
+    <SidebarChildEmployee v-if="withChild && isEmployee" @toggle="handleChildToggle" />
   </mp-flex>
 </template>
 
@@ -341,6 +342,7 @@ import {
   MpPopoverListItem,
 } from "@mekari/pixel";
 import SidebarChild from "./SidebarChild";
+import SidebarChildEmployee from "./SidebarChildEmployee";
 
 export default {
   name: "Sidebar",
@@ -349,6 +351,7 @@ export default {
     defaultIsToggle: [Boolean],
     isAlternate: [Boolean],
     isCustom: [Boolean],
+    isEmployee: [Boolean],
     withChild: [Boolean],
   },
   components: {
@@ -366,6 +369,7 @@ export default {
     MpPopoverList,
     MpPopoverListItem,
     SidebarChild,
+    SidebarChildEmployee
   },
   data: function () {
     return {
@@ -390,19 +394,36 @@ export default {
           parentId: 2,
           name: "Employee",
           icon: "team",
-          link: "/employee",
+          link: "/",
           withDivider: false,
           isActive: [
-            "Employee",
-            "Employee transfer",
-            "Mass resign",
-            "Prorate",
-            "PTKP status adjust",
-            "Custom field",
-            "Cost center",
-            "Report",
+            "Employee directory",
+            "Manpower planning",
+            "Employee directory detail"
           ].includes(this.$router.currentRoute.name),
-          items: [],
+          items: [
+            {
+              id: 311,
+              group: null,
+              items: [
+                {
+                  id: 21,
+                  name: "Employee directory",
+                  link: "/employee-directory",
+                  isActive: [
+                    "Employee directory",
+                    "Employee directory detail"
+                  ].includes(this.$router.currentRoute.name),
+                },
+                {
+                  id: 22,
+                  name: "Manpower planning",
+                  link: "/manpower-planning",
+                  isActive: this.$router.currentRoute.name === "Manpower planning",
+                }
+              ]
+            }
+          ],
         },
         {
           parentId: 3,
@@ -718,11 +739,30 @@ export default {
   },
   created() {
     window.addEventListener("keydown", this.handleKeydown);
+    window.addEventListener("resize", this.handleScreenSizer);
   },
   beforeDestroy() {
     window.removeEventListener("keydown", this.handleKeydown);
+    window.removeEventListener("resize", this.handleScreenSizer);
   },
   methods: {
+    handleScreenSizer: function () {
+      if (window.screen.width < 1024 && window.screen.width > 768) {
+        this.isToggle = true;
+        this.isForced = true;
+        if (this.isCustom) {
+          this.isToggle = true;
+          this.isStacked = false;
+        }
+      } else {
+        this.isToggle = false;
+        this.isForced = false;
+        if (this.isCustom) {
+          this.isToggle = false;
+          this.isStacked = true;
+        }
+      }
+    },
     handleMouseEnter: function () {
       if (this.isForced) {
         return;

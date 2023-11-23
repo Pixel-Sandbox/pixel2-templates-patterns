@@ -196,7 +196,7 @@
             >
               <mp-box display="inline-flex" align-items="center">
                 <mp-avatar name="Ridwan Hanif" />
-                <mp-text as="a" is-link margin-left="4">Ridwan Hanif</mp-text>
+                <mp-pseudo-box as="router-link" to="employee-directory/1" color="blue.400" margin-left="4" :_hover="{ textDecoration: 'underline' }">Ridwan Hanif</mp-pseudo-box>
               </mp-box>
             </mp-table-cell>
             <mp-table-cell
@@ -206,7 +206,7 @@
             >
               <mp-box display="inline-flex" align-items="center">
                 <mp-avatar name="Ridwan Hanif" />
-                <mp-text as="a" is-link margin-left="4">Ridwan Hanif</mp-text>
+                <mp-text as="a" to is-link margin-left="4">Ridwan Hanif</mp-text>
               </mp-box>
             </mp-table-cell>
             <mp-table-cell as="td">EMP2022</mp-table-cell>
@@ -556,6 +556,7 @@ import {
   MpPopoverContent,
   MpPopoverList,
   MpPopoverListItem,
+  MpPseudoBox
 } from "@mekari/pixel";
 import Pagination from "../../components/Pagination";
 import EmployeeResignModal from "./EmployeeResignModal";
@@ -581,6 +582,7 @@ export default {
     MpPopoverContent,
     MpPopoverList,
     MpPopoverListItem,
+    MpPseudoBox,
     Pagination,
     EmployeeResignModal,
     EmployeeDeleteModal,
