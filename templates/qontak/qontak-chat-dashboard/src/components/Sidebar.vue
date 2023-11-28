@@ -75,7 +75,7 @@
               <mp-flex
                 position="relative"
                 direction="row"
-                align="center"
+                align-items="center"
                 justify="space-betwem"
               >
                 <mp-box
@@ -87,14 +87,14 @@
                   height="3"
                   border-radius="full"
                   background="rose.400"
-                  border="2px solid"
+                  border-width="2px"
                   
                   :border-color="withChild ? 'ash.100' : 'background'"
                 />
                 <mp-stack
                   width="full"
                   direction="row"
-                  align="center"
+                  align-items="center"
                   justify="space-betwem"
                 >
                   <mp-icon
@@ -152,7 +152,7 @@
                     <mp-stack
                       direction="row"
                       justify="space-between"
-                      align="center"
+                      align-items="center"
                       :_groupHover="{
                         cursor: 'pointer',
                       }"
@@ -276,7 +276,7 @@
               }"
               @click="handleToggle"
             >
-              <mp-stack direction="row" align="center">
+              <mp-stack direction="row" align-items="center">
                 <mp-icon
                   :name="!isForced ? 'arrow-expand' : 'arrow-collapse'"
                   size="sm"
@@ -433,7 +433,8 @@ export default {
           parentId: 32,
           name: "Settings",
           icon: "settings",
-          link: "",
+          link: "/settings",
+          isActive: this.$route.name === "settings",
           hasDivider: false,
           items: [],
         },

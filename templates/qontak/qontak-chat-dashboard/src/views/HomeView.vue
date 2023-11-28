@@ -1,8 +1,9 @@
 <template>
   <mp-box>
     <Header />
+
     <mp-flex as="main" max-height="calc(100vh - 60px)">
-      <Sidebar is-alternate is-custom />
+      <Sidebar is-custom default-is-toggle />
       <mp-box
         as="section"
         data-id="content"
@@ -33,7 +34,6 @@ import { MpBox, MpFlex, MpText } from "@mekari/pixel";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SubHeader from "../components/SubHeader";
-
 export default {
   name: "HomeView",
   components: {
@@ -44,5 +44,9 @@ export default {
     Sidebar,
     SubHeader,
   },
+  data() {
+    return {};
+  },
+  methods: {},
 };
 </script>
