@@ -1,7 +1,7 @@
 <template>
   <mp-box>
     <Header />
-    <mp-flex as="main" max-height="calc(100vh - 60px)">
+    <mp-flex as="main" max-height="calc(100vh - 56px)">
       <Sidebar
         child-title="Settings"
         :child-menu="propertiesMenus"
@@ -13,13 +13,13 @@
         as="section"
         data-id="content"
         width="100%"
-        height="calc(100vh - 60px)"
+        height="calc(100vh - 56px)"
         overflow-y="auto"
         background-color="background"
       >
         <SubHeader title="Properties" type="properties" />
         <mp-box
-          min-height="calc(100vh - 132px)"
+          min-height="calc(100vh - 128px)"
           border-top-width="1px"
           border-left-width="1px"
           border-top-left-radius="md"

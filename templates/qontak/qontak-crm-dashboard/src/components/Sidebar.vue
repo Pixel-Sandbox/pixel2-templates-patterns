@@ -1,7 +1,7 @@
 <template>
   <mp-flex :margin-right="!withChild && ['0px', '60px']">
     <mp-box
-      max-height="calc(100vh - 60px)"
+      max-height="calc(100vh - 56px)"
       :border-right="
         isToggle
           ? isStacked
@@ -49,7 +49,7 @@
         class="sidebar-content"
         data-id="sidebar"
         width="full"
-        height="calc(100vh - 60px)"
+        height="calc(100vh - 56px)"
         overflow-y="auto"
         overflow-x="hidden"
         padding-top="4"

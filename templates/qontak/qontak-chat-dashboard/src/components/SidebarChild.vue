@@ -16,7 +16,7 @@
         data-id="sidebar-child"
         max-width="12.75rem"
         :width="isToggle ? '12.75rem' : '0'"
-        height="calc(100vh - 60px)"
+        height="calc(100vh - 56px)"
         padding-y="2"
         :padding-x="isToggle ? '2' : '2'"
         margin-left="60px"

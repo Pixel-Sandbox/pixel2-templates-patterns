@@ -36,11 +36,6 @@ const routes = [
     component: EmbeddedChatView,
   },
   {
-    path: "/embedded-chat",
-    name: "embedded chat",
-    component: EmbeddedChatView,
-  },
-  {
     path: "/settings",
     name: "settings",
     component: SettingsView,

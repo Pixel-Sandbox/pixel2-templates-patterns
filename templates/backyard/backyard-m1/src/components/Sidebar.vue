@@ -3,7 +3,7 @@
     role="group"
     width="full"
     z-index="1"
-    max-height="calc(100vh - 60px)"
+    max-height="calc(100vh - 56px)"
     border-right="1px"
     border-color="gray.100"
     transition="all .2s ease"
