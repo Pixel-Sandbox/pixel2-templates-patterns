@@ -10,10 +10,11 @@
         display="flex"
         width="100%"
         height="calc(100vh - 56px)"
-        overflow-y="hidden"
+        overflow="hidden"
         background-color="background"
       >
         <mp-box
+          flex="none"
           position="relative"
           p="4"
           width="338px"
@@ -27,6 +28,7 @@
           position="relative"
           height="full"
           flex="1"
+          min-width="0"
           border-left-width="1px"
           border-right-width="1px"
           border-color="gray.100"
@@ -62,9 +64,12 @@
             p="4"
             height="calc(100% - 48px)"
           >
-            <mp-flex width="full" justify="space-between">
+            <mp-flex
+              width="full"
+              :justify="isFileTypeImage ? 'space-between' : 'end'"
+            >
               <mp-button
-                v-if="!isEditorOpen"
+                v-if="!isEditorOpen && isFileTypeImage"
                 variant="outline"
                 left-icon="crop"
                 @click="handleShowEditor('open')"
@@ -90,17 +95,22 @@
               justify="center"
             >
               <!-- // need box to center container cropper -->
-              <mp-box>
+              <mp-box v-if="isFileTypeImage" data-id="image-editor-preview">
                 <img
                   ref="imageEditor"
                   :src="selectedImage.url"
                   @load="startEditor"
-                  style="
-                    max-width: 100%;
-                    height: 100%;
-                    object-fit: contain;
-                  "
+                  style="max-width: 100%; height: 100%; object-fit: contain"
                 />
+              </mp-box>
+              <mp-box v-if="!isFileTypeImage">
+                <video
+                  :src="selectedImage.url"
+                  controls
+                  autoplay
+                  muted
+                  style="width: 100%; height: 100%; border-radius: 6px"
+                ></video>
               </mp-box>
             </mp-flex>
             <mp-flex direction="column" width="full" height="176px">
@@ -111,7 +121,7 @@
                 border-bottom-width="1px"
                 border-color="gray.100"
                 pb="4"
-                mb="6"
+                mb="2"
               >
                 <mp-form-control control-id="message" width="full">
                   <mp-form-label>Message</mp-form-label>
@@ -139,10 +149,19 @@
                   />
                 </mp-box>
               </mp-flex>
-              <mp-flex width="full" justify="center" gap="4">
+              <mp-flex
+                position="relative"
+                width="full"
+                justify="start"
+                gap="4"
+                overflow-x="auto"
+                pt="4"
+              >
                 <mp-flex
                   v-for="(item, index) in images"
+                  data-id="image-editor-thumbnail"
                   :key="index"
+                  flex="none"
                   position="relative"
                   width="16"
                   height="16"
@@ -168,7 +187,7 @@
                     border-radius="full"
                     background="white"
                     z-index="2"
-                    @click.native="handleAlert(`Delete image ${index}`)"
+                    @click.native="handleRemoveImage(item.name)"
                   />
                   <mp-flex
                     v-show="isLoading"
@@ -185,7 +204,16 @@
                     <mp-progress :value="50" color="teal" size="sm" />
                   </mp-flex>
                   <img
-                    :src="item.url"
+                    :data-id="
+                      item.type.includes('image')
+                        ? 'image-thumbanail'
+                        : 'video-thumbnail'
+                    "
+                    :src="
+                      item.type.includes('image')
+                        ? item.url
+                        : 'https://via.placeholder.com/100x100/D0D6DD/FFFFFF'
+                    "
                     :alt="item.name"
                     style="
                       width: 100%;
@@ -196,15 +224,17 @@
                   />
                 </mp-flex>
                 <mp-flex
+                  flex="none"
                   justify="center"
                   align-items="center"
                   width="16"
                   height="16"
+                  background="white"
                   border-width="1px"
                   border-color="gray.100"
                   border-radius="md"
                   cursor="pointer"
-                  @click="handleAlert(`Add new image`)"
+                  @click="handleAddMoreImage"
                 >
                   <mp-icon name="add-circular" variant="duotone" />
                 </mp-flex>
@@ -214,19 +244,27 @@
           <!-- // END OF IMAGE PREVIEW -->
 
           <mp-dropzone
-            v-if="!isShowImagePreview"
+            v-show="!isShowImagePreview"
+            ref="dropzone"
             id="chat-area-upload"
             placeholder="Drop your file(s) here"
             description=""
+            accept=".jpg, .jpeg, .png, .mp4"
             :margin="isDragFile ? '4' : '0'"
             width="auto"
             :height="isDragFile ? 'calc(100% - 80px)' : 'calc(100% - 48px)'"
             overlay-variant="white"
-            has-custom-upload
+            :has-custom-upload="true"
+            :is-multiple="true"
+            :is-enable-input-file="false"
             @change="onChange"
             @drag="onDrag"
           >
-            <mp-box :height="`calc(100% - ${textAreaHeight} + 18px)`" p="4" overflow-y="auto">
+            <mp-box
+              :height="`calc(100% - ${textAreaHeight} + 18px)`"
+              p="4"
+              overflow-y="auto"
+            >
               <mp-text>
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi
                 quo similique nobis excepturi ipsam tempora, repellat
@@ -333,6 +371,7 @@
         </mp-box>
         <!-- // END OF CHAT PANEL -->
         <mp-box
+          flex="none"
           position="relative"
           p="4"
           width="363px"
@@ -406,6 +445,11 @@ export default {
       cropper: null,
     };
   },
+  computed: {
+    isFileTypeImage() {
+      return this.selectedImage.type.includes("image");
+    },
+  },
   methods: {
     handleAlert(message) {
       alert(message);
@@ -434,25 +478,25 @@ export default {
     },
     onChange(files) {
       this.isDragFile = false;
-
       console.log("FILES", files);
 
       Array.from(files).map((item) => {
         // validate file type
-        const REGEXP_MIME_TYPE_IMAGES = /^image\/\w+$/;
-        if (!REGEXP_MIME_TYPE_IMAGES.test(item.type)) {
-          this.errorMessage = "Your file type is not image";
-          this.isInvalid = true;
+        // const REGEXP_MIME_TYPE_IMAGES = /^image\/\w+$/;
+        // if (!REGEXP_MIME_TYPE_IMAGES.test(item.type)) {
+        //   this.errorMessage = "Your file type is not image";
+        //   this.isInvalid = true;
 
-          throw new Error(this.errorMessage);
-        }
+        //   throw new Error(this.errorMessage);
+        // }
 
         this.images.push({
+          id: item.name,
           name: item.name,
           type: item.type,
           size: item.size,
           url: URL.createObjectURL(item),
-          src: URL.createObjectURL('https://via.placeholder.com/800x400/D0D6DD/FFFFFF'),
+          // src: URL.createObjectURL('https://via.placeholder.com/800x400/D0D6DD/FFFFFF'),
           // url: 'https://via.placeholder.com/800x400/D0D6DD/FFFFFF',
           isCropping: false,
         });
@@ -468,6 +512,7 @@ export default {
       this.stopEditor();
     },
     handleUploadImage() {
+      // TODO: still have state loading for all images
       this.isLoading = true;
       setTimeout(() => {
         // Upload image to server
@@ -476,6 +521,22 @@ export default {
     },
     handleSendImage() {
       console.log("SEND IMAGES", this.images);
+      setTimeout(() => {
+        // Send image to server
+        this.onCloseImagePreview();
+      }, 1000);
+    },
+    handleRemoveImage(id) {
+      this.images = this.images.filter((item) => {
+        return item.id !== id;
+      });
+
+      if (this.images.length === 0) {
+        this.onCloseImagePreview();
+      }
+    },
+    handleAddMoreImage() {
+      this.$refs.dropzone.handleClickInput();
     },
     handleShowEditor(val) {
       if (val === "open") {
@@ -519,10 +580,9 @@ export default {
         this.selectedImage.url = this.cropper
           .getCroppedCanvas({ fillColor: "#ffffff" })
           .toDataURL(this.selectedImage.type);
-        this.selectedImage.type = "";
 
         this.stopEditor();
-        // this.handleUploadImage(this.image);
+        this.handleUploadImage();
       }
     },
     stopEditor() {
@@ -540,7 +600,7 @@ export default {
 <style>
 .pixel-cropper-editor .cropper-container {
   background: #f1f5f9;
-  border: 1px solid #8B95A5;
+  /* border: 1px solid #8B95A5; */
   border-radius: 6px;
 }
 
