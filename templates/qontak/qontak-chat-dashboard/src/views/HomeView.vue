@@ -89,7 +89,6 @@
             </mp-flex>
 
             <mp-flex
-              v-if="!isLoading"
               class="pixel-cropper-editor"
               max-height="400px"
               justify="center"
@@ -517,7 +516,7 @@ export default {
       setTimeout(() => {
         // Upload image to server
         this.isLoading = false;
-      }, 2000);
+      }, 1000);
     },
     handleSendImage() {
       console.log("SEND IMAGES", this.images);
