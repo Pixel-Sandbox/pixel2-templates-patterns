@@ -23,6 +23,7 @@
         >
           LEFT PANEL
         </mp-box>
+
         <!-- // CHAT PANEL -->
         <mp-box
           position="relative"
@@ -56,7 +57,7 @@
           </mp-flex>
           <!-- // END OF HEADER CHAT PANEL -->
 
-          <!-- // IMAGE PREVIEW -->
+          <!-- // IMAGE PREVIEW AND CROPPING -->
           <mp-flex
             v-if="isShowImagePreview"
             direction="column"
@@ -84,7 +85,7 @@
               <mp-button-icon
                 name="close"
                 size="md"
-                @click="onCloseImagePreview"
+                @click="handleCloseImagePreview"
               />
             </mp-flex>
 
@@ -99,7 +100,11 @@
                   ref="imageEditor"
                   :src="selectedImage.url"
                   @load="startEditor"
-                  style="max-width: 100%; height: 100%; object-fit: contain"
+                  :style="{
+                    maxWidth: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }"
                 />
               </mp-box>
               <mp-box v-if="!isFileTypeImage">
@@ -108,7 +113,11 @@
                   controls
                   autoplay
                   muted
-                  style="width: 100%; height: 100%; border-radius: 6px"
+                  :style="{
+                    maxWidth: '100%',
+                    height: '100%',
+                    borderRadius: '6px',
+                  }"
                 ></video>
               </mp-box>
             </mp-flex>
@@ -125,7 +134,7 @@
                 <mp-form-control control-id="message" width="full">
                   <mp-form-label>Message</mp-form-label>
                   <mp-input
-                    v-model="message"
+                    v-model="selectedImage.message"
                     placeholder="Enter message"
                     autocomplete="off"
                   />
@@ -135,6 +144,7 @@
                     variant="solid"
                     variant-color="green"
                     position="absolute"
+                    z-index="1"
                     top="-10px"
                     right="-10px"
                     >{{ images.length }}</mp-badge
@@ -154,7 +164,10 @@
                 justify="start"
                 gap="4"
                 overflow-x="auto"
+                overflow-y="hidden"
                 pt="4"
+                pb="1"
+                pl="1"
               >
                 <mp-flex
                   v-for="(item, index) in images"
@@ -164,15 +177,18 @@
                   position="relative"
                   width="16"
                   height="16"
-                  border-width="1px"
-                  border-color="gray.100"
+                  :outline="
+                    item.id === selectedImage.id
+                      ? '4px solid var(--colors-sky-400)'
+                      : '1px solid var(--colors-gray-100)'
+                  "
                   border-radius="md"
                   :_hover="{
                     '& [data-pixel-component=MpIcon]': {
                       visibility: 'visible',
                     },
                   }"
-                  @click="!isLoading && handlePreviewImage(item)"
+                  @click="!item.isLoading && handleSelectedImage(item)"
                 >
                   <mp-icon
                     name="minus-circular"
@@ -189,7 +205,7 @@
                     @click.native="handleRemoveImage(item.name)"
                   />
                   <mp-flex
-                    v-show="isLoading"
+                    v-show="item.isLoading"
                     position="absolute"
                     top="0"
                     left="0"
@@ -200,12 +216,16 @@
                     px="1"
                     bg="rgba(35, 41, 51, 0.60)"
                   >
-                    <mp-progress :value="50" color="teal" size="sm" />
+                    <mp-progress
+                      :value="progressValue"
+                      color="teal"
+                      size="sm"
+                    />
                   </mp-flex>
                   <img
                     :data-id="
                       item.type.includes('image')
-                        ? 'image-thumbanail'
+                        ? 'image-thumbnail'
                         : 'video-thumbnail'
                     "
                     :src="
@@ -214,15 +234,19 @@
                         : 'https://via.placeholder.com/100x100/D0D6DD/FFFFFF'
                     "
                     :alt="item.name"
-                    style="
-                      width: 100%;
-                      height: 100%;
-                      object-fit: cover;
-                      border-radius: 4px;
-                    "
+                    :style="{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '6px',
+                    }"
                   />
                 </mp-flex>
                 <mp-flex
+                  v-mp-tooltip="{
+                    label: 'Add more',
+                    position: 'right',
+                  }"
                   flex="none"
                   justify="center"
                   align-items="center"
@@ -240,19 +264,21 @@
               </mp-flex>
             </mp-flex>
           </mp-flex>
-          <!-- // END OF IMAGE PREVIEW -->
+          <!-- // END OF IMAGE PREVIEW AND CROPPING -->
 
+          <!-- // CONTAINER FOR DRAG IMAGE -->
+          <!-- // need to use v-show since we use method handleClickInput from MpDropzone to add more input file -->
           <mp-dropzone
             v-show="!isShowImagePreview"
             ref="dropzone"
             id="chat-area-upload"
             placeholder="Drop your file(s) here"
             description=""
+            overlay-variant="white"
             accept=".jpg, .jpeg, .png, .mp4"
-            :margin="isDragFile ? '4' : '0'"
             width="auto"
             :height="isDragFile ? 'calc(100% - 80px)' : 'calc(100% - 48px)'"
-            overlay-variant="white"
+            :margin="isDragFile ? '4' : '0'"
             :has-custom-upload="true"
             :is-multiple="true"
             :is-enable-input-file="false"
@@ -367,8 +393,10 @@
               />
             </mp-flex>
           </mp-dropzone>
+          <!-- // END OF CONTAINER FOR DRAG IMAGE -->
         </mp-box>
         <!-- // END OF CHAT PANEL -->
+
         <mp-box
           flex="none"
           position="relative"
@@ -431,17 +459,17 @@ export default {
   data() {
     return {
       value: "",
-      message: "",
       textAreaHeight: "36px",
-      images: [],
-      selectedImage: null,
-      errorMessage: "",
-      isLoading: false,
-      isInvalid: false,
+
+      // Image Preview State
       isDragFile: false,
       isShowImagePreview: false,
       isEditorOpen: false,
+      images: [],
+      selectedImage: null,
       cropper: null,
+      progressValue: 0,
+      progressInteval: null,
     };
   },
   computed: {
@@ -465,29 +493,23 @@ export default {
     },
     onDrag() {
       this.isDragFile = true;
-      this.errorMessage = "";
-      this.isInvalid = false;
-    },
-    onCloseImagePreview() {
-      this.isShowImagePreview = false;
-      this.errorMessage = "";
-      this.isInvalid = false;
-      this.images = [];
-      this.stopEditor();
     },
     onChange(files) {
       this.isDragFile = false;
+      this.isShowImagePreview = true;
+
       console.log("FILES", files);
 
       Array.from(files).map((item) => {
         // validate file type
-        // const REGEXP_MIME_TYPE_IMAGES = /^image\/\w+$/;
-        // if (!REGEXP_MIME_TYPE_IMAGES.test(item.type)) {
-        //   this.errorMessage = "Your file type is not image";
-        //   this.isInvalid = true;
-
-        //   throw new Error(this.errorMessage);
-        // }
+        const REGEXP_MIME_TYPE_IMAGES = /^image\/\w+$/;
+        const REGEXP_MIME_TYPE_VIDEO = /^video\/\w+$/;
+        if (
+          !REGEXP_MIME_TYPE_IMAGES.test(item.type) &&
+          !REGEXP_MIME_TYPE_VIDEO.test(item.type)
+        ) {
+          throw new Error("Your file type is not image or video");
+        }
 
         this.images.push({
           id: item.name,
@@ -495,34 +517,61 @@ export default {
           type: item.type,
           size: item.size,
           url: URL.createObjectURL(item),
-          // src: URL.createObjectURL('https://via.placeholder.com/800x400/D0D6DD/FFFFFF'),
-          // url: 'https://via.placeholder.com/800x400/D0D6DD/FFFFFF',
+          message: "",
           isCropping: false,
+          isLoading: true,
+          progress: 0,
         });
       });
 
-      this.isShowImagePreview = true;
-      this.handlePreviewImage(this.images[0]);
-      this.handleUploadImage(this.images);
+      // this.selectedImage = this.images[0]
+      this.handleSelectedImage(this.images[0])
+      this.handleUploadAllImage();
     },
-    handlePreviewImage(item) {
+    handleCloseImagePreview() {
+      this.isShowImagePreview = false;
+      this.images = [];
+      this.stopEditor();
+    },
+    handleSelectedImage(item) {
       this.selectedImage = item;
       console.log("SELECTED IMAGES", this.selectedImage);
       this.stopEditor();
     },
-    handleUploadImage() {
-      // TODO: still have state loading for all images
-      this.isLoading = true;
+    // FAKE PROGRESS BAR
+    handleProgressBar() {
+      this.progressInteval = setInterval(() => {
+        this.progressValue = +this.progressValue + 10;
+      }, 100);
+    },
+    handleUploadAllImage() {
+      this.handleProgressBar();
+
       setTimeout(() => {
-        // Upload image to server
-        this.isLoading = false;
-      }, 1000);
+        // Upload all image to server
+        this.images.forEach((item) => {
+          item.isLoading = false;
+        });
+        clearInterval(this.progressInteval);
+        this.progressValue = 0;
+      }, 2000);
+    },
+    handleUploadSelectedImage() {
+      this.handleProgressBar();
+      
+      this.selectedImage.isLoading = true;
+      setTimeout(() => {
+        // Upload selected image to server
+        this.selectedImage.isLoading = false;
+        clearInterval(this.progressInteval);
+        this.progressValue = 0;
+      }, 1500);
     },
     handleSendImage() {
       console.log("SEND IMAGES", this.images);
       setTimeout(() => {
         // Send image to server
-        this.onCloseImagePreview();
+        this.handleCloseImagePreview();
       }, 1000);
     },
     handleRemoveImage(id) {
@@ -531,7 +580,7 @@ export default {
       });
 
       if (this.images.length === 0) {
-        this.onCloseImagePreview();
+        this.handleCloseImagePreview();
       }
     },
     handleAddMoreImage() {
@@ -550,6 +599,7 @@ export default {
     startEditor() {
       console.log("START EDITOR");
       this.cropper = new Cropper(this.$refs.imageEditor, {
+        checkCrossOrigin: false,
         modal: true,
         guides: false,
         center: false,
@@ -579,9 +629,8 @@ export default {
         this.selectedImage.url = this.cropper
           .getCroppedCanvas({ fillColor: "#ffffff" })
           .toDataURL(this.selectedImage.type);
-
         this.stopEditor();
-        this.handleUploadImage();
+        this.handleUploadSelectedImage();
       }
     },
     stopEditor() {
