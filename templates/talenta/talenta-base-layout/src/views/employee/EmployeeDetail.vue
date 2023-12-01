@@ -7,14 +7,7 @@
     />
     <Header />
     <mp-flex as="main" max-height="calc(100vh - 100px)">
-      <Sidebar
-        is-custom
-        :default-is-toggle="
-          !singleRoute.includes(this.$router.currentRoute.name)
-        "
-        :is-alternate="singleRoute.includes(this.$router.currentRoute.name)"
-        :with-child="!singleRoute.includes(this.$router.currentRoute.name)"
-      />
+      <Sidebar default-is-toggle is-custom with-child is-employee />
       <mp-box
         as="section"
         data-id="content"
@@ -29,11 +22,10 @@
           :padding-x="['4', '6']"
           :display="['inline-block', 'flex']"
           padding-y="1.063rem"
-          height="72px"
         >
           <mp-box>
             <mp-heading as="h1" font-size="2xl" font-weight="semibold">
-              {{ title }}
+              Personal
             </mp-heading>
           </mp-box>
         </mp-flex>
@@ -46,7 +38,6 @@
           background-color="white"
           :padding="['4', '6']"
         >
-          <GlobalFilter />
           <mp-flex
             width="full"
             direction="column"
@@ -100,9 +91,9 @@
         >
           <mp-flex direction="column">
             <mp-text color="dark">Learning Center</mp-text>
-            <mp-text font-size="sm" color="gray.600">
-              Guidebook, live traning and more!
-            </mp-text>
+            <mp-text font-size="sm" color="gray.600"
+              >Guidebook, live traning and more!</mp-text
+            >
           </mp-flex>
           <mp-icon name="chevrons-right" color="gray.600" size="sm" />
         </mp-flex>
@@ -146,10 +137,10 @@
       >
         <img
           v-if="isHelpCenterOpen"
-          src="../assets/close.svg"
+          src="../../assets/close.svg"
           alt="close help center"
         />
-        <img v-else src="../assets/help-center.svg" alt="open help center" />
+        <img v-else src="../../assets/help-center.svg" alt="open help center" />
       </mp-flex>
       <Transition name="bounce">
         <mp-flex
@@ -213,6 +204,11 @@
         </mp-drawer-body>
       </mp-drawer-content>
     </mp-drawer>
+
+    <GlobalTaskModal
+      :isModalOpen="isTaskModalOpen"
+      :onModalToggle="onTaskModalToggle"
+    />
   </mp-box>
 </template>
 
@@ -230,15 +226,15 @@ import {
   MpDrawerBody,
   MpBroadcast,
 } from "@mekari/pixel";
-import GlobalFilter from "./GlobalFilter";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import LearningCenter from "../components/learning-center/LearningCenter.vue";
-import GuideCenter from "../components/learning-center/GuideCenter.vue";
-import LiveTraining from "../components/learning-center/LiveTraining.vue";
+import Header from "../../components/Header";
+import Sidebar from "../../components/Sidebar";
+import LearningCenter from "../../components/learning-center/LearningCenter.vue";
+import GuideCenter from "../../components/learning-center/GuideCenter.vue";
+import LiveTraining from "../../components/learning-center/LiveTraining.vue";
+import GlobalTaskModal from "../GlobalTaskModal";
 
 export default {
-  name: "Global",
+  name: "Employee",
   components: {
     MpBox,
     MpFlex,
@@ -251,59 +247,29 @@ export default {
     MpDrawerContent,
     MpDrawerBody,
     MpBroadcast,
-    GlobalFilter,
     Header,
     Sidebar,
     LearningCenter,
     GuideCenter,
     LiveTraining,
+    GlobalTaskModal,
   },
   data() {
     return {
       isHelpCenterHovered: false,
       isHelpCenterOpen: false,
       isLearningCenterOpen: false,
+      isTaskModalOpen: false,
       showMenu: "learning-center",
-      title: this.$router.currentRoute.name,
-      singleRoute: [
-        "Dashboard",
-        "Employee directory",
-        "Manpower planning",
-        "Attendance",
-        "Overtime",
-        "Time off",
-        "Scheduler",
-        "Schedule",
-        "Timesheet",
-        "Calendar",
-        "Reimbursement",
-        "Loan",
-        "Payroll financing",
-        "Payroll",
-        "Assets",
-        "Announcement",
-        "Reprimand",
-        "Task",
-        "Activity log",
-        "Notification",
-        "Onboarding",
-        "Offboarding",
-        "Files",
-        "Document template",
-        "Company files",
-        "Integrations",
-      ],
     };
   },
   mounted() {
     window.LOU.identify("533654217793");
   },
-  watch: {
-    $route(to) {
-      this.title = to.name;
-    },
-  },
   methods: {
+    onTaskModalToggle(data) {
+      this.isTaskModalOpen = data;
+    },
     handleHoverHelpCenter() {
       this.isHelpCenterHovered = !this.isHelpCenterHovered;
     },
