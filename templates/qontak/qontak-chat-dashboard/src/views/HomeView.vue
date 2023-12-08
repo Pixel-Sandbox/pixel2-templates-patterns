@@ -524,9 +524,8 @@ export default {
         });
       });
 
-      // this.selectedImage = this.images[0]
-      this.handleSelectedImage(this.images[0])
       this.handleUploadAllImage();
+      this.handleSelectedImage(this.images[0]);
     },
     handleCloseImagePreview() {
       this.isShowImagePreview = false;
@@ -558,7 +557,7 @@ export default {
     },
     handleUploadSelectedImage() {
       this.handleProgressBar();
-      
+
       this.selectedImage.isLoading = true;
       setTimeout(() => {
         // Upload selected image to server
