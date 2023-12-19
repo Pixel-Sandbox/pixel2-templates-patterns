@@ -97,6 +97,7 @@
               <!-- // need box to center container cropper -->
               <mp-box v-if="isFileTypeImage" data-id="image-editor-preview">
                 <img
+                  :id="imageId"
                   ref="imageEditor"
                   :src="selectedImage.url"
                   @load="startEditor"
@@ -284,6 +285,7 @@
             :is-enable-input-file="false"
             @change="onChange"
             @drag="onDrag"
+            @dragleave.native="onDragleave"
           >
             <mp-box
               :height="`calc(100% - ${textAreaHeight} + 18px)`"
@@ -470,6 +472,7 @@ export default {
       cropper: null,
       progressValue: 0,
       progressInteval: null,
+      imageId: 0
     };
   },
   computed: {
@@ -494,8 +497,18 @@ export default {
     onDrag() {
       this.isDragFile = true;
     },
+    onDragleave() {
+      setTimeout(() => {
+        this.isDragFile = false;
+        this.$refs.dropzone.isShowOverlay = false
+      }, 1000)
+    },
     onChange(files) {
-      this.isDragFile = false;
+      if (!files) {
+        this.isDragFile = false;
+        return
+      }
+      
       this.isShowImagePreview = true;
 
       console.log("FILES", files);
@@ -530,12 +543,13 @@ export default {
     handleCloseImagePreview() {
       this.isShowImagePreview = false;
       this.images = [];
+      this.selectedImage = null;
       this.stopEditor();
     },
     handleSelectedImage(item) {
       this.selectedImage = item;
-      console.log("SELECTED IMAGES", this.selectedImage);
       this.stopEditor();
+      this.imageId++
     },
     // FAKE PROGRESS BAR
     handleProgressBar() {
