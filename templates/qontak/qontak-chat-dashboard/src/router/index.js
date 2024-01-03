@@ -5,6 +5,7 @@ import ContactView from "../views/ContactView"
 import BroadcastView from "../views/BroadcastView"
 import IntegrationsView from "../views/IntegrationsView"
 import EmbeddedChatView from "../views/EmbeddedChatView"
+import SettingsView from "../views/SettingsView";
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,11 @@ const routes = [
     path: "/embedded-chat",
     name: "embedded chat",
     component: EmbeddedChatView,
+  },
+  {
+    path: "/settings",
+    name: "settings",
+    component: SettingsView,
   },
 ];
 
