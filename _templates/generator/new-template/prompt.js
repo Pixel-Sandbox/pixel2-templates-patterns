@@ -4,7 +4,7 @@ module.exports = [
     name: 'product',
     message: 'Select product :',
     initial: 0,
-    choices: ['jurnal', 'klikpajak', 'talenta', 'qontak', 'backyard', 'insight', 'mekari-account', 'mekari-partners'],
+    choices: ['jurnal', 'klikpajak', 'talenta', 'qontak', 'backyard', 'insight', 'mekari-account', 'mekari-partners', 'layout'],
   },
   {
     type: 'input',
