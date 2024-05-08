@@ -64,7 +64,7 @@
                   role="group"
                   padding="2"
                   border-radius="md"
-                  background-color="inherit"
+                  :background-color="menu.isActive ? 'blue.100' : 'transparent'"
                   :to="menu.link"
                   :color="menu.isActive ? 'blue.400' : 'inherit'"
                   :_hover="{
@@ -75,7 +75,7 @@
                   <mp-stack direction="row" align="center">
                     <mp-text
                       white-space="nowrap"
-                      :color="menu.isActive ? 'dark' : 'dark'"
+                      :color="menu.isActive ? 'blue.400' : 'dark'"
                       :font-weight="menu.isActive ? 'semibold' : 'regular'"
                       :_hover="{
                         color: 'blue.400',
