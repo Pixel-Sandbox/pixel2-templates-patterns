@@ -321,7 +321,10 @@
       </mp-box>
     </mp-box>
     <SidebarChild v-if="withChild && !isEmployee" @toggle="handleChildToggle" />
-    <SidebarChildEmployee v-if="withChild && isEmployee" @toggle="handleChildToggle" />
+    <SidebarChildEmployee
+      v-if="withChild && isEmployee"
+      @toggle="handleChildToggle"
+    />
   </mp-flex>
 </template>
 
@@ -369,7 +372,7 @@ export default {
     MpPopoverList,
     MpPopoverListItem,
     SidebarChild,
-    SidebarChildEmployee
+    SidebarChildEmployee,
   },
   data: function () {
     return {
@@ -391,6 +394,15 @@ export default {
           items: [],
         },
         {
+          parentId: 9,
+          name: "My info",
+          icon: "profile",
+          link: "/my-info",
+          withDivider: false,
+          isActive: this.$router.currentRoute.name === "My info",
+          items: [],
+        },
+        {
           parentId: 2,
           name: "Employee",
           icon: "team",
@@ -399,7 +411,7 @@ export default {
           isActive: [
             "Employee directory",
             "Manpower planning",
-            "Employee directory detail"
+            "Employee directory detail",
           ].includes(this.$router.currentRoute.name),
           items: [
             {
@@ -412,17 +424,18 @@ export default {
                   link: "/employee-directory",
                   isActive: [
                     "Employee directory",
-                    "Employee directory detail"
+                    "Employee directory detail",
                   ].includes(this.$router.currentRoute.name),
                 },
                 {
                   id: 22,
                   name: "Manpower planning",
                   link: "/manpower-planning",
-                  isActive: this.$router.currentRoute.name === "Manpower planning",
-                }
-              ]
-            }
+                  isActive:
+                    this.$router.currentRoute.name === "Manpower planning",
+                },
+              ],
+            },
           ],
         },
         {
@@ -667,50 +680,63 @@ export default {
         },
         {
           parentId: 8,
-          name: "Expense",
-          icon: "expense-brand",
-          link: "https://mekari.com/produk/expense-management-software/",
-          withDivider: false,
-          isActive: false,
-          isLink: true,
-          items: [],
-        },
-        {
-          parentId: 9,
-          name: "Mekari Flex",
-          icon: "flex-brand",
+          name: "Applications",
+          icon: "application",
           link: "/",
           withDivider: true,
           isActive: false,
           items: [
             {
-              id: 911,
+              id: 811,
               group: null,
               items: [
                 {
-                  id: 91,
-                  name: "Flex Benefit",
-                  link:
-                    "https://mekari.com/produk/mekari-flex/benefit-karyawan/",
+                  id: 81,
+                  name: "Talenta Insight",
+                  link: "/",
                   isActive: false,
                   isLink: true,
-                  isUpgradeable: true,
+                  isUpgradeable: false,
                 },
                 {
-                  id: 92,
-                  name: "Earned Wage Access",
-                  link:
-                    "https://mekari.com/produk/mekari-flex/akses-gaji-lebih-awal/",
+                  id: 82,
+                  name: "Performance Review",
+                  link: "",
                   isActive: false,
                   isLink: true,
-                  isUpgradeable: true,
+                  isUpgradeable: false,
                 },
                 {
-                  id: 93,
-                  name: "Insurance",
-                  link: "https://mekari.com/produk/mekari-flex/",
-                  isLink: true,
+                  id: 83,
+                  name: "Recruitment",
+                  link: "",
                   isActive: false,
+                  isLink: true,
+                  isUpgradeable: false,
+                },
+                {
+                  id: 84,
+                  name: "Mekari Expense",
+                  link: "",
+                  isActive: false,
+                  isLink: true,
+                  isUpgradeable: false,
+                },
+                {
+                  id: 85,
+                  name: "Mekari Flex",
+                  link: "",
+                  isActive: false,
+                  isLink: true,
+                  isUpgradeable: false,
+                },
+                {
+                  id: 86,
+                  name: "Marketplace",
+                  link: "",
+                  isActive: false,
+                  isLink: true,
+                  isUpgradeable: false,
                 },
               ],
             },

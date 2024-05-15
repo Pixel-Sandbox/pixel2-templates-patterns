@@ -17,6 +17,7 @@ Vue.use(Router);
 
 const globalPrototypeRoute = [
   { path: "/", name: "Dashboard", component: Dashboard },
+  { path: "/my-info", name: "My info", component: Global },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
   { path: "/personal", name: "Personal", component: Global },
   { path: "/manpower-planning", name: "Manpower planning", component: Global },
@@ -99,7 +100,7 @@ const globalPrototypeRoute = [
   { path: "/access-role", name: "Access role", component: Global },
   { path: "/onboardings", name: "Onboardings", component: Global },
   { path: "/offboardings", name: "Offboardings", component: Global },
-  { path: "/api-data-masking", name: "API data masking", component: Global }
+  { path: "/api-data-masking", name: "API data masking", component: Global },
 ];
 
 export default new Router({

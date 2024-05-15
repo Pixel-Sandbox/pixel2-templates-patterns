@@ -267,6 +267,7 @@ export default {
       title: this.$router.currentRoute.name,
       singleRoute: [
         "Dashboard",
+        "My info",
         "Employee directory",
         "Manpower planning",
         "Attendance",
