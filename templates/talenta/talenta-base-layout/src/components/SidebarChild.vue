@@ -96,6 +96,7 @@
                   gap="1"
                   padding="2"
                   border-radius="md"
+                  justify-content="space-between"
                   :background-color="
                     menu.isActive || isActive === menu.id
                       ? 'blue.100'
@@ -105,9 +106,7 @@
                   :_hover="{
                     color: 'blue.400',
                     backgroundColor:
-                      menu.isActive || isActive === menu.id
-                        ? 'blue.100'
-                        : 'blue.100',
+                      menu.isActive || (isActive === menu.id && 'blue.100'),
                     cursor: 'pointer',
                   }"
                 >
@@ -127,6 +126,9 @@
                                 ? 'semibold'
                                 : 'regular'
                             "
+                            :_hover="{
+                              color: 'blue.400',
+                            }"
                           >
                             {{ menu.name }}
                           </mp-text>
