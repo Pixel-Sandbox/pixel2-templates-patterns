@@ -63,8 +63,12 @@
       </mp-flex>
 
       <mp-flex gap="2" align-items="center">
-        <mp-button-icon name="column-settings" size="md" />
-        <mp-button-icon name="upload" size="md" />
+        <mp-button-icon
+          name="column-settings"
+          size="md"
+          v-mp-tooltip="'Manage column'"
+        />
+        <mp-button-icon name="upload" size="md" v-mp-tooltip="'Export'" />
         <mp-input-group ml="2">
           <mp-input-left-addon :with-background="false">
             <mp-icon name="search" size="sm" />
