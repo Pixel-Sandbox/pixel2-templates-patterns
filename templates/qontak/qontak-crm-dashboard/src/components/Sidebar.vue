@@ -533,7 +533,9 @@ export default {
       this.isChildToggle = e;
     },
     handleKeydown(e) {
-      if (e.shiftKey && e.keyCode === 88) {
+      const body = document.getElementsByTagName("body")[0];
+
+      if (e.shiftKey && e.keyCode === 88 && e.srcElement === body) {
         this.handleToggle();
         this.handleMouseLeave();
       }

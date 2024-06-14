@@ -336,7 +336,9 @@ export default {
       this.isHovered = false;
     },
     handleKeydown(e) {
-      if (e.shiftKey && e.keyCode === 67) {
+      const body = document.getElementsByTagName("body")[0];
+
+      if (e.shiftKey && e.keyCode === 67 && e.srcElement === body) {
         this.handleToggle();
       }
     },
