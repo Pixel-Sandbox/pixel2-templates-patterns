@@ -11,7 +11,11 @@
         padding-x="4"
       >
         <mp-box>
-          <mp-accordion allow-toggle allow-multiple :default-index="[0, 1]">
+          <mp-accordion
+            allow-toggle
+            allow-multiple
+            :default-index="[0, 1, 2, 3]"
+          >
             <mp-accordion-item>
               <mp-accordion-header
                 padding-x="0"
@@ -23,7 +27,11 @@
                   justify-content="space-between"
                   height="16"
                 >
-                  <advanced-filter-item-header name="Branch" />
+                  <advanced-filter-item-header
+                    name="Join date"
+                    isDateOption
+                    selectCursor="Is on"
+                  />
                   <mp-flex align-items="center">
                     <mp-button-icon name="minus-circular" />
                     <mp-box>
@@ -37,7 +45,39 @@
                 padding-top="0"
                 padding-bottom="3"
               >
-                <advanced-filter-item-branch />
+                <advanced-filter-item-date />
+              </mp-accordion-panel>
+            </mp-accordion-item>
+            <mp-accordion-item>
+              <mp-accordion-header
+                padding-x="0"
+                padding-y="0"
+                :is-clickable="false"
+              >
+                <mp-flex
+                  flex="1 0 0"
+                  justify-content="space-between"
+                  height="16"
+                >
+                  <advanced-filter-item-header
+                    name="Contract date"
+                    isDateOption
+                    selectCursor="Is between"
+                  />
+                  <mp-flex align-items="center">
+                    <mp-button-icon name="minus-circular" />
+                    <mp-box>
+                      <mp-accordion-icon name="chevrons-down" padding="3px" />
+                    </mp-box>
+                  </mp-flex>
+                </mp-flex>
+              </mp-accordion-header>
+              <mp-accordion-panel
+                padding-x="0"
+                padding-top="0"
+                padding-bottom="3"
+              >
+                <advanced-filter-item-date isRange />
               </mp-accordion-panel>
             </mp-accordion-item>
             <mp-accordion-item>
@@ -65,7 +105,31 @@
                 padding-top="0"
                 padding-bottom="3"
               >
-                <advanced-filter-item-organization />
+                <advanced-filter-item-multiset />
+              </mp-accordion-panel>
+            </mp-accordion-item>
+            <mp-accordion-item>
+              <mp-accordion-header
+                padding-x="3"
+                padding-y="0"
+                :is-clickable="false"
+              >
+                <mp-flex
+                  flex="1 0 0"
+                  justify-content="space-between"
+                  height="13"
+                >
+                  <advanced-filter-item-header name="Name" />
+                  <mp-flex align-items="center">
+                    <mp-button-icon name="minus-circular" />
+                    <mp-box>
+                      <mp-accordion-icon name="chevrons-down" padding="3px" />
+                    </mp-box>
+                  </mp-flex>
+                </mp-flex>
+              </mp-accordion-header>
+              <mp-accordion-panel padding-x="3" padding-top="0">
+                <advanced-filter-item-freetag />
               </mp-accordion-panel>
             </mp-accordion-item>
           </mp-accordion>
@@ -187,8 +251,9 @@ import {
   MpButtonIcon,
 } from "@mekari/pixel";
 import AdvancedFilterItemHeader from "./AdvancedFilterItemHeader";
-import AdvancedFilterItemBranch from "./AdvancedFilterItemBranch";
-import AdvancedFilterItemOrganization from "./AdvancedFilterItemOrganization";
+import AdvancedFilterItemFreetag from "./AdvancedFilterItemFreetag";
+import AdvancedFilterItemMultiset from "./AdvancedFilterItemMultiset";
+import AdvancedFilterItemDate from "./AdvancedFilterItemDate";
 
 export default {
   name: "AdvancedFilter",
@@ -219,8 +284,9 @@ export default {
     MpButton,
     MpButtonIcon,
     AdvancedFilterItemHeader,
-    AdvancedFilterItemBranch,
-    AdvancedFilterItemOrganization,
+    AdvancedFilterItemFreetag,
+    AdvancedFilterItemMultiset,
+    AdvancedFilterItemDate,
   },
   props: {
     isOpen: [Boolean],

@@ -5,7 +5,13 @@
       <mp-popover>
         <mp-popover-trigger>
           <mp-flex gap="1" align-items="center" :_hover="{ cursor: 'pointer' }">
-            <mp-text font-size="sm">Is any of</mp-text>
+            <mp-text v-if="!isDateOption" font-size="sm">Is any of</mp-text>
+            <mp-text v-if="!selectCursor && isDateOption" font-size="sm"
+              >Is on</mp-text
+            >
+            <mp-text v-if="selectCursor" font-size="sm">{{
+              selectCursor
+            }}</mp-text>
             <mp-icon size="sm" name="caret-down" />
           </mp-flex>
         </mp-popover-trigger>
@@ -18,8 +24,36 @@
           box-shadow="lg"
         >
           <mp-popover-list>
-            <mp-popover-list-item is-active>Is any of</mp-popover-list-item>
-            <mp-popover-list-item>Is not</mp-popover-list-item>
+            <mp-popover-list-item v-if="!isDateOption" is-active>
+              Is any of
+            </mp-popover-list-item>
+            <mp-popover-list-item v-if="!isDateOption">
+              Is not
+            </mp-popover-list-item>
+            <mp-popover-list-item
+              v-if="isDateOption"
+              :is-active="selectCursor === 'Is on'"
+            >
+              Is on
+            </mp-popover-list-item>
+            <mp-popover-list-item
+              v-if="isDateOption"
+              :is-active="selectCursor === 'Is between'"
+            >
+              Is between
+            </mp-popover-list-item>
+            <mp-popover-list-item
+              v-if="isDateOption"
+              :is-active="selectCursor === 'Is after'"
+            >
+              Is after
+            </mp-popover-list-item>
+            <mp-popover-list-item
+              v-if="isDateOption"
+              :is-active="selectCursor === 'Is before'"
+            >
+              Is before
+            </mp-popover-list-item>
           </mp-popover-list>
         </mp-popover-content>
       </mp-popover>
@@ -55,6 +89,8 @@ export default {
   },
   props: {
     name: [String],
+    isDateOption: [Boolean],
+    selectCursor: [String],
   },
 };
 </script>

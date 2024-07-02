@@ -36,7 +36,7 @@ import {
 } from "@mekari/pixel";
 
 export default {
-  name: "AdvancedFilterItemOrganization",
+  name: "AdvancedFilterItemMultiset",
   components: {
     MpBox,
     MpText,
