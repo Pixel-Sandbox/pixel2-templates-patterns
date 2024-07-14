@@ -84,7 +84,7 @@
         </mp-table-container>
 
         <mp-flex w="100%" justify-content="flex-end">
-          <mp-box w="400px">
+          <mp-box w="400px" margin-right="3">
             <DescriptionListSmall>
               <template #left-side>
                 <mp-heading as="h3" font-size="lg"> Subtotal </mp-heading>
