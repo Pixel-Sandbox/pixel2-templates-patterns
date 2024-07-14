@@ -11,11 +11,7 @@
         padding-x="4"
       >
         <mp-box>
-          <mp-accordion
-            allow-toggle
-            allow-multiple
-            :default-index="[0, 1, 2, 3]"
-          >
+          <mp-accordion allow-toggle allow-multiple>
             <mp-accordion-item>
               <mp-accordion-header
                 padding-x="0"
@@ -110,7 +106,7 @@
             </mp-accordion-item>
             <mp-accordion-item>
               <mp-accordion-header
-                padding-x="3"
+                padding-x="0"
                 padding-y="0"
                 :is-clickable="false"
               >

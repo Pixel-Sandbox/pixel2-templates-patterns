@@ -1,8 +1,8 @@
 <template>
   <mp-drawer :is-open="isDrawerOpen" :on-close="handleDrawerClose">
     <mp-drawer-overlay />
-    <mp-drawer-content width="800px" max-width="800px">
-      <mp-drawer-header>Assign & update employee</mp-drawer-header>
+    <mp-drawer-content width="920px" max-width="920px">
+      <mp-drawer-header>Assign employee</mp-drawer-header>
       <mp-drawer-close-button />
       <mp-drawer-body overflow-x="auto" padding="0">
         <mp-text
@@ -18,7 +18,7 @@
           <mp-box width="50%" border-right="1px" border-color="gray.100">
             <mp-box v-if="!isShowFilter">
               <mp-flex
-                gap="4"
+                gap="6"
                 justify-content="space-between"
                 align-items="center"
                 margin-top="0"
@@ -30,7 +30,7 @@
                   <mp-input-left-addon :with-background="false">
                     <mp-icon name="search" size="sm" />
                   </mp-input-left-addon>
-                  <mp-input placeholder="Search employee" />
+                  <mp-input placeholder="Search employee name or ID" />
                 </mp-input-group>
                 <mp-box>
                   <mp-button
@@ -44,6 +44,7 @@
               </mp-flex>
 
               <mp-flex
+                v-if="this.employees.length !== 0"
                 justify-content="space-between"
                 align-items="center"
                 padding-left="4"
@@ -53,6 +54,27 @@
                 <mp-heading as="h3" font-size="lg"> Employees </mp-heading>
                 <mp-text is-link> Add all </mp-text>
               </mp-flex>
+
+              <mp-box
+                v-if="this.employees.length === 0"
+                text-align="center"
+                padding-x="6"
+              >
+                <mp-icon
+                  name="people"
+                  color="blue.400"
+                  variant="fill"
+                  width="56px"
+                  height="56px"
+                  margin-bottom="6"
+                />
+                <mp-heading as="h3" font-size="lg" font-weight="bold">
+                  You're all set
+                </mp-heading>
+                <mp-text color="gray.600" margin-top="1">
+                  No more employee available to assign
+                </mp-text>
+              </mp-box>
 
               <mp-flex
                 v-for="(employee, index) in employees"
@@ -121,11 +143,7 @@
                 padding-left="4"
                 padding-right="6"
               >
-                <mp-accordion
-                  allow-toggle
-                  allow-multiple
-                  :default-index="[0, 1]"
-                >
+                <mp-accordion allow-toggle allow-multiple>
                   <mp-accordion-item>
                     <mp-accordion-header
                       padding-x="0"
@@ -275,38 +293,50 @@
               align-items="center"
               margin-top="0"
               margin-bottom="6"
-              padding-x="4"
+              padding-right="4"
+              padding-left="6"
             >
               <mp-input-group>
                 <mp-input-left-addon :with-background="false">
                   <mp-icon name="search" size="sm" />
                 </mp-input-left-addon>
-                <mp-input placeholder="Search employee" />
+                <mp-input placeholder="Search employee name or ID" />
               </mp-input-group>
             </mp-flex>
 
             <mp-flex
+              v-if="this.selectedEmployees.length !== 0"
               align-items="center"
-              padding-x="4"
+              justify-content="space-between"
+              padding-right="4"
+              padding-left="6"
               padding-top="0"
               margin-bottom="4"
             >
               <mp-heading as="h3" font-size="lg">
                 Assigned employees ({{ this.selectedEmployees.length }})
               </mp-heading>
+              <mp-text is-link> Clear selection </mp-text>
             </mp-flex>
 
             <mp-box
               v-if="this.selectedEmployees.length === 0"
               text-align="center"
-              margin-top="12"
               padding-x="6"
             >
+              <mp-icon
+                name="people"
+                color="blue.400"
+                variant="fill"
+                width="56px"
+                height="56px"
+                margin-bottom="6"
+              />
               <mp-heading as="h3" font-size="lg" font-weight="bold">
                 No employee selected
               </mp-heading>
-              <mp-text color="gray.600" margin-top="2">
-                Select at least one from employee list from the sidebar.
+              <mp-text color="gray.600" margin-top="1">
+                Select the employee you would like to assign
               </mp-text>
             </mp-box>
 
@@ -318,7 +348,8 @@
               align-items="center"
               padding-y="3"
               padding-x="2"
-              margin-x="4"
+              margin-right="4"
+              margin-left="6"
               border-bottom="1px"
               border-color="gray.100"
               cursor="pointer"
