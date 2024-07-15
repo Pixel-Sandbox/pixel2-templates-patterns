@@ -24,41 +24,9 @@
                   height="16"
                 >
                   <advanced-filter-item-header
-                    name="Join date"
-                    isDateOption
-                    selectCursor="Is on"
-                  />
-                  <mp-flex align-items="center">
-                    <mp-button-icon name="minus-circular" />
-                    <mp-box>
-                      <mp-accordion-icon name="chevrons-down" padding="3px" />
-                    </mp-box>
-                  </mp-flex>
-                </mp-flex>
-              </mp-accordion-header>
-              <mp-accordion-panel
-                padding-x="0"
-                padding-top="0"
-                padding-bottom="3"
-              >
-                <advanced-filter-item-date />
-              </mp-accordion-panel>
-            </mp-accordion-item>
-            <mp-accordion-item>
-              <mp-accordion-header
-                padding-x="0"
-                padding-y="0"
-                :is-clickable="false"
-              >
-                <mp-flex
-                  flex="1 0 0"
-                  justify-content="space-between"
-                  height="16"
-                >
-                  <advanced-filter-item-header
                     name="Contract date"
                     isDateOption
-                    selectCursor="Is between"
+                    selectCursor="Is"
                   />
                   <mp-flex align-items="center">
                     <mp-button-icon name="minus-circular" />
@@ -124,7 +92,11 @@
                   </mp-flex>
                 </mp-flex>
               </mp-accordion-header>
-              <mp-accordion-panel padding-x="3" padding-top="0">
+              <mp-accordion-panel
+                padding-x="0"
+                padding-top="0"
+                padding-bottom="3"
+              >
                 <advanced-filter-item-freetag />
               </mp-accordion-panel>
             </mp-accordion-item>

@@ -128,7 +128,7 @@
                 height="calc(100vh - 251px)"
                 bg="gray.25"
               >
-                <mp-flex justify="center" align="center">
+                <mp-flex justify="center" align="center" height="inherit">
                   <img v-if="attachment !== ''" :src="attachment" />
                   <mp-flex
                     v-else
@@ -343,7 +343,7 @@ export default {
           status: "Awaiting approval",
           email: "joko@centralperk.co.id",
           attachments: [
-            "https://via.placeholder.com/400x546/D0D6DD/FFFFFF",
+            "https://uhdwallpapers.org/uploads/converted/18/10/08/dreaming-summer-image-1920x1080_48774-mm-90.webp",
             "https://via.placeholder.com/400x546/D0D6DD/FFFFFF",
             "https://via.placeholder.com/400x546/D0D6DD/FFFFFF",
           ],
