@@ -5,7 +5,7 @@
         <mp-popover-trigger>
           <mp-button-icon
             size="md"
-            name="table-view-column"
+            name="column-settings"
             @click.native="handleOpen"
           />
         </mp-popover-trigger>
@@ -29,7 +29,7 @@
             >
               <mp-flex justify="space-between" align="center">
                 <mp-text color="gray.600" text-align="left" font-size="sm">
-                  COLUMN DISPLAYED
+                  MANAGE COLUMN
                 </mp-text>
                 <mp-text
                   v-if="isAnyUnchecked()"
@@ -55,44 +55,31 @@
               max-height="288px"
               margin-top="36px"
             >
-              <Draggable
-                v-model="inactiveLists"
-                v-bind="dragOptions"
-                handle=".handle"
-                group="inactive"
-                @start="isDrag = true"
-                @end="isDrag = false"
+              <mp-popover-list-item
+                v-for="list in inactiveLists"
+                :key="list.id"
               >
-                <TransitionGroup
-                  type="transition"
-                  :name="!isDrag ? 'list' : null"
+                <mp-icon
+                  size="sm"
+                  name="drag"
+                  cursor="not-allowed"
+                  class="handle"
+                  margin-right="2"
+                />
+                <mp-checkbox
+                  name="checkbox-inactive-group"
+                  :is-checked="list.isChecked"
+                  is-disabled
+                  width="full"
+                  v-mp-tooltip="{
+                    label:
+                      'This row cannot be reordered as it is in a fixed position within the table.  ',
+                    position: 'left',
+                  }"
                 >
-                  <mp-popover-list-item
-                    v-for="list in inactiveLists"
-                    :key="list.id"
-                  >
-                    <mp-icon
-                      size="sm"
-                      name="drag"
-                      cursor="move"
-                      class="handle"
-                      margin-right="2"
-                    />
-                    <mp-checkbox
-                      name="checkbox-inactive-group"
-                      :is-checked="list.isChecked"
-                      is-disabled
-                      width="full"
-                      v-mp-tooltip="{
-                        label: 'Required to displayed',
-                        position: 'left',
-                      }"
-                    >
-                      {{ list.name }}
-                    </mp-checkbox>
-                  </mp-popover-list-item>
-                </TransitionGroup>
-              </Draggable>
+                  {{ list.name }}
+                </mp-checkbox>
+              </mp-popover-list-item>
               <Draggable
                 v-model="activeLists"
                 v-bind="dragOptions"
