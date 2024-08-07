@@ -25,6 +25,7 @@
     "templates/insight/*",
     "templates/mekari-partners/*",
     "templates/mekari-account/*",
+    "templates/mekari-stream/*",
     "templates/layout/*",
     "patterns/*"
   ]
