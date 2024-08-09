@@ -335,53 +335,64 @@
         </mp-accordion-header>
         <mp-accordion-panel pr="0" pt="2" pb="6">
           <mp-flex gap="6">
-            <mp-flex
-              px="4"
-              py="3"
-              w="362px"
-              border="1px solid"
-              border-color="gray.100"
-              border-radius="md"
-            >
-              <mp-flex justify="space-between" align="center" w="full">
-                <mp-flex align="center" gap="2">
-                  <mp-icon name="today" size="sm" />
-                  <mp-box>
-                    <mp-text> Salary report </mp-text>
-                    <mp-text
-                      v-show="isShowDescription"
-                      color="gray.600"
-                      font-size="sm"
-                    >
-                      Detailed employee salary breakdown such as basic income,
-                      allowances, deductions and etc.
-                    </mp-text>
-                  </mp-box>
+            <mp-box position="relative">
+              <mp-pseudo-box
+                display="flex"
+                px="4"
+                py="3"
+                w="362px"
+                border="1px solid"
+                border-color="gray.100"
+                border-radius="md"
+                cursor="pointer"
+                transition="background-color 0.3s ease"
+                :_hover="{
+                  backgroundColor: 'blue.50',
+                }"
+                as="router-link"
+                to="/detail"
+              >
+                <mp-flex justify="space-between" align="center" w="full">
+                  <mp-flex align="center" gap="2">
+                    <mp-icon name="today" size="sm" />
+                    <mp-box width="calc(362px - 96px)">
+                      <mp-text> Salary report </mp-text>
+                      <mp-text
+                        v-show="isShowDescription"
+                        color="gray.600"
+                        font-size="sm"
+                      >
+                        Detailed employee salary breakdown such as basic income,
+                        allowances, deductions and etc.
+                      </mp-text>
+                    </mp-box>
+                  </mp-flex>
                 </mp-flex>
-                <mp-popover>
-                  <mp-popover-trigger>
-                    <mp-button-icon name="menu-kebab" size="sm" />
-                  </mp-popover-trigger>
-                  <mp-popover-content
-                    max-width="173px"
-                    bg="white"
-                    rounded="md"
-                    shadow="lg"
-                    border-width="1px"
-                    border-color="gray.400"
-                  >
-                    <mp-popover-list>
-                      <mp-popover-list-item as="router-link" to="/detail">
-                        View report
-                      </mp-popover-list-item>
-                      <mp-popover-list-item>
-                        Download report
-                      </mp-popover-list-item>
-                    </mp-popover-list>
-                  </mp-popover-content>
-                </mp-popover>
-              </mp-flex>
-            </mp-flex>
+              </mp-pseudo-box>
+
+              <mp-popover>
+                <mp-popover-trigger position="absolute" top="28px" right="14px">
+                  <mp-button-icon name="menu-kebab" size="sm" />
+                </mp-popover-trigger>
+                <mp-popover-content
+                  max-width="173px"
+                  bg="white"
+                  rounded="md"
+                  shadow="lg"
+                  border-width="1px"
+                  border-color="gray.400"
+                >
+                  <mp-popover-list>
+                    <mp-popover-list-item as="router-link" to="/detail">
+                      View report
+                    </mp-popover-list-item>
+                    <mp-popover-list-item>
+                      Download report
+                    </mp-popover-list-item>
+                  </mp-popover-list>
+                </mp-popover-content>
+              </mp-popover>
+            </mp-box>
             <mp-flex
               px="4"
               py="3"
@@ -570,6 +581,7 @@
 <script>
 import {
   MpBox,
+  MpPseudoBox,
   MpStack,
   MpFlex,
   MpText,
@@ -597,6 +609,7 @@ export default {
   name: "PayrollReportContent",
   components: {
     MpBox,
+    MpPseudoBox,
     MpStack,
     MpFlex,
     MpText,
@@ -624,6 +637,11 @@ export default {
       isShowDescription: true,
       checks: [false, false, false, false, false],
     };
+  },
+  methods: {
+    toDetailPage() {
+      this.$router.push("/detail");
+    },
   },
   computed: {
     checkAll: function () {
