@@ -39,13 +39,7 @@
             <mp-table-cell as="th" scope="col" width="160px" min-width="160px">
               Basic salary
             </mp-table-cell>
-            <mp-table-cell
-              bg="blue.50"
-              as="th"
-              scope="col"
-              width="160px"
-              min-width="160px"
-            >
+            <mp-table-cell as="th" scope="col" width="160px" min-width="160px">
               JHT employee allowance
             </mp-table-cell>
           </mp-table-row>
@@ -87,7 +81,7 @@
             <mp-table-cell as="td" scope="row">
               {{ employee.salary }}
             </mp-table-cell>
-            <mp-table-cell as="td" scope="row">
+            <mp-table-cell as="td" scope="row" bg="blue.50">
               {{ employee.jht }}
             </mp-table-cell>
           </mp-table-row>
