@@ -95,50 +95,58 @@
                               border-bottom-right-radius="md"
                               padding-y="3"
                               padding-x="4"
+                              justify-content="space-between"
                             >
-                              <mp-icon
-                                size="sm"
-                                name="drag"
-                                cursor="move"
-                                class="handle"
-                              />
-                              <mp-flex
-                                flex="1"
-                                text-align="left"
-                                align="center"
-                                gap="2"
-                              >
-                                <mp-icon size="sm" name="pdf-document" />
-                                <mp-flex direction="column">
-                                  <mp-text>
-                                    {{ list.name }}
-                                  </mp-text>
-                                  <mp-text
-                                    v-if="isSelected"
-                                    font-size="sm"
-                                    color="gray.600"
-                                  >
-                                    <mp-text
-                                      display="inline-block"
-                                      font-size="sm"
-                                      color="blue.400"
-                                    >
-                                      {{ list.items.length }}/{{
-                                        list.items.length
-                                      }}
+                              <mp-flex gap="4" align="center">
+                                <mp-icon
+                                  size="sm"
+                                  name="drag"
+                                  cursor="move"
+                                  class="handle"
+                                />
+                                <mp-flex
+                                  flex="1"
+                                  text-align="left"
+                                  align="center"
+                                  gap="2"
+                                >
+                                  <mp-icon size="sm" name="pdf-document" />
+                                  <mp-flex direction="column">
+                                    <mp-text>
+                                      {{ list.name }}
                                     </mp-text>
-                                    pages selected
-                                  </mp-text>
-                                  <mp-text
-                                    v-else
-                                    font-size="sm"
-                                    color="gray.600"
-                                  >
-                                    {{ list.items.length }} pages selected
-                                  </mp-text>
+                                    <mp-text
+                                      v-if="isSelected"
+                                      font-size="sm"
+                                      color="gray.600"
+                                    >
+                                      <mp-text
+                                        display="inline-block"
+                                        font-size="sm"
+                                        color="blue.400"
+                                      >
+                                        {{ list.items.length }}/{{
+                                          list.items.length
+                                        }}
+                                      </mp-text>
+                                      pages selected
+                                    </mp-text>
+                                    <mp-text
+                                      v-else
+                                      font-size="sm"
+                                      color="gray.600"
+                                    >
+                                      {{ list.items.length }} pages selected
+                                    </mp-text>
+                                  </mp-flex>
                                 </mp-flex>
                               </mp-flex>
-                              <mp-accordion-icon />
+                              <mp-flex gap="2" align="center">
+                                <mp-text color="red.400" is-link>
+                                  Remove
+                                </mp-text>
+                                <mp-accordion-icon />
+                              </mp-flex>
                             </mp-accordion-header>
                             <mp-accordion-panel
                               border-top="1px solid"
