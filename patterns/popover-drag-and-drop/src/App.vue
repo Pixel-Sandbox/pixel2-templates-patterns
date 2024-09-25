@@ -18,7 +18,7 @@
           border-width="1px"
           border-color="gray.400"
         >
-          <mp-popover-list position="relative">
+          <mp-popover-list position="relative" padding-bottom="0">
             <mp-box
               position="absolute"
               top="5"
@@ -116,6 +116,20 @@
               </Draggable>
             </mp-box>
           </mp-popover-list>
+          <mp-button
+            variant="unstyled"
+            width="full"
+            text-align="center"
+            rounded-top="0"
+            border-top="1px"
+            border-color="blue.50"
+            color="blue.400"
+            font-size="md"
+            :_hover="{ color: 'blue.500' }"
+            @click="handleClose()"
+          >
+            Apply
+          </mp-button>
         </mp-popover-content>
       </mp-popover>
     </mp-box>
@@ -130,6 +144,7 @@ import {
   MpText,
   MpIcon,
   MpCheckbox,
+  MpButton,
   MpButtonIcon,
   MpPopover,
   MpPopoverTrigger,
@@ -146,6 +161,7 @@ export default {
     MpText,
     MpIcon,
     MpCheckbox,
+    MpButton,
     MpButtonIcon,
     MpPopover,
     MpPopoverTrigger,
