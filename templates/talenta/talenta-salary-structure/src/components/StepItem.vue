@@ -21,7 +21,7 @@
     </mp-flex>
     <mp-pseudo-box
       role="group"
-      :_hover="{ cursor: 'pointer' }"
+      :_hover="{ cursor: isDisabled ? 'not-allowed' : 'pointer' }"
       @click="$emit('click', id)"
     >
       <mp-flex
@@ -90,6 +90,7 @@ export default {
     isCompleted: [Boolean],
     isCurrent: [Boolean],
     isLast: [Boolean],
+    isDisabled: [Boolean],
   },
   methods: {
     getStepProps(values, optionalValue) {

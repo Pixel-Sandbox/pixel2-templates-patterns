@@ -66,95 +66,97 @@
               Calibrate the structure with a few method below.
             </mp-text>
 
-            <mp-toggle margin-bottom="4" is-checked>
+            <mp-toggle margin-bottom="4" v-model="isToggleForm">
               Adjust structure
             </mp-toggle>
 
-            <mp-text font-weight="semibold">Method</mp-text>
-            
-            <mp-radio-group value="option-2" position="relative">
-              <mp-radio value="option-1">
-                Spread percentage
-                <mp-icon name="info" size="sm" margin-left="2" />
-                <template #description>
-                  By multiply to spread percentage. Formulated based on salary strucuture KEPMEN 49 Tahun 2004. 
-                  <mp-text display="inline-flex" is-link>Learn more</mp-text>
-                </template>
-              </mp-radio>
-              <mp-radio value="option-2">
-                Target percentile of benchmark data
-                <mp-icon name="info" size="sm" margin-left="2" />
-                <template #description>
-                  By multiply target percentile of benchmark data. 
-                  <mp-text display="inline-flex" is-link>Learn more</mp-text>
-                  <mp-collapse :is-open="isOpen" width="280px" margin-top="4">
-                    <mp-form-control control-id="target-min-salary">
-                      <mp-form-label color="dark">Target min. salary</mp-form-label>
-                      <mp-input-group>
-                        <mp-input type="number" />
-                        <mp-input-right-addon>
-                          <mp-text font-weight="bold" padding-x="3">
-                            %
-                          </mp-text>
-                        </mp-input-right-addon>
-                      </mp-input-group>
-                      <mp-form-help-text>Determining the percentage difference from the benchmark data for the minimum range.</mp-form-help-text>
-                    </mp-form-control>
-                    <mp-checkbox margin-top="3" is-checked>
-                      Set target for all min. salary range
-                    </mp-checkbox>
+            <mp-box v-if="isToggleForm">
+              <mp-text font-weight="semibold">Method</mp-text>
+              
+              <mp-radio-group v-model="option" position="relative">
+                <mp-radio value="option-1">
+                  Spread percentage
+                  <mp-icon name="info" size="sm" margin-left="2" />
+                  <template #description>
+                    By multiply to spread percentage. Formulated based on salary strucuture KEPMEN 49 Tahun 2004. 
+                    <mp-text display="inline-flex" is-link>Learn more</mp-text>
+                  </template>
+                </mp-radio>
+                <mp-radio value="option-2">
+                  Target percentile of benchmark data
+                  <mp-icon name="info" size="sm" margin-left="2" />
+                  <template  #description>
+                    By multiply target percentile of benchmark data. 
+                    <mp-text display="inline-flex" is-link>Learn more</mp-text>
+                    <mp-collapse v-if="option === 'option-2'" :is-open="isToggleTargetControl" width="280px" margin-top="4">
+                      <mp-form-control control-id="target-min-salary" :is-disabled="!isMinTargetChecked">
+                        <mp-form-label color="dark">Target min. salary</mp-form-label>
+                        <mp-input-group>
+                          <mp-input v-model="minTargetValue" type="number"  />
+                          <mp-input-right-addon>
+                            <mp-text font-weight="bold" padding-x="3">
+                              %
+                            </mp-text>
+                          </mp-input-right-addon>
+                        </mp-input-group>
+                        <mp-form-help-text>Determining the percentage difference from the benchmark data for the minimum range.</mp-form-help-text>
+                      </mp-form-control>
+                      <mp-checkbox margin-top="3" v-model="isMinTargetChecked">
+                        Set target for all min. salary range
+                      </mp-checkbox>
 
-                    <mp-form-control control-id="target-mid-salary" margin-top="4">
-                      <mp-form-label color="dark">Target mid. salary</mp-form-label>
-                      <mp-input-group>
-                        <mp-input type="number" />
-                        <mp-input-right-addon>
-                          <mp-text font-weight="bold" padding-x="3">
-                            %
-                          </mp-text>
-                        </mp-input-right-addon>
-                      </mp-input-group>
-                      <mp-form-help-text>Determining the percentage difference from the benchmark data for the midpoint range.</mp-form-help-text>
-                    </mp-form-control>
-                    <mp-checkbox margin-top="3" is-checked>
-                      Set target for all mid. salary range
-                    </mp-checkbox>
+                      <mp-form-control control-id="target-mid-salary" :is-disabled="!isMidTargetChecked" margin-top="4">
+                        <mp-form-label color="dark">Target mid. salary</mp-form-label>
+                        <mp-input-group>
+                          <mp-input v-model="midTargetValue" type="number" />
+                          <mp-input-right-addon>
+                            <mp-text font-weight="bold" padding-x="3">
+                              %
+                            </mp-text>
+                          </mp-input-right-addon>
+                        </mp-input-group>
+                        <mp-form-help-text>Determining the percentage difference from the benchmark data for the midpoint range.</mp-form-help-text>
+                      </mp-form-control>
+                      <mp-checkbox margin-top="3" v-model="isMidTargetChecked">
+                        Set target for all mid. salary range
+                      </mp-checkbox>
 
-                    <mp-form-control control-id="target-max-salary" margin-top="4">
-                      <mp-form-label color="dark">Target max. salary</mp-form-label>
-                      <mp-input-group>
-                        <mp-input type="number" />
-                        <mp-input-right-addon>
-                          <mp-text font-weight="bold" padding-x="3">
-                            %
-                          </mp-text>
-                        </mp-input-right-addon>
-                      </mp-input-group>
-                      <mp-form-help-text>Determining the percentage difference from the benchmark data for the maximum range.</mp-form-help-text>
-                    </mp-form-control>
-                    <mp-checkbox margin-top="3" is-checked>
-                      Set target for all max. salary range
-                    </mp-checkbox>
-                  </mp-collapse>
-                  <mp-button variant="link" margin-top="3" @click="onToggle">See less target control</mp-button>
-                </template>
-              </mp-radio>
-              <mp-radio value="option-3">
-                Target percentile of actual salary
-                <mp-icon name="info" size="sm" margin-left="2" />
-                <template #description>
-                  By multiply target percentile of actual salary.
-                  <mp-text display="inline-flex" is-link>Learn more</mp-text>
-                </template>
-              </mp-radio>
-              <mp-radio value="option-4">
-                Custom amount
-                <template #description>
-                  By setting target amount salary on each range.
-                  <mp-text display="inline-flex" is-link>Learn more</mp-text>
-                </template>
-              </mp-radio>
-            </mp-radio-group>
+                      <mp-form-control control-id="target-max-salary" :is-disabled="!isMaxTargetChecked" margin-top="4">
+                        <mp-form-label color="dark">Target max. salary</mp-form-label>
+                        <mp-input-group>
+                          <mp-input  v-model="maxTargetValue" type="number" />
+                          <mp-input-right-addon>
+                            <mp-text font-weight="bold" padding-x="3">
+                              %
+                            </mp-text>
+                          </mp-input-right-addon>
+                        </mp-input-group>
+                        <mp-form-help-text>Determining the percentage difference from the benchmark data for the maximum range.</mp-form-help-text>
+                      </mp-form-control>
+                      <mp-checkbox margin-top="3" v-model="isMaxTargetChecked">
+                        Set target for all max. salary range
+                      </mp-checkbox>
+                    </mp-collapse>
+                    <mp-button v-if="option === 'option-2'" variant="link" margin-top="3" @click="onToggle">See {{ isToggleTargetControl ? 'less' : 'more' }} target control</mp-button>
+                  </template>
+                </mp-radio>
+                <mp-radio value="option-3">
+                  Target percentile of actual salary
+                  <mp-icon name="info" size="sm" margin-left="2" />
+                  <template #description>
+                    By multiply target percentile of actual salary.
+                    <mp-text display="inline-flex" is-link>Learn more</mp-text>
+                  </template>
+                </mp-radio>
+                <mp-radio value="option-4">
+                  Custom amount
+                  <template #description>
+                    By setting target amount salary on each range.
+                    <mp-text display="inline-flex" is-link>Learn more</mp-text>
+                  </template>
+                </mp-radio>
+              </mp-radio-group>
+            </mp-box>
           </mp-box>
 
           <mp-heading as="h2" font-size="xl" margin-top="6">
@@ -166,7 +168,7 @@
 
           <mp-flex justify-content="space-between" margin-bottom="6">
             <mp-flex gap="4">
-              <mp-button variant="outline">
+              <mp-button variant="outline" @click="onModalOpen">
                 Import structure
               </mp-button>
               <mp-box width="160px">
@@ -252,41 +254,50 @@
                   <mp-table-cell-lite text-align="right" background-color="green.50" as="td">
                     Rp16.000.000
                   </mp-table-cell-lite>
-                  <mp-table-cell-lite as="td">
+                  <mp-table-cell-lite v-if="option === 'option-2'" as="td">
                     <mp-input-group>
                       <mp-input-left-addon>
                         <mp-text font-weight="bold" padding-x="3">
                           Rp
                         </mp-text>
                       </mp-input-left-addon>
-                      <mp-input type="number" />
+                      <mp-input type="number" :value="minTargetValue" :is-disabled="isMinTargetChecked" />
                     </mp-input-group>
+                  </mp-table-cell-lite>
+                  <mp-table-cell-lite v-else text-align="right" background-color="green.50" as="td">
+                    Rp16.000.000
                   </mp-table-cell-lite>
                   <mp-table-cell-lite text-align="right" background-color="orange.50" as="td">
                     Rp18.500.000
                   </mp-table-cell-lite>
-                  <mp-table-cell-lite as="td">
+                  <mp-table-cell-lite v-if="option === 'option-2'" as="td">
                     <mp-input-group>
                       <mp-input-left-addon>
                         <mp-text font-weight="bold" padding-x="3">
                           Rp
                         </mp-text>
                       </mp-input-left-addon>
-                      <mp-input type="number" />
+                      <mp-input type="number" :value="midTargetValue" :is-disabled="isMidTargetChecked"  />
                     </mp-input-group>
+                  </mp-table-cell-lite>
+                  <mp-table-cell-lite v-else text-align="right" background-color="orange.50" as="td">
+                    Rp18.500.000
                   </mp-table-cell-lite>
                   <mp-table-cell-lite text-align="right" background-color="red.50" as="td">
                     Rp20.000.000
                   </mp-table-cell-lite>
-                  <mp-table-cell-lite as="td">
+                  <mp-table-cell-lite v-if="option === 'option-2'" as="td">
                     <mp-input-group>
                       <mp-input-left-addon>
                         <mp-text font-weight="bold" padding-x="3">
                           Rp
                         </mp-text>
                       </mp-input-left-addon>
-                      <mp-input type="number" />
+                      <mp-input type="number" :value="maxTargetValue" :is-disabled="isMaxTargetChecked"  />
                     </mp-input-group>
+                  </mp-table-cell-lite>
+                  <mp-table-cell-lite v-else text-align="right" background-color="red.50" as="td">
+                    Rp20.000.000
                   </mp-table-cell-lite>
                 </mp-table-row-lite>
               </mp-table-body-lite>
@@ -296,8 +307,14 @@
           <mp-flex gap="2" justify-content="flex-end" margin-top="12">
             <mp-button variant="ghost" as="router-link" to="/">Cancel</mp-button>
             <mp-button variant="outline" as="router-link" to="/create/step-2">Back</mp-button>
-            <mp-button>Create structure</mp-button>
+            <mp-button as="router-link" to="/detail">Create structure</mp-button>
           </mp-flex>
+
+          <CreateSalaryStructure3Modal 
+            :isOpen="isOpen"
+            :onClose="onModalClose"
+            @update-modal-close-all="onModalClose"
+          />
         </mp-box>
       </mp-box>
     </mp-flex>
@@ -337,6 +354,7 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Step from "../components/Step";
 import StepItem from "../components/StepItem";
+import CreateSalaryStructure3Modal from './CreateSalaryStructure3Modal.vue'
 
 export default {
   name: "CreateSalaryStructure3",
@@ -371,16 +389,31 @@ export default {
     Sidebar,
     Step,
     StepItem,
+    CreateSalaryStructure3Modal
   },
   data: function () {
     return {
-      checks: [],
-      isOpen: true
+      option: 'option-2',
+      isToggleTargetControl: true,
+      isToggleForm: true,
+      isMinTargetChecked: true,
+      minTargetValue: 0,
+      isMidTargetChecked: true,
+      midTargetValue: 0,
+      isMaxTargetChecked: true,
+      maxTargetValue: 0,
+      isOpen: false
     }
   },
   methods: {
     onToggle() {
-      this.isOpen = !this.isOpen
+      this.isToggleTargetControl = !this.isToggleTargetControl
+    },
+    onModalOpen() {
+      this.isOpen = true
+    },
+    onModalClose() {
+      this.isOpen = false
     }
   }
 };

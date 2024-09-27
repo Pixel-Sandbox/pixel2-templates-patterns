@@ -40,8 +40,8 @@
         >
           <Step>
             <StepItem id="1" label="Structure information" is-current />
-            <StepItem id="2" label="Criteria & benchmark" />
-            <StepItem id="3" label="Method & structure" is-last />
+            <StepItem id="2" label="Criteria & benchmark" is-disabled />
+            <StepItem id="3" label="Method & structure" is-disabled is-last />
           </Step>
 
           <mp-heading as="h2" font-size="xl" margin-top="6" margin-bottom="5">

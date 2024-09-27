@@ -41,7 +41,7 @@
           <Step>
             <StepItem id="1" label="Structure information" is-completed />
             <StepItem id="2" label="Criteria & benchmark" is-current />
-            <StepItem id="3" label="Method & structure" is-last />
+            <StepItem id="3" label="Method & structure" is-disabled is-last />
           </Step>
 
           <mp-box width="610px">

@@ -1,5 +1,6 @@
 <template>
   <mp-box>
+    <PageLoader :is-loading="isLoading" />
     <Header />
     <mp-flex as="main" max-height="calc(100vh - 60px)">
       <Sidebar default-is-toggle is-custom with-child />
@@ -99,9 +100,10 @@ import {
   MpInput,
   MpInputGroup,
   MpInputRightAddon 
-} from "@mekari/pixel";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+} from "@mekari/pixel"
+import Header from "../components/Header"
+import Sidebar from "../components/Sidebar"
+import PageLoader from '../components/PageLoader'
 import DetailChart1 from './DetailChart1.vue'
 import DetailChart2 from './DetailChart2.vue'
 import DetailChart3 from './DetailChart3.vue'
@@ -122,10 +124,27 @@ export default {
     MpInputRightAddon,
     Header,
     Sidebar,
+    PageLoader,
     DetailChart1,
     DetailChart2,
     DetailChart3,
     DetailChart4
   },
-};
+  data() {
+    return {
+      isLoading: true,
+      loadingTimeout: null,
+    }
+  },
+  mounted() {
+    this.loadingTimeout = setTimeout(() => {
+      this.isLoading = false
+    }, 3000)
+  },
+  beforeDestroy() {
+    if (this.loadingTimeout) {
+      clearTimeout(this.loadingTimeout)
+    }
+  },
+}
 </script>

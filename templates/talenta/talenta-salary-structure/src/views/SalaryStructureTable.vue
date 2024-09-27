@@ -27,7 +27,7 @@
           </mp-table-row>
         </mp-table-head>
         <mp-table-body>
-          <mp-table-row>
+          <mp-table-row vertical-align="top">
             <mp-table-cell as="td">
               <mp-text is-link>
                 Salary Structure Customer Support & <br />
@@ -39,7 +39,7 @@
                 Salary structure by branch, organization, <br />
                 and job position for Customer Support &
               </mp-text>
-              <mp-text font-size="sm" is-link> View details </mp-text>
+              <mp-text font-size="sm" is-link> View more </mp-text>
             </mp-table-cell>
             <mp-table-cell as="td">2024</mp-table-cell>
             <mp-table-cell as="td">Salary</mp-table-cell>
@@ -85,7 +85,7 @@
               </mp-flex>
             </mp-table-cell>
           </mp-table-row>
-          <mp-table-row>
+          <mp-table-row vertical-align="top">
             <mp-table-cell as="td">
               <mp-text is-link> Benefit Structure Product Manager </mp-text>
             </mp-table-cell>

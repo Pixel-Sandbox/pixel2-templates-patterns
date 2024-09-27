@@ -10,7 +10,7 @@
     <mp-chart
       title="Salary range analysis"
       type="bar"
-      :color-start="3"
+      :color-start="1"
       color-pattern="categorical"
       :data="getChartData"
       :options="getChartOptions"
@@ -50,7 +50,7 @@
         </mp-flex>
       </template>
       <template #tooltip="tooltip">
-        <mp-flex width="290px" padding="4" direction="column">
+        <mp-flex width="390px" padding="4" direction="column">
           <mp-text font-size="sm" color="gray.600" margin-bottom="2">
            {{ tooltip && tooltip.dataPoints[0].label }}
           </mp-text>
@@ -75,17 +75,42 @@
               </mp-flex>
               <mp-flex align="center">
                 <mp-text font-size="sm" font-weight="semibold" margin-left="1">
-                  {{ `Rp${item.data[tooltip.dataPoints[0].dataIndex].toLocaleString()}` }}
+                  {{ `Rp${item.data[tooltip.dataPoints[0].dataIndex][0].toLocaleString()}` }} - {{ `Rp${item.data[tooltip.dataPoints[0].dataIndex][1].toLocaleString()}` }}
                 </mp-text>
               </mp-flex>
             </mp-flex>
             <mp-divider />
-            <mp-flex justify-content="space-between" margin-y="2">
-              <mp-text font-size="sm" font-weight="semibold">
-                Total employee
+            <mp-flex
+              justify="space-between"
+              margin-bottom="1"
+            >
+              <mp-text font-size="sm">
+                Actual Min. Salary
               </mp-text>
-              <mp-text font-size="sm" font-weight="semibold">
-                15 employee
+              <mp-text font-size="sm" font-weight="semibold" margin-left="1">
+                {{ `Rp${tooltip.chart.data.datasets[0].data[tooltip.dataPoints[0].dataIndex][0].toLocaleString()}` }}
+              </mp-text>
+            </mp-flex>
+            <mp-flex
+              justify="space-between"
+              margin-bottom="1"
+            >
+              <mp-text font-size="sm">
+                Actual Mid. Salary
+              </mp-text>
+              <mp-text font-size="sm" font-weight="semibold" margin-left="1">
+                {{ `Rp${tooltip.chart.data.datasets[0].data[tooltip.dataPoints[0].dataIndex][2].toLocaleString()}` }}
+              </mp-text>
+            </mp-flex>
+            <mp-flex
+              justify="space-between"
+              margin-bottom="1"
+            >
+              <mp-text font-size="sm">
+                Actual Max. Salary
+              </mp-text>
+              <mp-text font-size="sm" font-weight="semibold" margin-left="1">
+                {{ `Rp${tooltip.chart.data.datasets[0].data[tooltip.dataPoints[0].dataIndex][1].toLocaleString()}` }}
               </mp-text>
             </mp-flex>
             <mp-divider />
@@ -169,23 +194,18 @@ export default {
         labels: ['Junior', 'Middle', 'Senior', 'Manager', 'Head'],
         datasets: [
           {
-            label: 'Actual Min. Salary',
-            data: [5000000, 6000000, 7500000, 9000000, 11000000],
-            categoryPercentage: 0.8,
-            barPercentage: 0.9,     
-          },
-          {
-            label: 'Actual Mid. Salary',
-            data: [1000000, 1200000, 1400000, 1600000, 1800000],
-            categoryPercentage: 0.8, 
+            label: 'Actual salary range',
+            /* 
+              Use dimension array in format [MIN, MAX, MID]. 
+              Chart.js only uses MIN (index 0) and MAX (index 1) values for range. 
+              MID value (index 2) is for data display purposes only on tooltip. 
+            */
+            data: [[3000000, 5000000, 4000000], [5000000, 9000000, 7000000], [8000000, 11000000, 9000000], [11000000, 13000000, 12000000], [12000000, 18000000, 16000000]],
+            categoryPercentage: 1,
             barPercentage: 0.9,
-          },
-          {
-            label: 'Actual Max. Salary',
-            data: [15000000, 17000000, 19000000, 20000000, 20000000],
-            categoryPercentage: 0.8,
-            barPercentage: 0.9,
-          },
+            borderRadius: 6,
+            borderSkipped: false,
+          }
         ]
       }
     },
@@ -201,8 +221,6 @@ export default {
             },
           },
           y: {
-            min: -10000000,
-            max: 35000000,
             ticks: {
               stepSize: 5000000,
               callback: function(value) {
