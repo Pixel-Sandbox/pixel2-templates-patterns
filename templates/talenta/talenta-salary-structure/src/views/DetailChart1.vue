@@ -17,9 +17,6 @@
     >
       <template #action>
         <mp-flex gap="4" align-items="center">
-          <mp-checkbox is-checked>
-            Show value number
-          </mp-checkbox>
           <mp-popover use-portal>
             <mp-popover-trigger>
               <mp-button variant="outline">
@@ -125,7 +122,6 @@ import {
   MpDivider,
   MpIcon,
   MpButton,
-  MpCheckbox,
   MpPopover,
   MpPopoverTrigger,
   MpPopoverContent,
@@ -143,7 +139,6 @@ export default {
     MpDivider,
     MpIcon,
     MpButton,
-    MpCheckbox,
     MpPopover,
     MpPopoverTrigger,
     MpPopoverContent,

@@ -1,14 +1,14 @@
 
 <template>
   <mp-box
-    w="520px"
-    bg="gray.25"
+    width="520px"
+    background-color="gray.25"
     border="1px solid"
     border-color="gray.100"
     border-radius="md"
   >
-    <mp-flex px="3" py="2" justify="space-between">
-      <mp-flex gap="3" align="center">
+    <mp-flex px="3" py="2" justify-content="space-between">
+      <mp-flex gap="3" align-items="center">
         <mp-button-icon
           name="zoom-out"
           @click="zoom(1)"
@@ -32,15 +32,13 @@
       <mp-button-icon name="full-screen" v-mp-tooltip="'Full screen'" />
     </mp-flex>
 
-    <mp-box bg="white" border-top="1px solid" border-color="gray.100">
+    <mp-box background-color="white" border-top="1px solid" border-color="gray.100">
       <div id="zoom-area">
         <pdf
-          v-if="isShow"
           ref="pdf"
           :src="src"
           :page="page"
           :rotate="rotate"
-          @error="error"
           @num-pages="numPages = $event"
           @link-clicked="page = $event"
         />
@@ -48,23 +46,24 @@
     </mp-box>
 
     <mp-flex
-      bg="gray.25"
+      background-color="gray.25"
       border-top="1px solid"
       border-color="gray.100"
       border-bottom-left-radius="md"
       border-bottom-right-radius="md"
-      p="4"
-      justify="space-between"
+      padding="4"
+      justify-content="space-between"
     >
       <mp-flex gap="3" align="center">
         <mp-input
           :value="page"
           type="number"
           size="sm"
-          w="32px"
-          @input="(e) => input(e)"
+          width="32px"
+          @input="(value) => input(value)"
+          @blur="(e) => blur(e)"
         />
-        <mp-text color="gray.600" display="inline-flex" w="full">
+        <mp-text color="gray.600" display="inline-flex" width="full">
           of {{ numPages }} page
         </mp-text>
       </mp-flex>
@@ -101,8 +100,8 @@
 </template>
 
 <script>
-import pdf from "@teckel/vue-pdf";
-import Panzoom from "@panzoom/panzoom";
+import pdf from "@teckel/vue-pdf"
+import Panzoom from "@panzoom/panzoom"
 import {
   MpBox,
   MpFlex,
@@ -111,7 +110,7 @@ import {
   MpToggle,
   MpText,
   MpInput,
-} from "@mekari/pixel";
+} from "@mekari/pixel"
 
 export default {
   name: "App",
@@ -127,48 +126,57 @@ export default {
   },
   data() {
     return {
-      isShow: true,
       isPan: true,
       src: "https://cdn.rawgit.com/mozilla/pdf.js/c6e8ca86/test/pdfs/calrgb.pdf",
       page: 1,
       numPages: 0,
       rotate: 0,
-    };
+    }
   },
   mounted() {
     this.panzoom = Panzoom(document.getElementById("zoom-area"), {
       maxScale: 5,
-    });
+    })
   },
   methods: {
-    error: function () {
-      this.page = 1;
-    },
     zoom: function (level) {
       level === -1
         ? this.panzoom.zoomOut({ animate: true })
-        : this.panzoom.zoomIn({ animate: true });
+        : this.panzoom.zoomIn({ animate: true })
     },
     reset: function () {
-      this.panzoom.reset();
+      this.panzoom.reset()
     },
     pan: function (e) {
-      this.isPan = e;
+      this.isPan = e
       this.panzoom.setOptions({
         disablePan: !e,
-      });
+      })
     },
     next: function () {
-      this.page += 1;
+      this.page += 1
     },
     prev: function () {
-      this.page -= 1;
+      this.page -= 1
     },
-    input: function (e) {
-      if (this.page >= 1 || this.page <= this.numPages) {
-        this.page = Number(e);
+    input: function (value) {
+      const pageNumber = Number(value)
+
+      if (value === '') {
+        this.page = null
+      } else {
+        this.page = pageNumber
+      }
+    },
+    blur: function (e) {
+      const pageNumber = Number(e.target.value)
+      
+      if (pageNumber === '' || isNaN(pageNumber) || pageNumber < 1 || pageNumber > this.numPages) {
+        this.page = 1 
+      } else {
+        this.page = pageNumber
       }
     },
   },
-};
+}
 </script>

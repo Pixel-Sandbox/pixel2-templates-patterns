@@ -256,12 +256,12 @@
                   </mp-table-cell-lite>
                   <mp-table-cell-lite v-if="option === 'option-2'" as="td">
                     <mp-input-group>
-                      <mp-input-left-addon>
-                        <mp-text font-weight="bold" padding-x="3">
-                          Rp
-                        </mp-text>
-                      </mp-input-left-addon>
                       <mp-input type="number" :value="minTargetValue" :is-disabled="isMinTargetChecked" />
+                      <mp-input-right-addon>
+                        <mp-text font-weight="bold" padding-x="3">
+                          %
+                        </mp-text>
+                      </mp-input-right-addon>
                     </mp-input-group>
                   </mp-table-cell-lite>
                   <mp-table-cell-lite v-else text-align="right" background-color="green.50" as="td">
@@ -272,12 +272,12 @@
                   </mp-table-cell-lite>
                   <mp-table-cell-lite v-if="option === 'option-2'" as="td">
                     <mp-input-group>
-                      <mp-input-left-addon>
-                        <mp-text font-weight="bold" padding-x="3">
-                          Rp
-                        </mp-text>
-                      </mp-input-left-addon>
                       <mp-input type="number" :value="midTargetValue" :is-disabled="isMidTargetChecked"  />
+                      <mp-input-right-addon>
+                        <mp-text font-weight="bold" padding-x="3">
+                          %
+                        </mp-text>
+                      </mp-input-right-addon>
                     </mp-input-group>
                   </mp-table-cell-lite>
                   <mp-table-cell-lite v-else text-align="right" background-color="orange.50" as="td">
@@ -288,12 +288,12 @@
                   </mp-table-cell-lite>
                   <mp-table-cell-lite v-if="option === 'option-2'" as="td">
                     <mp-input-group>
-                      <mp-input-left-addon>
-                        <mp-text font-weight="bold" padding-x="3">
-                          Rp
-                        </mp-text>
-                      </mp-input-left-addon>
                       <mp-input type="number" :value="maxTargetValue" :is-disabled="isMaxTargetChecked"  />
+                      <mp-input-right-addon>
+                        <mp-text font-weight="bold" padding-x="3">
+                          %
+                        </mp-text>
+                      </mp-input-right-addon>
                     </mp-input-group>
                   </mp-table-cell-lite>
                   <mp-table-cell-lite v-else text-align="right" background-color="red.50" as="td">
@@ -342,7 +342,6 @@ import {
   MpInput,
   MpInputGroup,
   MpInputRightAddon,
-  MpInputLeftAddon,
   MpTableContainer,
   MpTableLite,
   MpTableHeadLite,
@@ -378,7 +377,6 @@ export default {
     MpInput,
     MpInputGroup,
     MpInputRightAddon,
-    MpInputLeftAddon,
     MpTableContainer,
     MpTableLite,
     MpTableHeadLite,
