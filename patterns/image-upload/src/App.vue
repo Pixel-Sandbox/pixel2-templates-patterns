@@ -129,12 +129,12 @@
 
     <mp-modal v-show="isConfirmOpen" size="sm" :is-open="isConfirmOpen">
       <mp-modal-content>
-        <mp-modal-header>Discard import progress?</mp-modal-header>
+        <mp-modal-header>Discard import data?</mp-modal-header>
         <mp-modal-close-button @click="onConfirmClose" />
         <mp-modal-body>
           <mp-box>
             <mp-text margin-bottom="4">
-              Progress cannot be restored.
+              Your import process hasn't finished yet. Exiting now will discard any unsaved progress.
             </mp-text>
           </mp-box>
         </mp-modal-body>
