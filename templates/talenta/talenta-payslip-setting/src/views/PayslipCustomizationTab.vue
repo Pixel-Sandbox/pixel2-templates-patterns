@@ -440,7 +440,7 @@
               <mp-text color="gray.600">
                 Branch
               </mp-text>
-              <mp-button-icon name="minus-circular" size="sm" />
+              <mp-button-icon v-mp-tooltip="'Remove'" name="minus-circular" size="sm" />
             </mp-flex>
             <mp-flex justify="space-between" align="center" margin-bottom="1">
               <mp-text color="gray.600">

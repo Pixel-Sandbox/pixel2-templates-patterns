@@ -37,8 +37,8 @@
                 </mp-text>
               </mp-box>
 
-              <Draggable v-model="employees" v-bind="dragOptions" handle=".handle" style="width: 100%"
-                @start="drag = true" @end="drag = false" group="component">
+              <Draggable v-model="employees" :sort="false" v-bind="dragOptions" handle=".handle" style="width: 100%"
+                @start="drag = true" @end="drag = false" :group="{ name: 'component', put: false }">
                 <TransitionGroup type="transition" :name="!drag ? 'list' : null">
                   <mp-flex v-for="(employee, index) in employees" :key="employee.name" role="group"
                     justify-content="space-between" align-items="center" padding-y="1.5" padding-x="2" margin-left="4"
@@ -103,10 +103,10 @@
                     <mp-text font-weight="semibold">{{ employee.name }}</mp-text>
                     <mp-checkbox-group name="role" :value="['SA', 'U']" spacing="6" is-inline>
                       <mp-checkbox value="SA">
-                        Super admin
+                        <mp-text font-size="sm" line-height="1.70">Super admin view</mp-text>
                       </mp-checkbox>
                       <mp-checkbox value="U">
-                        Employee
+                        <mp-text font-size="sm" line-height="1.70">Employee view</mp-text>
                       </mp-checkbox>
                     </mp-checkbox-group>
                   </mp-box>

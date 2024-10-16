@@ -277,10 +277,10 @@
                     <mp-dropzone accept=".jpg, .jpeg, .png" description="" height="100px" min-height="100px" max-height="100px" />
                     <mp-form-help-text>Upload your scanned signature to be attached to the payslip. Suggested size: 100x50px in JPG, JPEG, or PNG format, with a maximum file size of 5MB.</mp-form-help-text>
                   </mp-form-control>
-                  <mp-flex gap="1">
+                  <!-- <mp-flex gap="1">
                     <mp-button variant="outline">Upload signature</mp-button>
                     <mp-button variant="ghost">Reset</mp-button>
-                  </mp-flex>
+                  </mp-flex> -->
                 </mp-box>
               </mp-flex>
             </mp-flex>
@@ -344,6 +344,13 @@
                     <mp-form-label>Information</mp-form-label>
                     <mp-select width="full" placeholder="Select information" />
                   </mp-form-control>
+
+                  <mp-flex justify="space-between" align="center" margin-bottom="1">
+                    <mp-text color="gray.600">
+                      Branch
+                    </mp-text>
+                    <mp-button-icon v-mp-tooltip="'Remove'" name="minus-circular" size="sm" />
+                  </mp-flex>
                 </mp-box>
               </mp-flex>
             </mp-flex>
@@ -370,6 +377,7 @@ import {
   MpHeading,
   MpText,
   MpButton,
+  MpButtonIcon,
   MpRadioGroup,
   MpRadio,
   MpToggle,
@@ -398,6 +406,7 @@ export default {
     MpHeading,
     MpText,
     MpButton,
+    MpButtonIcon,
     MpRadioGroup,
     MpRadio,
     MpToggle,

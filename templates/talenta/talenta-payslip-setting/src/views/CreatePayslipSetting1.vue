@@ -26,24 +26,40 @@
           </mp-heading>
 
           <mp-box width="552px">
-            <mp-form-control control-id="structure-name" margin-bottom="5">
-              <mp-form-label justify-content="space-between">
+            <mp-form-control control-id="structure-name" is-required margin-bottom="5">
+              <mp-form-label display="block">
                 Template name
-                <mp-text as="span" color="gray.600"> 60/60 </mp-text>
+                <mp-text as="span" color="gray.600" order="3" float="right"> 60/60 </mp-text>
               </mp-form-label>
               <mp-input placeholder="Example: Headoffice Payslip" />
             </mp-form-control>
 
             <mp-form-control control-id="description" margin-bottom="5">
-              <mp-form-label justify-content="space-between">
+              <mp-form-label>
                 Description
-                <mp-text as="span" color="gray.600"> 60/60 </mp-text>
               </mp-form-label>
-              <mp-textarea placeholder="Example: Payslip settings for employee within the headoffice" />
+              <mp-box position="relative">
+                <mp-textarea v-model="description" placeholder="Example: Payslip settings for employee within the headoffice" />
+                <mp-box
+                  position="absolute"
+                  bottom="0"
+                  padding-x="2"
+                  padding-y="2"
+                  width="full"
+                  display="flex"
+                  justify-content="flex-end"
+                  user-select="none"
+                  pointer-events="none"
+                >
+                  <mp-text color="gray.600" padding-x="1" border-radius="sm">
+                    {{ valueLength }}/{{ maxLength }}
+                  </mp-text>
+                </mp-box>
+              </mp-box>
             </mp-form-control>
 
             <mp-flex gap="6">
-              <mp-form-control control-id="period" margin-bottom="3">
+              <mp-form-control control-id="period" is-required margin-bottom="3">
                 <mp-form-label> Effective period </mp-form-label>
                 <mp-box width="264px">
                   <mp-date-picker v-model="date1" type="month" format="MMMM YYYY"
@@ -123,8 +139,15 @@ export default {
     return {
       date1: "",
       date2: "",
-      isExpiredPeriod: false
+      isExpiredPeriod: false,
+      description: "",
+      maxLength: 60,
     };
+  },
+  computed: {
+    valueLength() {
+      return this.description.length;
+    },
   },
 };
 </script>
