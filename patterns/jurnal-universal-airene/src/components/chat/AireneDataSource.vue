@@ -25,7 +25,7 @@
     <mp-collapse :is-open="isOpen">
       <mp-flex flex-direction="column" gap="1">
         <mp-flex
-          v-for="(source, index) in datas"
+          v-for="(source, index) in getDatas"
           :key="index"
           as="a"
           :href="source.url"
@@ -46,7 +46,16 @@
             {{ index + 1 }}. {{ source.name }}
           </mp-text>
         </mp-flex>
-        <mp-text is-link>Lihat semua sumber data</mp-text>
+
+        <mp-text
+          is-link
+          @click.native="isShowMore = !isShowMore"
+          v-if="datas.length > 5"
+        >
+          {{
+            isShowMore ? "Sembunyikan sumber data" : "Lihat semua sumber data"
+          }}
+        </mp-text>
       </mp-flex>
     </mp-collapse>
   </mp-flex>
@@ -82,7 +91,18 @@ export default {
   data() {
     return {
       isOpen: false,
+      isShowMore: false,
     };
+  },
+
+  computed: {
+    getDatas() {
+      if (this.datas.length > 5) {
+        if (this.isShowMore) return this.datas;
+        return this.datas.slice(0, 5);
+      }
+      return this.datas;
+    },
   },
 
   methods: {

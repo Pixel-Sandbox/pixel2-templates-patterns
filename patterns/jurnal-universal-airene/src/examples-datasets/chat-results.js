@@ -99,9 +99,9 @@ export const EXAMPLE_CHAT_RESULT = [
       xLabel: "Nama Produk",
       yLabel: "Nominal Transaksi",
     },
-    isShowAction: false,
+    isShowAction: true,
     actionType: "export-answer",
-    isShowDataSource: false,
+    isShowDataSource: true,
     dataSources: [
       {
         name: "Laporan penjualan September 2024",
@@ -112,6 +112,43 @@ export const EXAMPLE_CHAT_RESULT = [
       { name: "Laporan inventaris terkini", url: "https://my.jurnal.id/" },
       {
         name: "Survei kepuasan pelanggan Agustus 2024",
+        url: "https://my.jurnal.id/",
+      },
+      {
+        name: "Analisis kompetitor pasar smartphone 2024",
+        url: "https://my.jurnal.id/",
+      },
+      {
+        name: "Laporan kinerja penjualan online vs offline",
+        url: "https://my.jurnal.id/",
+      },
+      { name: "Proyeksi penjualan Q4 2024", url: "https://my.jurnal.id/" },
+      {
+        name: "Analisis efektivitas kampanye marketing 2024",
+        url: "https://my.jurnal.id/",
+      },
+      {
+        name: "Laporan performa produk baru 2024",
+        url: "https://my.jurnal.id/",
+      },
+      {
+        name: "Laporan tren teknologi dan preferensi konsumen 2024",
+        url: "https://my.jurnal.id/",
+      },
+      {
+        name: "Analisis dampak inflasi terhadap penjualan elektronik",
+        url: "https://my.jurnal.id/",
+      },
+      {
+        name: "Studi komparatif harga produk dengan kompetitor",
+        url: "https://my.jurnal.id/",
+      },
+      {
+        name: "Laporan efisiensi rantai pasokan Q3 2024",
+        url: "https://my.jurnal.id/",
+      },
+      {
+        name: "Analisis pola pembelian pelanggan berulang",
         url: "https://my.jurnal.id/",
       },
     ],

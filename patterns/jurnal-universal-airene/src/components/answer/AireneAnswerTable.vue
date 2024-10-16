@@ -4,8 +4,8 @@
     class="airene_answer_table"
     :border-width="showInFullView ? 0 : 1"
     :rounded="showInFullView ? 'none' : 'md'"
-    :p="showInFullView ? 0 : 2"
     bg="white"
+    overflow="hidden"
   >
     <mp-table-container overflow="auto">
       <mp-table-lite :is-hoverable="false">
