@@ -2,13 +2,16 @@
   <mp-box
     as="nav"
     data-component="AireneSidebar"
+    :style="{
+      '--sidebar-footer-height': sidebarFooterHeight + 'px',
+    }"
     body-scroll-lock-ignore="true"
     p="2"
     :width="!isPinned || (isPinned && isHovered) ? '264px' : '56px'"
     transition="width 600ms cubic-bezier(0.4, 0, 0.2, 1)"
     height="100%"
     position="relative"
-    bg="#F5F9FF"
+    bg="lightBlue"
     v-bind="$attrs"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
@@ -16,7 +19,7 @@
     <mp-flex
       position="relative"
       flex-direction="column"
-      bg="#F5F9FF"
+      bg="lightBlue"
       rounded="md"
       transition="box-shadow 600ms cubic-bezier(0.4, 0, 0.2, 1)"
       :shadow="isPinned && isHovered ? 'md' : ''"
@@ -91,8 +94,9 @@
           class="airene-custom-scrollbar"
           flex-direction="column"
           mt="5"
-          h="75%"
-          overflow-y="scroll"
+          h="100%"
+          overflow-y="auto"
+          :pb="`var(--sidebar-footer-height)`"
         >
           <mp-flex
             as="header"
@@ -132,8 +136,8 @@
                 v-if="index === chatsHistory.length - 1"
                 data-element="chat-skeleton"
               >
-                <AireneSkeleton w="50%" h="20px" rounded="full" />
-                <AireneSkeleton mt="2" w="full" h="20px" rounded="full" />
+                <MpSkeleton w="50%" h="20px" rounded="full" />
+                <MpSkeleton mt="2" w="full" h="20px" rounded="full" />
               </mp-box>
             </AireneChatGroup>
           </mp-flex>
@@ -141,13 +145,14 @@
       </mp-flex>
 
       <mp-box
+        ref="sidebarFooter"
         transition="opacity 600ms cubic-bezier(0.4, 0, 0.2, 1)"
         position="absolute"
         bottom="0"
         left="0"
         w="full"
-        bg="#F5F9FF"
         rounded-bottom="md"
+        bg="lightBlue"
       >
         <mp-flex flex-direction="column" p="2">
           <mp-box>
@@ -249,10 +254,10 @@ import {
   MpPopoverContent,
   MpPopoverList,
   MpPopoverListItem,
+  MpSkeleton,
 } from "@mekari/pixel";
 
 // Airene components
-import AireneSkeleton from "../components/utility/AireneSkeleton.vue";
 import AireneChatItem from "../components/chat/AireneChatItem.vue";
 import AireneChatGroup from "../components/chat/AireneChatGroup.vue";
 import AireneDeleteDialog from "../components/modal/AireneDeleteDialog.vue";
@@ -272,9 +277,9 @@ export default {
     MpPopoverContent,
     MpPopoverList,
     MpPopoverListItem,
+    MpSkeleton,
 
     // Airene components
-    AireneSkeleton,
     AireneChatItem,
     AireneChatGroup,
     AireneDeleteDialog,
@@ -341,7 +346,13 @@ export default {
       isOpenRenameChat: false,
       isOpenVideoTutorial: false,
       isContextualSugestion: false, //  Saran kontekstual
+
+      // Utils
+      sidebarFooterHeight: 0,
     };
+  },
+  mounted() {
+    this.sidebarFooterHeight = this.$refs.sidebarFooter.$el.clientHeight;
   },
   computed: {
     context() {
