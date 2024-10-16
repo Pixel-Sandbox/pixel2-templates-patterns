@@ -88,6 +88,7 @@
 
         <mp-flex
           data-element="thread-list"
+          class="airene-custom-scrollbar"
           flex-direction="column"
           mt="5"
           h="75%"
@@ -424,3 +425,21 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* custom scroll bar */
+.airene-custom-scrollbar::-webkit-scrollbar {
+  width: 0px;
+}
+.airene-custom-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+}
+.airene-custom-scrollbar:hover::-webkit-scrollbar {
+  width: 0px;
+  position: absolute;
+}
+.airene-custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: var(--colors-gray-400);
+}
+</style>

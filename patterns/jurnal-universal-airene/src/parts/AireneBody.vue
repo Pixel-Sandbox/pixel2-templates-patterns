@@ -369,7 +369,8 @@ export default {
 
         // Scroll to end of element
         const aireneBody = document.getElementById("airene-body");
-        if (aireneBody) {
+        const shouldAdjustScroll = aireneBody && this.chatResults.length > 1;
+        if (shouldAdjustScroll) {
           aireneBody.scrollTo({
             top: aireneBody.scrollHeight,
             behavior: "smooth",
