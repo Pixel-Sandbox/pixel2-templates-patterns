@@ -128,17 +128,19 @@
         :is-open="isFullScreenOpen"
         @close="handleCloseFullScreen"
       >
-        <mp-box v-html="textAnswer" font-size="md" color="black"></mp-box>
+        <mp-flex flex-direction="column" gap="4">
+          <mp-box v-html="textAnswer" font-size="md" color="black"></mp-box>
 
-        <Component
-          v-if="isShowDataVisualization && getAnswerComponent"
-          :is="getAnswerComponent"
-          :show-in-full-view="true"
-          v-bind="{
-            ...tableVisualizationData,
-            ...chartVisualizationData,
-          }"
-        />
+          <Component
+            v-if="isShowDataVisualization && getAnswerComponent"
+            :is="getAnswerComponent"
+            :show-in-full-view="true"
+            v-bind="{
+              ...tableVisualizationData,
+              ...chartVisualizationData,
+            }"
+          />
+        </mp-flex>
       </AireneAnswerFullView>
     </mp-box>
   </mp-flex>
