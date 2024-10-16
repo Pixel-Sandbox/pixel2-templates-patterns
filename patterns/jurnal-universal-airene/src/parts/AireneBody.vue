@@ -1,6 +1,8 @@
 <template>
   <mp-box
-    data-component="AireneContent"
+    id="airene-body"
+    data-component="AireneBody"
+    body-scroll-lock-ignore="true"
     as="main"
     bg="white"
     rounded-top-left="xl"
@@ -14,20 +16,7 @@
     v-bind="$attrs"
   >
     <!-- Content header -->
-    <mp-flex
-      position="sticky"
-      top="0"
-      bg="white"
-      w="full"
-      data-element="content-header"
-      border-bottom-width="1px"
-      border-color="gray.200"
-      p="4"
-      justify-content="flex-end"
-      z-index="50"
-    >
-      <mp-button-icon name="close" @click="handleClose" />
-    </mp-flex>
+    <AireneHeader @close="handleClose" />
 
     <!-- Main content -->
     <mp-flex
@@ -38,255 +27,409 @@
       max-w="50%"
       mx="auto"
       min-h="calc(100% - 63px - 108px)"
+      pt="6"
       style="--chat-content-body-padding-top: 140px"
     >
-      <AireneChatContentStarter />
+      <!-- Starter -->
+      <AireneChatContentStarter
+        v-if="chatResults.length === 0"
+        :is-loading="starterChatContent.isLoading"
+        :welcome-title="starterChatContent.welcomeTitle"
+        :welcome-message="starterChatContent.welcomeMessage"
+        :suggested-questions="starterChatContent.suggestedQuestions"
+        :is-show-refresh-button="starterChatContent.isShowRefreshButton"
+        :is-show-pagination="starterChatContent.isShowPagination"
+        :current-page="starterChatContent.currentPage"
+        :total-page="starterChatContent.totalPage"
+        @click-next="handleNextSuggestedQuestion"
+        @click-prev="handlePrevSuggestedQuestion"
+        @click-reload="handleReloadSuggestedQuestion"
+        @change-suggested-question="handleChangeSuggestedQuestion"
+      />
 
-      <AireneDataSource :datas="dataSourceDatas" />
-      <AireneFollowupQuestions :datas="followupQuestionsDatas" />
+      <!-- Result -->
+      <template v-else>
+        <AireneChatResult
+          v-for="chatResult in chatResults"
+          :key="chatResult.id"
+          :is-show-full-screen="chatResult.isShowFullScreen"
+          :type="chatResult.type"
+          :text-question="chatResult.textQuestion"
+          :text-answer="chatResult.textAnswer"
+          :is-show-data-visualization="chatResult.isShowDataVisualization"
+          :data-visualization-type="chatResult.dataVisualizationType"
+          :table-visualization-data="chatResult.tableVisualizationData"
+          :chart-visualization-data="chatResult.chartVisualizationData"
+          :is-show-action="chatResult.isShowAction"
+          :action-type="chatResult.actionType"
+          :is-show-data-source="chatResult.isShowDataSource"
+          :data-sources="chatResult.dataSources"
+          :is-show-followup-questions="chatResult.isShowFollowupQuestions"
+          :followup-questions-datas="chatResult.followupQuestionsDatas"
+          @like="handleChatLike"
+          @dislike="handleChatDislike"
+        />
+      </template>
 
-      <AireneAnswerTable :headers="table.headers" :rows="table.rows" />
-      <AireneAnswerLineChart />
-      <AireneAnswerBarChart />
-      <AireneAnswerPieChart />
+      <mp-airene-chat-bubble
+        v-if="isAnswerLoading"
+        :is-loading="isAnswerLoading"
+      >
+        <template #loading>
+          <mp-skeleton h="12px" w="50%" rounded="full" variant-color="purple" />
+          <mp-skeleton h="12px" w="40%" rounded="full" variant-color="purple" />
+          <mp-skeleton h="12px" w="45%" rounded="full" variant-color="purple" />
+        </template>
+      </mp-airene-chat-bubble>
 
+      <!-- Feedback -->
       <AireneFeedback />
     </mp-flex>
 
-    <!-- Chat input -->
-    <mp-box
-      position="sticky"
-      bottom="0"
-      left="0"
-      right="0"
-      w="full"
-      bg="white"
-      z-index="50"
-    >
-      <mp-flex max-w="50%" flex-direction="column" mx="auto" pb="6" pt="4">
-        <mp-flex w="full" position="relative">
-          <mp-textarea
-            v-model="chatText"
-            placeholder="Tanya Airene"
-            resize="none"
-            rows="1"
-            height="40px"
-            min-height="40px"
-            rounded="full"
-            pt="10px"
-            pb="0"
+    <AireneFooter>
+      <mp-form-control bg="white" control-id="airene-input-chat">
+        <mp-airene-chat-input
+          v-model="prompt"
+          maxlength="200"
+          @keydown="handleKeydown"
+        >
+          <AireneChatTopic
+            :topic="currentTopic"
+            :options="availableTopics"
+            @select-topic="handleSelectTopic"
           />
+        </mp-airene-chat-input>
 
-          <mp-button-icon
-            name="sent"
-            position="absolute"
-            right="10px"
-            top="5px"
-            rounded="full"
-          />
-        </mp-flex>
-
-        <mp-text font-size="sm" color="gray.600" mt="1">
+        <mp-form-error-message
+          >You must fill in chat input</mp-form-error-message
+        >
+        <mp-form-help-text>
           Tanggapan Airene dapat tidak akurat atau kurang tepat.
 
           <mp-text
             as="span"
+            font-size="sm"
             is-link
             @click.native="isOpenModalDisclaimer = true"
           >
             Pelajari lebih lanjut
           </mp-text>
-        </mp-text>
-      </mp-flex>
-    </mp-box>
+        </mp-form-help-text>
+      </mp-form-control>
+    </AireneFooter>
 
     <AireneModalDisclaimer
       :is-open="isOpenModalDisclaimer"
       @close="isOpenModalDisclaimer = false"
     />
-
-    <AireneAnswerFullView
-      :is-open="isOpenAnswerFullView"
-      @close="isOpenAnswerFullView = false"
-    >
-      <AireneAnswerBarChart :show-in-full-view="true" />
-    </AireneAnswerFullView>
   </mp-box>
 </template>
 
 <script>
-import { MpBox, MpFlex, MpButtonIcon, MpTextarea, MpText } from "@mekari/pixel";
+/**
+ * @typedef {import('../examples-datasets/chat-results').ChatResult} ChatResult
+ */
 
-import AireneChatContentStarter from "../components/AireneChatContentStarter.vue";
-import AireneFeedback from "../components/AireneFeedback.vue";
-import AireneModalDisclaimer from "../components/AireneModalDisclaimer.vue";
+import {
+  MpBox,
+  MpFlex,
+  MpText,
+  MpAireneChatInput,
+  MpFormControl,
+  MpFormHelpText,
+  MpFormErrorMessage,
+  MpSkeleton,
+  MpAireneChatBubble,
+} from "@mekari/pixel";
+import {
+  EXAMPLE_CHAT_RESULT,
+  getChatResult,
+  genRandomId,
+} from "../examples-datasets/chat-results";
 
-import AireneFollowupQuestions from "../components/AireneFollowupQuestions.vue";
-import AireneDataSource from "../components/AireneDataSource.vue";
+// Layout components
+import AireneFooter from "../components/layout/AireneFooter.vue";
+import AireneHeader from "../components/layout/AireneHeader.vue";
 
-// Answer components
-import AireneAnswerLineChart from "../components/AireneAnswerLineChart.vue";
-import AireneAnswerBarChart from "../components/AireneAnswerBarChart.vue";
-import AireneAnswerPieChart from "../components/AireneAnswerPieChart.vue";
-import AireneAnswerTable from "../components/AireneAnswerTable.vue";
-import AireneAnswerFullView from "../components/AireneAnswerFullView.vue";
+// Chat components
+import AireneChatContentStarter from "../components/chat/AireneChatContentStarter.vue";
+import AireneFeedback from "../components/chat/AireneFeedback.vue";
+import AireneChatResult from "../components/chat/AireneChatResult.vue";
+import AireneChatTopic from "../components/chat/AireneChatTopic.vue";
+
+// Modal components
+import AireneModalDisclaimer from "../components/modal/AireneModalDisclaimer.vue";
 
 export default {
   components: {
     MpBox,
     MpFlex,
-    MpButtonIcon,
-    MpTextarea,
     MpText,
+    MpAireneChatInput,
+    MpFormControl,
+    MpFormHelpText,
+    MpFormErrorMessage,
+    MpSkeleton,
+    MpAireneChatBubble,
     AireneChatContentStarter,
+    AireneFooter,
+    AireneHeader,
     AireneFeedback,
     AireneModalDisclaimer,
-    AireneFollowupQuestions,
-    AireneDataSource,
-    AireneAnswerLineChart,
-    AireneAnswerBarChart,
-    AireneAnswerPieChart,
-    AireneAnswerTable,
-    AireneAnswerFullView,
+    AireneChatResult,
+    AireneChatTopic,
   },
+  inject: ["$AireneContext"],
   data() {
     return {
-      chatText: "",
-      heightTextArea: "36px",
-
+      isAnswerLoading: false,
+      prompt: "",
+      currentTopic: "Penjualan",
+      availableTopics: [
+        "Kas & bank",
+        "Penjualan",
+        "Pembelian",
+        "Biaya",
+        "Kontak",
+        "Produk",
+        "Akun",
+        "Aset",
+      ],
       isOpenModalDisclaimer: false,
-      isOpenAnswerFullView: false,
 
-      // FOLLOWUP QUESTIONS DATAS
-      followupQuestionsDatas: [
-        "Analisis margin keuntungan per produk untuk memastikan promosi tetap menguntungkan",
-        "Identifikasi produk potensial untuk bundling dengan iPhone 13",
-        "Evaluasi efektivitas strategi pemasaran untuk produk Apple terbaru",
-        "Analisis tren penjualan aksesori Apple dalam 6 bulan terakhir",
-      ],
+      /**
+       *
+       * @see AireneChatResult.vue props.
+       * @type {ChatResult[]}
+       */
+      chatResults: [],
 
-      // DATA SOURCE DATAS
-      dataSourceDatas: [
-        { name: "Laporan penjualan September 2024", url: "#" },
-        { name: "Analisis margin produk Q3 2024", url: "#" },
-        { name: "Tren penjualan iPhone 2022-2024", url: "#" },
-        { name: "Laporan inventaris terkini", url: "#" },
-        { name: "Survei kepuasan pelanggan Agustus 2024", url: "#" },
-      ],
-
-      // EXAMPLE OF ANSWER DATAS
-      table: {
-        headers: [
-          "Nama",
-          "Qty terjual",
-          "Nominal",
-          "Kategori",
-          "Stok",
-          "Harga Satuan",
-          "Margin",
-          "Rating",
+      /**
+       * @see AireneChatContentStarter.vue props.
+       */
+      starterChatContent: {
+        welcomeTitle: "Halo, Rizal Chandra!",
+        welcomeMessage:
+          "Apakah ada yang bisa dibantu oleh Airene terkait data penjualan, pembelian atau terkait akuntansi lainnya?",
+        isLoading: false,
+        suggestedQuestions: [
+          {
+            id: 1,
+            description: "Menampilkan analisa tren penjualan pada bulan ini",
+            isLoading: false,
+            content: [
+              { type: "text", value: "Analisa tren" },
+              { type: "dropdown", value: "Penjualan", key: "kategori" },
+              { type: "dropdown", value: "Bulan ini", key: "periode" },
+            ],
+            meta: {
+              kategori: ["Penjualan", "Pembelian"],
+              periode: [
+                "Bulan ini",
+                "Bulan lalu",
+                "Quarter ini",
+                "Quarter lalu",
+                "Tahun ini",
+                "Tahun lalu",
+                "2 tahun lalu",
+                "3 tahun lalu",
+                "4 tahun lalu",
+              ],
+            },
+          },
+          {
+            id: 2,
+            description: "Menampilkan perbandingan pendapatan dan pengeluaran",
+            isLoading: false,
+            content: [
+              { type: "text", value: "Bandingkan" },
+              { type: "dropdown", value: "Pendapatan", key: "kategori1" },
+              { type: "text", value: "dan" },
+              { type: "dropdown", value: "Pengeluaran", key: "kategori2" },
+              { type: "dropdown", value: "Tahun ini", key: "periode" },
+            ],
+            meta: {
+              kategori1: [
+                "Pendapatan",
+                "Laba Kotor",
+                "Laba Bersih",
+                "Penjualan",
+                "Arus Kas",
+                "Piutang",
+                "Aset",
+                "Modal",
+                "Ekuitas",
+                "Investasi",
+                "Pendapatan Operasional",
+                "Pendapatan Non-Operasional",
+                "Laba Sebelum Pajak",
+                "Laba Setelah Pajak",
+                "EBITDA",
+                "Margin Kotor",
+                "Margin Bersih",
+                "ROI",
+                "ROA",
+                "ROE",
+              ],
+              kategori2: ["Pengeluaran", "Biaya Operasional", "Pajak"],
+              periode: ["Tahun ini", "Tahun lalu", "5 tahun terakhir"],
+            },
+          },
+          {
+            id: 3,
+            description: "Menampilkan analisis produk terlaris",
+            isLoading: false,
+            content: [
+              { type: "text", value: "Tampilkan" },
+              { type: "dropdown", value: "10", key: "jumlah" },
+              { type: "text", value: "produk terlaris" },
+              { type: "dropdown", value: "Bulan ini", key: "periode" },
+            ],
+            meta: {
+              jumlah: ["5", "10", "20", "50"],
+              periode: [
+                "Bulan ini",
+                "3 bulan terakhir",
+                "6 bulan terakhir",
+                "Tahun ini",
+              ],
+            },
+          },
         ],
-        rows: [
-          [
-            "iPhone 14 Pro Max",
-            "8 unit",
-            "Rp90.000.000",
-            "Smartphone",
-            "15",
-            "Rp11.250.000",
-            "20%",
-            "4.8",
-          ],
-          [
-            "iPhone 14 Pro",
-            "12 unit",
-            "Rp120.000.000",
-            "Smartphone",
-            "20",
-            "Rp10.000.000",
-            "18%",
-            "4.7",
-          ],
-          [
-            "iPhone 13",
-            "15 unit",
-            "Rp105.000.000",
-            "Smartphone",
-            "25",
-            "Rp7.000.000",
-            "15%",
-            "4.6",
-          ],
-          [
-            'MacBook Pro 16"',
-            "5 unit",
-            "Rp150.000.000",
-            "Laptop",
-            "10",
-            "Rp30.000.000",
-            "25%",
-            "4.9",
-          ],
-          [
-            "MacBook Air M2",
-            "10 unit",
-            "Rp180.000.000",
-            "Laptop",
-            "18",
-            "Rp18.000.000",
-            "22%",
-            "4.8",
-          ],
-          [
-            'iPad Pro 12.9"',
-            "7 unit",
-            "Rp98.000.000",
-            "Tablet",
-            "12",
-            "Rp14.000.000",
-            "19%",
-            "4.7",
-          ],
-          [
-            "iPad Air",
-            "9 unit",
-            "Rp72.000.000",
-            "Tablet",
-            "15",
-            "Rp8.000.000",
-            "17%",
-            "4.6",
-          ],
-          [
-            "Apple Watch Series 8",
-            "20 unit",
-            "Rp80.000.000",
-            "Wearable",
-            "30",
-            "Rp4.000.000",
-            "21%",
-            "4.5",
-          ],
-        ],
+        isShowRefreshButton: true,
+        isShowPagination: true,
+        currentPage: 1,
+        totalPage: 4,
       },
     };
   },
+  computed: {
+    context() {
+      return this.$AireneContext();
+    },
+  },
   watch: {
-    chatText(newValue) {
-      if (newValue.length > 40) {
-        this.heightTextArea = "72px";
-      } else {
-        if (this.isForceExpandTextArea) {
-          this.heightTextArea = "72px";
+    "context.currentActiveChat": {
+      handler(newValue) {
+        // Reset chat-related data when the active chat changes
+
+        this.isAnswerLoading = false;
+        this.prompt = "";
+
+        if (newValue === "a1b2c3d4") {
+          this.chatResults = [];
         } else {
-          this.heightTextArea = "36px";
+          this.chatResults = EXAMPLE_CHAT_RESULT;
         }
-      }
+      },
+      immediate: true,
     },
   },
   methods: {
     handleClose() {
       this.$emit("close");
+    },
+
+    // Chat Input handler
+    handleSelectTopic(topic) {
+      this.currentTopic = topic;
+    },
+    handleKeydown(e) {
+      if (e.keyCode === 13 && !e.shiftKey) {
+        e.preventDefault(); // Prevent the default behavior of create new line
+        this.handleSubmitPrompt();
+      }
+    },
+    async handleSubmitPrompt() {
+      // Prevent submit if prompt is empty or answer is loading
+      if (this.prompt.length === 0 || this.isAnswerLoading) return;
+
+      let restPrompt = JSON.stringify(this.prompt);
+
+      const question = {
+        id: genRandomId(),
+        type: "question",
+        textQuestion: this.prompt,
+      };
+      this.chatResults.push(question);
+
+      this.isAnswerLoading = true;
+
+      this.$nextTick(() => {
+        const chatInputElement = document.getElementById("airene-input-chat");
+
+        if (chatInputElement) {
+          const textareaElement = chatInputElement.querySelector("textarea");
+
+          // Reset textarea value
+          this.prompt = "";
+          textareaElement.value = "";
+          textareaElement.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+
+        // Scroll to end of element
+        const aireneBody = document.getElementById("airene-body");
+        if (aireneBody) {
+          aireneBody.scrollTo({
+            top: aireneBody.scrollHeight,
+            behavior: "smooth",
+          });
+        }
+      });
+
+      // Simulate chat result using FAKE_CHAT_RESULT
+      try {
+        /**
+         *
+         * @type {ChatResult}
+         */
+        const result = await getChatResult(restPrompt);
+        this.chatResults.push(result);
+        this.isAnswerLoading = false;
+
+        console.log("CHAT RESULTS", this.chatResults);
+      } catch (error) {
+        console.error("Error getting chat result:", error);
+        this.isAnswerLoading = false;
+      }
+    },
+
+    // Chat Answer Action
+    handleExportAnswer(option) {
+      console.log(option);
+    },
+    handleChatLike() {
+      console.log("like");
+    },
+    handleChatDislike() {
+      console.log("dislike");
+    },
+
+    // Chat Starter handler
+    handleReloadSuggestedQuestion() {
+      alert("reload");
+    },
+    handleChangeSuggestedQuestion(ctx) {
+      const { index, childIndex, data } = ctx;
+      const suggestedQuestion =
+        this.starterChatContent.suggestedQuestions[index];
+
+      // Update the value of the selected dropdown
+      suggestedQuestion.content[childIndex].value = data;
+
+      // Set loading state
+      suggestedQuestion.isLoading = true;
+
+      // Simulate loading suggested question with a 1-second delay
+      setTimeout(() => {
+        suggestedQuestion.isLoading = false;
+      }, 1000);
+    },
+    handleNextSuggestedQuestion() {
+      alert("next");
+    },
+    handlePrevSuggestedQuestion() {
+      alert("prev");
     },
   },
 };

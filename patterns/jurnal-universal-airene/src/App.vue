@@ -1,31 +1,65 @@
 <template>
   <mp-box p="4">
-    <mp-button variant="outline" @click="handleOpen">Open</mp-button>
+    <mp-airene-button @click="handleOpen">
+      Analisis performa penjualan
+    </mp-airene-button>
 
-    <JurnalMekariAirene :is-open="isOpen" @close="handleClose" />
-
-    <mp-box position="fixed" top="4" right="4" z-index="10">
-      <MekariAireneContextual />
+    <UniversalAirene :is-open="isOpen" @close="handleClose" />
+    <mp-box
+      v-if="isShowAireneContextual"
+      position="fixed"
+      top="4"
+      right="4"
+      z-index="10"
+    >
+      <AireneContextual
+        :option-lists="contextOptionLists"
+        @select="handleSelectOption"
+        @close="handleCloseContextual"
+      />
     </mp-box>
   </mp-box>
 </template>
 
 <script>
-import { MpBox, MpButton } from "@mekari/pixel";
-import JurnalMekariAirene from "./JurnalUniversalMekariAirene.vue";
-import MekariAireneContextual from "./components/MekariAireneContextual.vue";
+import { MpBox, MpAireneButton } from "@mekari/pixel";
+import UniversalAirene from "./UniversalAirene.vue";
+import AireneContextual from "./AireneContextual.vue";
 
 export default {
   components: {
     MpBox,
-    MpButton,
-    JurnalMekariAirene,
-    MekariAireneContextual,
+    MpAireneButton,
+    UniversalAirene,
+    AireneContextual,
   },
   data() {
     return {
-      isOpen: false,
+      isOpen: true,
+      isShowAireneContextual: true,
+      contextOptionLists: [
+        {
+          id: 1,
+          name: "Beri ringkasan laporan",
+        },
+        {
+          id: 2,
+          name: "Cek anomali bulan ini",
+        },
+        {
+          id: 3,
+          name: "Proyeksi laba bersih kuartal depan",
+        },
+      ],
     };
+  },
+  mounted() {
+    // setTimeout(() => {
+    //   this.isOpen = true;
+    // }, 1000);
+    // setTimeout(() => {
+    //   this.isOpen = false;
+    // }, 4000);
   },
   methods: {
     handleOpen() {
@@ -33,6 +67,15 @@ export default {
     },
     handleClose() {
       this.isOpen = false;
+    },
+    handleSelectOption(option) {
+      console.log(option);
+
+      this.handleOpen();
+    },
+    handleCloseContextual(payload) {
+      console.log(payload);
+      this.isShowAireneContextual = false;
     },
   },
 };

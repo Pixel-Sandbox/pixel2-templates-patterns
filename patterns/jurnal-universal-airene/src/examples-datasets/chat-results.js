@@ -99,9 +99,9 @@ export const EXAMPLE_CHAT_RESULT = [
       xLabel: "Nama Produk",
       yLabel: "Nominal Transaksi",
     },
-    isShowAction: true,
+    isShowAction: false,
     actionType: "export-answer",
-    isShowDataSource: true,
+    isShowDataSource: false,
     dataSources: [
       {
         name: "Laporan penjualan September 2024",

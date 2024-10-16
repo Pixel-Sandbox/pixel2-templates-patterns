@@ -32,6 +32,8 @@
         border-width="1px"
         border-color="gray.400"
         z-index="modal"
+        max-height="183px"
+        overflow-y="auto"
       >
         <mp-popover-list>
           <mp-popover-list-item

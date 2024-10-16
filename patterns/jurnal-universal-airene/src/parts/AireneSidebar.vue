@@ -2,6 +2,7 @@
   <mp-box
     as="nav"
     data-component="AireneSidebar"
+    body-scroll-lock-ignore="true"
     p="2"
     :width="!isPinned || (isPinned && isHovered) ? '264px' : '56px'"
     transition="width 600ms cubic-bezier(0.4, 0, 0.2, 1)"
@@ -118,7 +119,8 @@
               <AireneChatItem
                 v-for="chat in group.datas"
                 :key="chat.id"
-                :isActive="chat.id === currentChatActive"
+                :is-active="isChatActive(chat.id)"
+                @select="handleSelectChat(chat)"
                 @delete="handleDeleteChat(chat)"
                 @edit="handleRenameChat(chat)"
               >
@@ -138,11 +140,6 @@
       </mp-flex>
 
       <mp-box
-        :style="{
-          'content-visibility':
-            !isPinned || (isPinned && isHovered) ? 'visible' : 'hidden',
-        }"
-        :opacity="!isPinned || (isPinned && isHovered) ? 1 : 0"
         transition="opacity 600ms cubic-bezier(0.4, 0, 0.2, 1)"
         position="absolute"
         bottom="0"
@@ -191,7 +188,7 @@
                 shadow="lg"
                 border-width="1px"
                 border-color="gray.400"
-                width="64"
+                width="190px"
               >
                 <mp-popover-list>
                   <mp-popover-list-item
@@ -212,63 +209,6 @@
                     </mp-box>
                   </mp-popover-list-item>
                 </mp-popover-list>
-              </mp-popover-content>
-            </mp-popover>
-          </mp-box>
-
-          <mp-box>
-            <mp-popover v-slot="{ isOpen }">
-              <mp-popover-trigger>
-                <mp-flex
-                  role="group"
-                  data-element="thread-list-header"
-                  align-items="center"
-                  p="2"
-                  rounded="md"
-                  w="full"
-                  :bg="isOpen ? 'blue.100' : 'inherit'"
-                  :color="isOpen ? 'blue.400' : 'inherit'"
-                  transition="all 300ms"
-                  cursor="pointer"
-                  :_hover="{ color: 'blue.400' }"
-                >
-                  <mp-icon
-                    name="settings"
-                    :variant="isOpen ? 'fill' : 'outline'"
-                    size="sm"
-                    mr="2"
-                    :color="isOpen ? 'blue.400' : 'gray.600'"
-                    :_groupHover="{ color: 'blue.400' }"
-                  />
-                  <mp-text
-                    color="inherit"
-                    :font-weight="isOpen ? 'semibold' : 'normal'"
-                  >
-                    Pengaturan
-                  </mp-text>
-                </mp-flex>
-              </mp-popover-trigger>
-
-              <mp-popover-content
-                bg="white"
-                rounded="md"
-                shadow="lg"
-                border-width="1px"
-                border-color="gray.400"
-                width="64"
-                p="3"
-              >
-                <mp-flex gap="3">
-                  <mp-toggle v-model="isContextualSugestion" />
-                  <mp-box>
-                    <mp-text> Saran kontekstual </mp-text>
-
-                    <mp-text color="gray.600">
-                      Ketika diaktifkan, Airene memberi saran pertanyaan pada
-                      halaman tertentu.
-                    </mp-text>
-                  </mp-box>
-                </mp-flex>
               </mp-popover-content>
             </mp-popover>
           </mp-box>
@@ -308,16 +248,15 @@ import {
   MpPopoverContent,
   MpPopoverList,
   MpPopoverListItem,
-  MpToggle,
 } from "@mekari/pixel";
 
 // Airene components
-import AireneSkeleton from "../components/AireneSkeleton.vue";
-import AireneChatItem from "../components/AireneChatItem.vue";
-import AireneChatGroup from "../components/AireneChatGroup.vue";
-import AireneDeleteDialog from "../components/AireneDeleteDialog.vue";
-import AireneModalRenameChat from "../components/AireneModalRenameChat.vue";
-import AireneModalVideoTutorial from "../components/AireneModalVideoTutorial.vue";
+import AireneSkeleton from "../components/utility/AireneSkeleton.vue";
+import AireneChatItem from "../components/chat/AireneChatItem.vue";
+import AireneChatGroup from "../components/chat/AireneChatGroup.vue";
+import AireneDeleteDialog from "../components/modal/AireneDeleteDialog.vue";
+import AireneModalRenameChat from "../components/modal/AireneModalRenameChat.vue";
+import AireneModalVideoTutorial from "../components/modal/AireneModalVideoTutorial.vue";
 
 export default {
   components: {
@@ -332,7 +271,6 @@ export default {
     MpPopoverContent,
     MpPopoverList,
     MpPopoverListItem,
-    MpToggle,
 
     // Airene components
     AireneSkeleton,
@@ -342,6 +280,7 @@ export default {
     AireneModalRenameChat,
     AireneModalVideoTutorial,
   },
+  inject: ["$AireneContext"],
   data() {
     return {
       isPinned: false,
@@ -352,7 +291,7 @@ export default {
       chatsHistory: [
         {
           groupName: "Hari ini",
-          datas: [{ id: "a1b2c3d4", name: "Detail penjualan bulan ini" }],
+          datas: [{ id: "a1b2c3d4", name: "Percakapan baru" }],
         },
         {
           groupName: "Minggu ini",
@@ -403,6 +342,11 @@ export default {
       isContextualSugestion: false, //  Saran kontekstual
     };
   },
+  computed: {
+    context() {
+      return this.$AireneContext();
+    },
+  },
   methods: {
     handleTogglePin() {
       this.isPinned = !this.isPinned;
@@ -423,8 +367,18 @@ export default {
       }
     },
 
+    isChatActive(chatId) {
+      return this.context.currentActiveChat === chatId;
+    },
+
+    // Select chat
+    handleSelectChat(chat) {
+      this.context.handleSetCurrentActiveChat(chat.id);
+    },
+
     // Rename chat
-    handleRenameChat() {
+    handleRenameChat(value) {
+      console.log("RENAME CHAT", value);
       this.isOpenRenameChat = true;
     },
     handleConfirmRenameChat() {
