@@ -105,11 +105,7 @@
 
     <AireneFooter v-if="!isShowBlankSlate">
       <mp-form-control bg="white" control-id="airene-input-chat">
-        <mp-airene-chat-input
-          v-model="prompt"
-          maxlength="200"
-          @keydown="handleKeydown"
-        >
+        <mp-airene-chat-input v-model="prompt" @keydown="handleKeydown">
           <AireneChatTopic
             :topic="currentTopic"
             :options="availableTopics"
