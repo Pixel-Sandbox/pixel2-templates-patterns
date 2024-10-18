@@ -1,0 +1,172 @@
+<template>
+  <mp-flex
+    ref="inputWrapper"
+    bg="white"
+    position="absolute"
+    bottom="0"
+    left="0"
+    right="0"
+    p="4"
+    pb="6"
+  >
+    <mp-form-control control-id="chat-input-with-form-control" width="500px">
+      <mp-airene-chat-input
+        ref="input"
+        id="airene-chat-input-1"
+        v-model="prompt"
+        maxlength="200"
+        @input="handleInput"
+        @click="handleClick"
+        @keydown="handleKeydown"
+        @focus="handleFocus"
+        @blur="handleBlur"
+      />
+      <mp-form-error-message>You must fill in chat input</mp-form-error-message>
+      <mp-form-help-text>
+        Airene responses can be inaccurate or misleading.
+        <mp-text
+          as="span"
+          font-size="sm"
+          is-link
+          @click.native="handleShowModal"
+        >
+          Learn more
+        </mp-text>
+      </mp-form-help-text>
+    </mp-form-control>
+    <mp-modal :is-open="isShowModal">
+      <mp-modal-content>
+        <mp-modal-header>
+          <mp-image
+            src="https://cdn.mekari.design/logo/airine/default.png"
+            :width="70"
+            :height="20"
+          />
+        </mp-modal-header>
+        <mp-modal-close-button @click="handleShowModal" />
+        <mp-modal-body>
+          <mp-text> As you use Airene, please keep in mind: </mp-text>
+          <mp-text as="ul" mt="2" ml="18px">
+            <li>
+              <b>Airene will not always right,</b> and may provide inaccurate or
+              inappropriate responses.
+            </li>
+            <li>
+              <b>Airene will get better with your feedback,</b> Please rate
+              responses and flag anything that may be inaccurate.
+            </li>
+          </mp-text>
+        </mp-modal-body>
+      </mp-modal-content>
+      <mp-modal-overlay />
+    </mp-modal>
+  </mp-flex>
+</template>
+
+<script>
+import {
+  MpFlex,
+  MpText,
+  MpImage,
+  MpAireneChatInput,
+  MpFormControl,
+  MpFormHelpText,
+  MpFormErrorMessage,
+  MpModal,
+  MpModalOverlay,
+  MpModalContent,
+  MpModalHeader,
+  MpModalBody,
+  MpModalCloseButton,
+} from "@mekari/pixel";
+
+export default {
+  name: "AireneInput",
+  components: {
+    MpFlex,
+    MpText,
+    MpImage,
+    MpAireneChatInput,
+    MpFormControl,
+    MpFormHelpText,
+    MpFormErrorMessage,
+    MpModal,
+    MpModalOverlay,
+    MpModalContent,
+    MpModalHeader,
+    MpModalBody,
+    MpModalCloseButton,
+  },
+  props: {
+    value: {
+      type: String,
+      default: "",
+    },
+  },
+  data() {
+    return {
+      inputWrapperHeight: 118,
+      prompt: this.value,
+      isShowModal: false,
+    };
+  },
+  watch: {
+    value(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$refs.input.currentValue = newVal; // TODO: hack way
+        this.handleForceFocusInput();
+      }
+    },
+  },
+  methods: {
+    updateChatWrapperHeight() {
+      const element = this.$refs.inputWrapper.$el;
+
+      if (element) {
+        this.inputWrapperHeight = element.clientHeight; // Get the height of the input wrapper
+        this.$emit("height", this.inputWrapperHeight);
+      }
+    },
+    handleForceFocusInput() {
+      this.$nextTick(() => {
+        this.$refs.input.$children[0].$children[0].$children[0].$el.focus(); // TODO: hack way
+      });
+    },
+    handleForceBlurInput() {
+      this.$nextTick(() => {
+        this.$refs.input.$children[0].$children[0].$children[0].$el.blur(); // TODO: hack way
+      });
+    },
+    handleClearInput() {
+      this.prompt = "";
+      this.$refs.input.currentValue = ""; // TODO: hack way
+      this.handleForceBlurInput();
+    },
+    handleShowModal() {
+      this.isShowModal = !this.isShowModal;
+    },
+    handleInput() {
+      this.updateChatWrapperHeight();
+    },
+    handleFocus() {
+      console.log("FOCUS");
+    },
+    handleBlur() {
+      console.log("BLUR");
+      this.updateChatWrapperHeight();
+    },
+    handleClick(val, id) {
+      console.log('CLICK', val, id)
+      this.handleClearInput();
+      this.$emit("submit", this.prompt);
+    },
+    handleKeydown(e) {
+      if (e.keyCode === 13 && !e.shiftKey) {
+        e.preventDefault(); // Prevent the default behavior of create new line
+        this.handleClearInput();
+        this.$emit("submit", this.prompt);
+      }
+    },
+  },
+};
+</script>
