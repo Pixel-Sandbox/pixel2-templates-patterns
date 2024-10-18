@@ -18,8 +18,16 @@
     <!-- Content header -->
     <AireneHeader @close="handleClose" />
 
+    <!-- Blank slate -->
+    <AireneBlankSlate
+      v-if="isShowBlankSlate"
+      :title="blankSlateProp.title"
+      :description="blankSlateProp.description"
+    />
+
     <!-- Main content -->
     <mp-flex
+      v-else
       data-element="content-body"
       position="relative"
       flex-direction="column"
@@ -60,14 +68,20 @@
           :data-visualization-type="chatResult.dataVisualizationType"
           :table-visualization-data="chatResult.tableVisualizationData"
           :chart-visualization-data="chatResult.chartVisualizationData"
+          :is-show-button-suggestion="chatResult.isShowButtonSuggestion"
+          :button-suggestion-datas="chatResult.buttonSuggestionDatas"
           :is-show-action="chatResult.isShowAction"
           :action-type="chatResult.actionType"
+          :action-url="chatResult.actionUrl"
+          :action-label="chatResult.actionLabel"
           :is-show-data-source="chatResult.isShowDataSource"
           :data-sources="chatResult.dataSources"
           :is-show-followup-questions="chatResult.isShowFollowupQuestions"
           :followup-questions-datas="chatResult.followupQuestionsDatas"
-          @like="handleChatLike"
-          @dislike="handleChatDislike"
+          @export-answer="handleExportAnswer"
+          @click-button-suggestion="handleClickButtonSuggestion"
+          @click-thumb-up="handleClickThumbUp"
+          @click-thumb-down="handleClickThumbDown"
         />
       </template>
 
@@ -83,10 +97,13 @@
       </mp-airene-chat-bubble>
 
       <!-- Feedback -->
-      <AireneFeedback />
+      <AireneFeedback
+        @click-thumb-up="handleClickThumbUp"
+        @click-thumb-down="handleClickThumbDown"
+      />
     </mp-flex>
 
-    <AireneFooter>
+    <AireneFooter v-if="!isShowBlankSlate">
       <mp-form-control bg="white" control-id="airene-input-chat">
         <mp-airene-chat-input
           v-model="prompt"
@@ -118,6 +135,12 @@
       </mp-form-control>
     </AireneFooter>
 
+    <AireneModalFeedback
+      :is-open="isOpenModalFeedback"
+      @close="isOpenModalFeedback = false"
+      @confirm="handleConfirmFeedback"
+    />
+
     <AireneModalDisclaimer
       :is-open="isOpenModalDisclaimer"
       @close="isOpenModalDisclaimer = false"
@@ -141,6 +164,7 @@ import {
   MpSkeleton,
   MpAireneChatBubble,
 } from "@mekari/pixel";
+
 import {
   EXAMPLE_CHAT_RESULT,
   getChatResult,
@@ -150,6 +174,7 @@ import {
 // Layout components
 import AireneFooter from "../components/layout/AireneFooter.vue";
 import AireneHeader from "../components/layout/AireneHeader.vue";
+import AireneBlankSlate from "../components/layout/AireneBlankSlate.vue";
 
 // Chat components
 import AireneChatContentStarter from "../components/chat/AireneChatContentStarter.vue";
@@ -159,6 +184,7 @@ import AireneChatTopic from "../components/chat/AireneChatTopic.vue";
 
 // Modal components
 import AireneModalDisclaimer from "../components/modal/AireneModalDisclaimer.vue";
+import AireneModalFeedback from "../components/modal/AireneModalFeedback.vue";
 
 export default {
   components: {
@@ -174,14 +200,22 @@ export default {
     AireneChatContentStarter,
     AireneFooter,
     AireneHeader,
+    AireneBlankSlate,
     AireneFeedback,
     AireneModalDisclaimer,
     AireneChatResult,
     AireneChatTopic,
+    AireneModalFeedback,
   },
   inject: ["$AireneContext"],
   data() {
     return {
+      isShowBlankSlate: false,
+      blankSlateProp: {
+        title: "Tidak dapat memuat percakapan",
+        description: "Silakan cek koneksi internet Anda atau coba lagi nanti.",
+      },
+
       isAnswerLoading: false,
       prompt: "",
       currentTopic: "Penjualan",
@@ -196,6 +230,7 @@ export default {
         "Aset",
       ],
       isOpenModalDisclaimer: false,
+      isOpenModalFeedback: false,
 
       /**
        *
@@ -314,13 +349,27 @@ export default {
         // Reset chat-related data when the active chat changes
 
         this.isAnswerLoading = false;
-        this.prompt = "";
+        this.handleEmptyChatInput();
 
-        if (newValue === "a1b2c3d4") {
-          this.chatResults = [];
-        } else {
-          this.chatResults = EXAMPLE_CHAT_RESULT;
+        // Simulate blank slate.
+        if (newValue === "q7r8s9t0") {
+          this.isShowBlankSlate = true;
+          return;
         }
+
+        this.isShowBlankSlate = false;
+
+        // Simulate New chat
+        if (newValue === "" || newValue === "a1b2c3d4") {
+          this.chatResults = [];
+          return;
+        }
+
+        // Simulate chat results
+        this.chatResults = EXAMPLE_CHAT_RESULT;
+        this.$nextTick(() => {
+          this.handleScrollToTop();
+        });
       },
       immediate: true,
     },
@@ -356,16 +405,7 @@ export default {
       this.isAnswerLoading = true;
 
       this.$nextTick(() => {
-        const chatInputElement = document.getElementById("airene-input-chat");
-
-        if (chatInputElement) {
-          const textareaElement = chatInputElement.querySelector("textarea");
-
-          // Reset textarea value
-          this.prompt = "";
-          textareaElement.value = "";
-          textareaElement.dispatchEvent(new Event("input", { bubbles: true }));
-        }
+        this.handleEmptyChatInput();
 
         // Scroll to end of element
         const aireneBody = document.getElementById("airene-body");
@@ -395,15 +435,20 @@ export default {
       }
     },
 
+    // Button Suggestion
+    handleClickButtonSuggestion(value) {
+      alert(value);
+    },
+
     // Chat Answer Action
-    handleExportAnswer(option) {
-      console.log(option);
+    handleExportAnswer(value) {
+      alert(value);
     },
-    handleChatLike() {
-      console.log("like");
+    handleClickThumbUp() {
+      this.handleOpenModalFeedback();
     },
-    handleChatDislike() {
-      console.log("dislike");
+    handleClickThumbDown() {
+      this.handleOpenModalFeedback();
     },
 
     // Chat Starter handler
@@ -431,6 +476,44 @@ export default {
     },
     handlePrevSuggestedQuestion() {
       alert("prev");
+    },
+
+    // Modal Feedback
+    handleOpenModalFeedback() {
+      this.isOpenModalFeedback = true;
+    },
+    handleConfirmFeedback() {
+      this.isOpenModalFeedback = false;
+
+      this.$toast({
+        id: "test",
+        variant: "success",
+        title: "Saran berhasil dikirim",
+        position: "top",
+        zIndex: 9999, // Custom zIndex
+      });
+    },
+
+    // Utils
+    handleScrollToTop() {
+      const aireneBody = document.getElementById("airene-body");
+      if (aireneBody) {
+        aireneBody.scrollTo({
+          top: 0,
+        });
+      }
+    },
+    handleEmptyChatInput() {
+      const chatInputElement = document.getElementById("airene-input-chat");
+
+      if (chatInputElement) {
+        const textareaElement = chatInputElement.querySelector("textarea");
+
+        // Reset textarea value
+        this.prompt = "";
+        textareaElement.value = "";
+        textareaElement.dispatchEvent(new Event("input", { bubbles: true }));
+      }
     },
   },
 };

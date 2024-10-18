@@ -15,13 +15,7 @@
     >
       <template #legend="legend">
         <mp-flex width="full" direction="column" ml="12">
-          <mp-flex
-            justify="space-between"
-            pb="3"
-            border-bottom-color="gray.100"
-            border-bottom-width="1px"
-            border-style="solid"
-          >
+          <mp-flex justify="space-between" pb="3">
             <mp-text font-weight="semibold"> {{ xLabel }} </mp-text>
 
             <mp-text font-weight="semibold"> {{ yLabel }} </mp-text>
@@ -30,32 +24,33 @@
             v-for="(item, index) in legend"
             :key="index"
             cursor="pointer"
-            align="center"
             justify="space-between"
             border-bottom-color="gray.100"
-            border-bottom-width="1px"
+            border-top-width="1px"
             border-style="solid"
             pt="3"
             pb="3"
+            gap="1"
           >
-            <mp-flex align="center">
+            <mp-flex>
               <mp-box
+                flex="none"
                 width="3"
                 height="3"
                 mr="2"
                 border-radius="3px"
                 :background="item.fillStyle"
               />
-              <mp-text>
+              <mp-text font-size="sm" line-height="1sm">
                 {{ item.text }}
               </mp-text>
             </mp-flex>
 
-            <mp-flex align="center" gap="1">
+            <mp-flex gap="1">
               <mp-text color="gray.600" font-size="sm">
                 {{ getData(index).percentage }}
               </mp-text>
-              <mp-text> {{ getData(index).amount }} </mp-text>
+              <mp-text font-size="sm"> {{ getData(index).amount }} </mp-text>
             </mp-flex>
           </mp-flex>
         </mp-flex>

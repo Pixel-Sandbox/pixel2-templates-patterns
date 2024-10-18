@@ -23,8 +23,8 @@
 
 <script>
 import { MpBox, MpAireneButton } from "@mekari/pixel";
-import UniversalAirene from "./UniversalAirene.vue";
-import AireneContextual from "./AireneContextual.vue";
+import UniversalAirene from "./parts/UniversalAirene.vue";
+import AireneContextual from "./parts/AireneContextual.vue";
 
 export default {
   components: {
@@ -35,8 +35,9 @@ export default {
   },
   data() {
     return {
-      isOpen: true,
+      isOpen: false,
       isShowAireneContextual: true,
+
       contextOptionLists: [
         {
           id: 1,

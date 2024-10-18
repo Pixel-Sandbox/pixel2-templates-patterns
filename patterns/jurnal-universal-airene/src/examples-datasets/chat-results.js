@@ -27,9 +27,12 @@
  * @property {('bar' | 'line' | 'pie' | 'table' | '')} dataVisualizationType - The type of data visualization
  * @property {TableVisualizationData} tableVisualizationData - Data for table visualization
  * @property {ChartVisualizationData} chartVisualizationData - Data for chart visualization
+ * @property {boolean} isShowButtonSuggestion - If true will show button suggestion
+ * @property {string[]} buttonSuggestionDatas - Data for button suggestion
  * @property {boolean} isShowAction - If true will show action sets
- * @property {'copy-text' | 'export-answer'} actionType - Type of action
- * @property {boolean} isShowDataSource - If true will show data sources
+ * @property {'copy-text' | 'export-answer' | 'open-url'} actionType - Type of action
+ * @property {string} actionUrl - Url for actionType = open-url
+ * @property {string} actionLabel - Label for actionType = open-url
  * @property {DataSource[]} dataSources - Array of data sources
  * @property {boolean} isShowFollowupQuestions - If true will show follow-up questions
  * @property {string[]} followupQuestionsDatas - Array of follow-up questions
@@ -313,17 +316,30 @@ export const EXAMPLE_CHAT_RESULT = [
     chartVisualizationData: {
       xLabel: "Produk",
       yLabel: "Nominal",
-      labels: ["Produk A", "Produk B", "Produk C", "Produk D", "Produk E"],
+      labels: [
+        "Apple iPhone 14 Pro Max (2022, 6GB RAM, 1TB Storage)",
+        "Apple MacBook Air M2",
+        "Apple iPad Pro 12.9-inch",
+        "Apple Watch Series 8",
+        "Apple AirPods Pro 2nd Generation",
+      ],
       datasets: [
         {
           label: "Penjualan",
-          data: [35000, 28000, 22000, 18000, 15000],
+          data: [24500000, 18500000, 16900000, 6150000, 3850000],
         },
       ],
     },
   },
 ];
 
+/**
+ * @typedef {Object.<string, ChatResult>} FakeChatResult
+ */
+
+/**
+ * @type {FakeChatResult}
+ */
 export const FAKE_CHAT_RESULT = {
   TEXT: {
     id: genRandomId(),
@@ -569,6 +585,27 @@ export const FAKE_CHAT_RESULT = {
       ],
     },
   },
+  OUTSIDE_TOPIC: {
+    id: genRandomId(),
+    type: "answer",
+    textAnswer:
+      "Mohon maaf, Airene belum bisa memberikan informasi terkait hal tersebut untuk saat ini. Namun, Airene dapat membantu Anda dengan informasi penjualan, pembelian atau akuntansi lainnya.",
+    isShowButtonSuggestion: true,
+    buttonSuggestionDatas: [
+      "Berapa keuntungan perusahaan bulan ini",
+      "Produk mana yang penjualan terlaris minggu ini",
+    ],
+  },
+  AST_DATA_TODAY: {
+    id: genRandomId(),
+    type: "answer",
+    textAnswer:
+      "Mohon maaf, Airene memiliki keterbatasan untuk menjawab topik yang berkaitan dengan periode hari ini. Namun, Anda dapat memeriksa data “Penjualan hari ini” di <strong>Laporan penjualan per produk</strong> .",
+    isShowAction: true,
+    actionType: "open-url",
+    actionUrl: "https://my.jurnal.id/",
+    actionLabel: "Lihat laporan",
+  },
 };
 
 export async function getChatResult(prompt) {
@@ -590,6 +627,12 @@ export async function getChatResult(prompt) {
   }
   if (prompt.includes("bar")) {
     return FAKE_CHAT_RESULT.BAR;
+  }
+  if (prompt.includes("fitur batch")) {
+    return FAKE_CHAT_RESULT.OUTSIDE_TOPIC;
+  }
+  if (prompt.includes("hari ini")) {
+    return FAKE_CHAT_RESULT.AST_DATA_TODAY;
   }
 
   return FAKE_CHAT_RESULT.TEXT;

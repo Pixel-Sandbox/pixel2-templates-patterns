@@ -32,20 +32,33 @@
         align-items="center"
         h="60px"
         pl="2"
+        position="relative"
         :pr="!isPinned || (isPinned && isHovered) ? '2' : '0'"
       >
-        <mp-flex position="relative" white-space="nowrap">
-          <img
-            v-show="isPinned && !isHovered"
-            style="height: 28px; width: 28px"
-            src="/airene-icon.svg"
-            alt=""
+        <mp-flex>
+          <mp-icon
+            name="airene-brand"
+            position="absolute"
+            top="4"
+            left="2"
+            transition-property="transform, opacity"
+            transition-duration="300ms"
+            transition-timing-function="cubic-bezier(0.4, 0, 0.2, 1)"
+            :transition-delay="isPinned && !isHovered ? '300ms' : '0ms'"
+            :opacity="isPinned && !isHovered ? 1 : 0"
           />
 
           <img
-            v-show="!isPinned || (isPinned && isHovered)"
-            src="/airene-logo.svg"
+            src="https://cdn.mekari.design/logo/airine/default.svg"
             alt=""
+            :style="{
+              'transition-property': 'opacity',
+              'transition-duration': '150ms',
+              'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
+              'transition-delay':
+                !isPinned || (isPinned && isHovered) ? '300ms' : '0ms',
+              opacity: !isPinned || (isPinned && isHovered) ? 1 : 0,
+            }"
           />
         </mp-flex>
 
@@ -55,10 +68,7 @@
         >
           <mp-box
             as="button"
-            :style="{
-              'content-visibility':
-                !isPinned || (isPinned && isHovered) ? 'visible' : 'hidden',
-            }"
+            v-show="!isPinned || (isPinned && isHovered)"
             @click="handleTogglePin"
           >
             <img v-if="!isPinned" src="/airene-sidebar-pinned.svg" alt="" />
@@ -75,7 +85,7 @@
         transition="all 300ms cubic-bezier(0.4, 0, 0.2, 1)"
         px="2"
         flex-direction="column"
-        mt="4"
+        pt="4"
         h="calc(100%)"
         overflow="hidden"
       >
@@ -84,6 +94,7 @@
           white-space="nowrap"
           variant="outline"
           w="full"
+          @click="handleClickNewChat"
         >
           <mp-icon name="add" size="sm" mr="2" color="blue.500" />
           Percakapan baru
@@ -257,6 +268,8 @@ import {
   MpSkeleton,
 } from "@mekari/pixel";
 
+import { CHAT_HISTORY } from "../examples-datasets/chat-history";
+
 // Airene components
 import AireneChatItem from "../components/chat/AireneChatItem.vue";
 import AireneChatGroup from "../components/chat/AireneChatGroup.vue";
@@ -294,52 +307,7 @@ export default {
 
       // Chats
       currentChatActive: "a1b2c3d4",
-      chatsHistory: [
-        {
-          groupName: "Hari ini",
-          datas: [{ id: "a1b2c3d4", name: "Percakapan baru" }],
-        },
-        {
-          groupName: "Minggu ini",
-          datas: [
-            { id: "e5f6g7h8", name: "Stok yang harus segera dibeli" },
-            { id: "i9j0k1l2", name: "Saran proyeksi pembelian produk" },
-          ],
-        },
-        {
-          groupName: "30 hari terakhir",
-          datas: [
-            {
-              id: "m3n4o5p6",
-              name: "Pembelian yang harus segera dilunasi",
-            },
-            {
-              id: "q7r8s9t0",
-              name: "Bagaimana performa penjualan bulan ini dibandingkan bulan lalu?",
-            },
-            {
-              id: "u1v2w3x4",
-              name: "Produk apa yang paling laris saat ini?",
-            },
-            {
-              id: "y5z6a7b8",
-              name: "Apakah ada produk yang penjualannya menurun drastis?",
-            },
-            {
-              id: "c9d0e1f2",
-              name: "Siapa pelanggan terbesar bulan ini?",
-            },
-            {
-              id: "g3h4i5j6",
-              name: "Berapa rata-rata nilai transaksi penjualan?",
-            },
-            {
-              id: "k7l8m9n0",
-              name: "Apakah ada faktur penjualan yang belum lunas?",
-            },
-          ],
-        },
-      ],
+      chatsHistory: CHAT_HISTORY,
 
       // Assertion
       isOpenDeleteDialog: false,
@@ -383,12 +351,17 @@ export default {
       return this.context.currentActiveChat === chatId;
     },
 
-    // Select chat
+    handleClickNewChat() {
+      this.context.handleSetCurrentActiveChat(""); // Simulate new chat
+
+      this.$nextTick(() => {
+        this.handleForceFocusChatInput();
+      });
+    },
     handleSelectChat(chat) {
       this.context.handleSetCurrentActiveChat(chat.id);
     },
 
-    // Rename chat
     handleRenameChat(value) {
       console.log("RENAME CHAT", value);
       this.isOpenRenameChat = true;
@@ -432,6 +405,19 @@ export default {
     // Video tutorial
     handleOpenVideoTutorial() {
       this.isOpenVideoTutorial = true;
+    },
+
+    // Utils
+    handleForceFocusChatInput() {
+      this.$nextTick(() => {
+        const chatInputElement = document.getElementById("airene-input-chat");
+
+        if (chatInputElement) {
+          const textareaElement = chatInputElement.querySelector("textarea");
+
+          if (textareaElement) textareaElement.focus();
+        }
+      });
     },
   },
 };

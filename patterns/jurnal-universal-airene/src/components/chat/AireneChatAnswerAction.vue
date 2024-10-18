@@ -8,7 +8,7 @@
         align-items="center"
         gap="2"
         cursor="pointer"
-        @click="handleCopyText"
+        @click="handleClickCopyText"
       >
         <mp-icon name="copy" variant="duotone" />
         <mp-text is-link> Copy text </mp-text>
@@ -55,11 +55,33 @@
           </mp-popover-content>
         </mp-popover>
       </mp-box>
+
+      <mp-flex
+        v-if="actionType === 'open-url' && actionUrl"
+        data-element="open-url"
+        as="a"
+        :href="actionUrl"
+        target="_blank"
+        align-items="center"
+        gap="2"
+        cursor="pointer"
+      >
+        <mp-icon name="newtab" variant="duotone" size="sm" />
+        <mp-text is-link> {{ actionLabel }} </mp-text>
+      </mp-flex>
     </mp-flex>
 
     <mp-flex>
-      <mp-button-icon name="like" @click="handleLike" />
-      <mp-button-icon name="dislike" @click="handleDislike" />
+      <mp-button-icon
+        v-mp-tooltip="'Jawaban bagus'"
+        name="like"
+        @click="handleClickThumbUp"
+      />
+      <mp-button-icon
+        v-mp-tooltip="'Jawaban tidak sesuai'"
+        name="dislike"
+        @click="handleClickThumbDown"
+      />
     </mp-flex>
   </mp-flex>
 </template>
@@ -94,22 +116,30 @@ export default {
   props: {
     actionType: {
       type: String,
-      default: "copy-text", // copy-text, export-answer
+      default: "copy-text", // copy-text, export-answer, open-url
     },
     exportOptions: {
       type: Array,
       default: () => ["PDF", "CSV"],
     },
+    actionUrl: {
+      type: String,
+      default: "",
+    },
+    actionLabel: {
+      type: String,
+      default: "",
+    },
   },
   methods: {
-    handleCopyText() {
-      this.$emit("copy-text");
+    handleClickCopyText() {
+      this.$emit("click-copy-text");
     },
-    handleLike() {
-      this.$emit("like");
+    handleClickThumbUp() {
+      this.$emit("click-thumb-up");
     },
-    handleDislike() {
-      this.$emit("dislike");
+    handleClickThumbDown() {
+      this.$emit("click-thumb-down");
     },
 
     handleExportAnswer(option) {
