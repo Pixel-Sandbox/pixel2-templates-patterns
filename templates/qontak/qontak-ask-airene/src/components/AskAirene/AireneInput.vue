@@ -2,7 +2,7 @@
   <mp-flex
     ref="inputWrapper"
     bg="white"
-    position="absolute"
+    position="sticky"
     bottom="0"
     left="0"
     right="0"
@@ -145,15 +145,14 @@ export default {
     handleShowModal() {
       this.isShowModal = !this.isShowModal;
     },
-    handleInput() {
-      this.updateChatWrapperHeight();
+    handleInput(val) {
+      console.log("INPUT", val); 
     },
     handleFocus() {
       console.log("FOCUS");
     },
     handleBlur() {
       console.log("BLUR");
-      this.updateChatWrapperHeight();
     },
     handleClick(val, id) {
       console.log('CLICK', val, id)

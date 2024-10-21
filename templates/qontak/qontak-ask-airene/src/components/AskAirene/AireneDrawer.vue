@@ -4,6 +4,7 @@
     position="relative"
     width="316px"
     height="100%"
+    overflow="auto"
     bg="white"
   >
     <mp-flex
@@ -28,7 +29,7 @@
       position="relative"
       direction="column"
       :justify-content="isShowIntroduction ? 'flex-end' : 'flex-start'"
-      :height="`calc(100% - 48px - ${inputWrapperHeight}px)`"
+      :height="`calc(100% - 48px - 118px)`"
       overflow-y="auto"
       transition="height 250ms ease"
     >
@@ -166,7 +167,6 @@
       <AireneInput
         v-if="isShowInput"
         :value="prompt"
-        @height="handleInputHeight"
         @submit="handleInputSubmit"
       />
     </Transition>
@@ -211,8 +211,6 @@ export default {
   },
   data() {
     return {
-      inputWrapperHeight: 118,
-
       // INTRODUCTION
       isShowIntroduction: true,
       isShowIntroHello: false,
@@ -276,9 +274,6 @@ export default {
     },
     handleClickSuggestion(val) {
       this.prompt = val;
-    },
-    handleInputHeight(val) {
-      this.inputWrapperHeight = val;
     },
     handleInputSubmit(val) {
       console.log("SUBMIT", val);
