@@ -30,7 +30,9 @@
  * @property {boolean} isShowButtonSuggestion - If true will show button suggestion
  * @property {string[]} buttonSuggestionDatas - Data for button suggestion
  * @property {boolean} isShowAction - If true will show action sets
+ * @property {boolean} isShowUpgradePackage - If true will show upgrade package button action
  * @property {'copy-text' | 'export-answer' | 'open-url'} actionType - Type of action
+ * @property {string} rateAnswer - Type of rate (thumb-up, thumb-down)
  * @property {string} actionUrl - Url for actionType = open-url
  * @property {string} actionLabel - Label for actionType = open-url
  * @property {DataSource[]} dataSources - Array of data sources
@@ -270,6 +272,8 @@ export const EXAMPLE_CHAT_RESULT = [
         ],
       ],
     },
+    isShowAction: true,
+    rateAnswer: "thumb-up",
   },
   {
     id: genRandomId(),
@@ -319,7 +323,7 @@ export const EXAMPLE_CHAT_RESULT = [
       labels: [
         "Apple iPhone 14 Pro Max (2022, 6GB RAM, 1TB Storage)",
         "Apple MacBook Air M2",
-        "Apple iPad Pro 12.9-inch",
+        "Apple iPad Pro 12.9-inch (2023, M2 chip, 1TB Storage, Space Gray) with 5G Cellular, ProMotion XDR display, 16GB RAM, 12MP Ultra Wide front camera, LiDAR Scanner, Wi-Fi 6E, and 2-year AppleCare+ warranty",
         "Apple Watch Series 8",
         "Apple AirPods Pro 2nd Generation",
       ],

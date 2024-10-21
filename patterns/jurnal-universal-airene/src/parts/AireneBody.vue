@@ -71,9 +71,11 @@
           :is-show-button-suggestion="chatResult.isShowButtonSuggestion"
           :button-suggestion-datas="chatResult.buttonSuggestionDatas"
           :is-show-action="chatResult.isShowAction"
+          :is-show-upgrade-package="chatResult.isShowUpgradePackage"
           :action-type="chatResult.actionType"
           :action-url="chatResult.actionUrl"
           :action-label="chatResult.actionLabel"
+          :rate-answer="chatResult.rateAnswer"
           :is-show-data-source="chatResult.isShowDataSource"
           :data-sources="chatResult.dataSources"
           :is-show-followup-questions="chatResult.isShowFollowupQuestions"
@@ -109,6 +111,7 @@
           <AireneChatTopic
             :topic="currentTopic"
             :options="availableTopics"
+            :is-topic-change-confirmation-needed="chatResults.length > 0"
             @select-topic="handleSelectTopic"
           />
         </mp-airene-chat-input>

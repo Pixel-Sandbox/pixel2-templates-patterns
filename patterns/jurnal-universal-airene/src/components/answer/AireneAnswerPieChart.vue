@@ -41,7 +41,12 @@
                 border-radius="3px"
                 :background="item.fillStyle"
               />
-              <mp-text font-size="sm" line-height="1sm">
+              <mp-text
+                font-size="sm"
+                line-height="1sm"
+                is-truncated
+                :line-clamp="3"
+              >
                 {{ item.text }}
               </mp-text>
             </mp-flex>

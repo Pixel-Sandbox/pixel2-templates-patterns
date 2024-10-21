@@ -1,6 +1,20 @@
 <template>
   <mp-flex width="full" justify-content="space-between" align-items="center">
-    <mp-flex align-items="center" gap="1">
+    <mp-flex align-items="center" gap="4">
+      <mp-flex
+        v-if="isShowUpgradePackage"
+        data-element="upgrade-package"
+        as="a"
+        align-items="center"
+        gap="2"
+        cursor="pointer"
+        href="https://www.jurnal.id/id/"
+        target="_blank"
+      >
+        <mp-icon name="upgrade" variant="duotone" />
+        <mp-text is-link> Upgrade paket </mp-text>
+      </mp-flex>
+
       <mp-flex
         v-if="actionType === 'copy-text'"
         data-element="copy-text"
@@ -71,7 +85,15 @@
       </mp-flex>
     </mp-flex>
 
-    <mp-flex>
+    <mp-flex v-if="rateAnswer">
+      <mp-icon
+        :name="rateAnswer === 'thumb-up' ? 'like' : 'dislike'"
+        variant="fill"
+        color="blue.400"
+      />
+    </mp-flex>
+
+    <mp-flex v-else>
       <mp-button-icon
         v-mp-tooltip="'Jawaban bagus'"
         name="like"
@@ -114,6 +136,10 @@ export default {
     MpPopoverListItem,
   },
   props: {
+    isShowUpgradePackage: {
+      type: Boolean,
+      default: false,
+    },
     actionType: {
       type: String,
       default: "copy-text", // copy-text, export-answer, open-url
@@ -129,6 +155,10 @@ export default {
     actionLabel: {
       type: String,
       default: "",
+    },
+    rateAnswer: {
+      type: String,
+      default: "", // thumb-up, thumb-down
     },
   },
   methods: {

@@ -94,10 +94,12 @@
       <!-- Action -->
       <AireneChatAnswerAction
         v-if="isShowAction"
+        :is-show-upgrade-package="isShowUpgradePackage"
         :action-type="actionType"
         :export-options="exportOptions"
         :action-url="actionUrl"
         :action-label="actionLabel"
+        :rate-answer="rateAnswer"
         @export-answer="handleExportAnswer"
         @click-copy-text="handleClickCopyText"
         @click-thumb-up="handleThumbUp"
@@ -122,7 +124,7 @@
         @close="handleCloseFullScreen"
         @select-export="handleSelectExport"
       >
-        <mp-flex flex-direction="column" gap="2">
+        <mp-flex flex-direction="column" gap="4">
           <mp-box v-html="textAnswer" font-size="md" color="black"></mp-box>
 
           <Component
@@ -242,6 +244,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isShowUpgradePackage: {
+      type: Boolean,
+      default: false,
+    },
     actionType: {
       type: String,
       default: "copy-text", // copy-text, export-answer
@@ -257,6 +263,10 @@ export default {
     exportOptions: {
       type: Array,
       default: () => ["PDF", "CSV"],
+    },
+    rateAnswer: {
+      type: String,
+      default: "", // thumb-up, thumb-down
     },
 
     // AireneDataSource

@@ -46,6 +46,8 @@
         </template>
       </AireneSuggestedQuestionItem>
     </AireneSuggestedQuestion>
+
+    <AireneBannerPrivacyAndPolicy mt="4" />
   </mp-box>
 </template>
 
@@ -53,9 +55,9 @@
 import { MpBox, MpText, MpHeading } from "@mekari/pixel";
 
 import AireneChatTagDropdown from "../chat/AireneChatTagDropdown.vue";
-
 import AireneSuggestedQuestion from "./AireneSuggestedQuestion.vue";
 import AireneSuggestedQuestionItem from "./AireneSuggestedQuestionItem.vue";
+import AireneBannerPrivacyAndPolicy from "../utility/AireneBannerPrivacyAndPolicy.vue";
 
 export default {
   components: {
@@ -65,6 +67,7 @@ export default {
     AireneChatTagDropdown,
     AireneSuggestedQuestion,
     AireneSuggestedQuestionItem,
+    AireneBannerPrivacyAndPolicy,
   },
   props: {
     welcomeTitle: {
