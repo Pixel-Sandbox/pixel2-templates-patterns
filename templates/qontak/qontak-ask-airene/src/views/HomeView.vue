@@ -71,8 +71,8 @@ export default {
   },
   data() {
     return {
-      isShowInfoPanel: false,
-      isShowAskAirene: true,
+      isShowInfoPanel: true,
+      isShowAskAirene: false,
     };
   },
   methods: {

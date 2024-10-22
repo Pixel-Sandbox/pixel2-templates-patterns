@@ -4,6 +4,7 @@ import AireneIntro from './AireneIntro.vue'
 import AireneSuggestions from './AireneSuggestions.vue'
 import AireneInput from './AireneInput.vue'
 import AireneQuestion from './AireneQuestion.vue'
+import AireneAnswer from './AireneAnswer.vue'
 
 export {
   AireneDrawer,
@@ -11,5 +12,6 @@ export {
   AireneIntro,
   AireneSuggestions,
   AireneInput,
-  AireneQuestion
+  AireneQuestion,
+  AireneAnswer
 }
