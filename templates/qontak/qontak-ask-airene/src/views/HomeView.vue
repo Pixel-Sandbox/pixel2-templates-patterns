@@ -6,6 +6,7 @@
       <LeftPanel />
       <ChatPanel @show-airene="onShowAirene" />
       <Transition name="fade" mode="out-in">
+        <!-- <AireneIntro /> -->
         <AireneDrawer v-if="isShowAskAirene" @close="onCloseAirene"/>
         <InfoPanel v-if="isShowInfoPanel" />
       </Transition>

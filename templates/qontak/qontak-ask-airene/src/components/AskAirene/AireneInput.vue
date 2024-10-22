@@ -1,6 +1,5 @@
 <template>
   <mp-flex
-    ref="inputWrapper"
     bg="white"
     position="sticky"
     bottom="0"
@@ -24,6 +23,7 @@
       <mp-form-error-message>You must fill in chat input</mp-form-error-message>
       <mp-form-help-text>
         Airene responses can be inaccurate or misleading.
+        {{  prompt }}
         <mp-text
           as="span"
           font-size="sm"
@@ -40,7 +40,7 @@
           <mp-image
             src="https://cdn.mekari.design/logo/airine/default.png"
             :width="70"
-            :height="20"
+            :height="21"
           />
         </mp-modal-header>
         <mp-modal-close-button @click="handleShowModal" />
@@ -119,14 +119,6 @@ export default {
     },
   },
   methods: {
-    updateChatWrapperHeight() {
-      const element = this.$refs.inputWrapper.$el;
-
-      if (element) {
-        this.inputWrapperHeight = element.clientHeight; // Get the height of the input wrapper
-        this.$emit("height", this.inputWrapperHeight);
-      }
-    },
     handleForceFocusInput() {
       this.$nextTick(() => {
         this.$refs.input.$children[0].$children[0].$children[0].$el.focus(); // TODO: hack way
@@ -155,15 +147,14 @@ export default {
       console.log("BLUR");
     },
     handleClick(val, id) {
-      console.log('CLICK', val, id)
-      this.handleClearInput();
       this.$emit("submit", this.prompt);
+      this.handleClearInput();
     },
     handleKeydown(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault(); // Prevent the default behavior of create new line
-        this.handleClearInput();
         this.$emit("submit", this.prompt);
+        this.handleClearInput();
       }
     },
   },

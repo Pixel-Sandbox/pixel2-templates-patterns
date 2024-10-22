@@ -7,77 +7,76 @@
     overflow="auto"
     bg="white"
   >
-    <mp-flex
-      justify-content="space-between"
-      align-items="center"
-      width="full"
-      height="12"
-      px="4"
-      border-bottom="1px solid"
-      border-color="gray.100"
-    >
-      <mp-image
-        src="https://cdn.mekari.design/logo/airine/default.png"
-        :width="102"
-        :height="30"
-      />
-      <mp-button-icon name="close" @click="handleCloseAirene" />
-    </mp-flex>
-
-    <!-- // CHAT CONTENT -->
-    <mp-flex
-      position="relative"
-      direction="column"
-      :justify-content="isShowIntroduction ? 'flex-end' : 'flex-start'"
-      :height="`calc(100% - 48px - 118px)`"
-      overflow-y="auto"
-      transition="height 250ms ease"
-    >
-      <mp-flex v-if="isShowIntroduction" direction="column" gap="4" p="4">
-        <AireneIntro
-          name="Fajar"
-          description="Is there anything Airene can help you with regarding your customer inquiries?"
-          :is-show-hello="isShowIntroHello"
-          :is-show-name="isShowIntroName"
-          :is-show-other="isShowOtherIntro"
+    <AireneIntro v-if="isShowIntroduction" @finish="handleFinishIntro" />
+    <template v-else>
+      <mp-flex
+        justify-content="space-between"
+        align-items="center"
+        width="full"
+        height="12"
+        px="4"
+        border-bottom="1px solid"
+        border-color="gray.100"
+      >
+        <mp-image
+          src="https://cdn.mekari.design/logo/airine/default.png"
+          :width="102"
+          :height="30"
         />
-        <AireneSuggestions
-          :suggestions="suggestions"
-          :is-show-suggestions="isShowSuggestions"
-          :is-loading="isSuggestionsLoading"
-          @click="handleClickSuggestion"
-        />
+        <mp-button-icon name="close" @click="handleCloseAirene" />
       </mp-flex>
-      <Transition name="fade">
-        <mp-flex v-if="!isShowIntroduction" direction="column" gap="4" p="4">
-          <AireneQuestion name="Anda" :question="prompt" />
-          <AireneAnswer :text="answer" :is-loading="isChatContentLoading" />
-        </mp-flex>
-      </Transition>
-    </mp-flex>
-    <!-- // END OF CHAT CONTENT -->
 
-    <!-- // CHAT INPUT -->
-    <Transition name="fade">
-      <AireneInput
-        v-if="isShowInput"
-        :value="prompt"
-        @submit="handleInputSubmit"
-      />
-    </Transition>
-    <!-- // END OF CHAT INPUT -->
+      <!-- // CHAT CONTENT -->
+      <mp-flex
+        position="relative"
+        direction="column"
+        :justify-content="isShowGreetings ? 'flex-end' : 'flex-start'"
+        :height="`calc(100% - 48px - 118px)`"
+        overflow-y="auto"
+        transition="height 250ms ease"
+      >
+        <mp-flex v-if="isShowGreetings" direction="column" gap="4" p="4">
+          <AireneGreetings
+            name="Fajar"
+            description="Is there anything Airene can help you with regarding your customer inquiries?"
+            :is-show-hello="isShowGreetingsHello"
+            :is-show-name="isShowGreetingsName"
+            :is-show-other="isShowOtherGreetings"
+          />
+          <AireneSuggestions
+            :suggestions="suggestions"
+            :is-show-suggestions="isShowSuggestions"
+            :is-loading="isSuggestionsLoading"
+            @click="handleClickSuggestion"
+          />
+        </mp-flex>
+        <Transition name="fade">
+          <mp-flex v-if="!isShowGreetings" direction="column" gap="4" p="4">
+            <AireneQuestion name="Anda" :question="question" />
+            <AireneAnswer :text="answer" :is-loading="isChatContentLoading" />
+          </mp-flex>
+        </Transition>
+      </mp-flex>
+      <!-- // END OF CHAT CONTENT -->
+
+      <!-- // CHAT INPUT -->
+      <Transition name="fade">
+        <AireneInput
+          v-if="isShowInput"
+          :value="prompt"
+          @submit="handleInputSubmit"
+        />
+      </Transition>
+      <!-- // END OF CHAT INPUT -->
+    </template>
   </mp-box>
 </template>
 
 <script>
-import {
-  MpBox,
-  MpFlex,
-  MpImage,
-  MpButtonIcon,
-} from "@mekari/pixel";
+import { MpBox, MpFlex, MpImage, MpButtonIcon } from "@mekari/pixel";
 
 import AireneIntro from "./AireneIntro.vue";
+import AireneGreetings from "./AireneGreetings.vue";
 import AireneSuggestions from "./AireneSuggestions.vue";
 import AireneInput from "./AireneInput.vue";
 import AireneQuestion from "./AireneQuestion.vue";
@@ -91,52 +90,42 @@ export default {
     MpButtonIcon,
     MpImage,
     AireneIntro,
+    AireneGreetings,
     AireneSuggestions,
     AireneInput,
     AireneQuestion,
-    AireneAnswer
+    AireneAnswer,
   },
   data() {
     return {
-      // INTRODUCTION
+      // INTRO
       isShowIntroduction: true,
-      isShowIntroHello: false,
-      isShowIntroName: false,
-      isShowOtherIntro: false,
+
+      // Greetings
+      isShowGreetings: true,
+      isShowGreetingsHello: false,
+      isShowGreetingsName: false,
+      isShowOtherGreetings: false,
 
       // SUGGESTIONS
       suggestions: "Cara memperbaiki mesin kopi dengan indikator berkedip ?",
       isShowSuggestions: false,
       isSuggestionsLoading: true,
 
+      //QUESTION
+      question: "",
+
       // ANSWER
       isChatContentLoading: false,
-      answer: 'Silakan cabut dan sambungkan kembali mesin kopi Anda. Jika lampu masih berkedip merah, mohon periksa apakah tangki air sudah penuh. Apabila masalah masih berlanjut, silakan hubungi layanan pelanggan kami untuk bantuan lebih lanjut',
+      answer:
+        "Silakan cabut dan sambungkan kembali mesin kopi Anda. Jika lampu masih berkedip merah, mohon periksa apakah tangki air sudah penuh. Apabila masalah masih berlanjut, silakan hubungi layanan pelanggan kami untuk bantuan lebih lanjut",
 
       // INPUT
       isShowInput: false,
       prompt: "",
     };
   },
-  mounted() {
-    setTimeout(() => {
-      this.isShowIntroHello = true;
-    }, 500);
-
-    setTimeout(() => {
-      this.isShowIntroName = true;
-    }, 1000);
-
-    setTimeout(() => {
-      this.isShowOtherIntro = true;
-      this.isShowSuggestions = true;
-      this.isShowInput = true;
-    }, 1500);
-
-    setTimeout(() => {
-      this.isSuggestionsLoading = false;
-    }, 2500);
-  },
+  mounted() {},
   methods: {
     handleCloseAirene() {
       this.$emit("close");
@@ -146,7 +135,7 @@ export default {
     },
     handleInputSubmit(val) {
       console.log("SUBMIT", val);
-      
+      this.question = val;
       this.isShowIntroduction = false;
       this.isChatContentLoading = true;
 
@@ -154,6 +143,26 @@ export default {
       setTimeout(() => {
         this.isChatContentLoading = false;
       }, 2000);
+    },
+    handleFinishIntro() {
+      this.isShowIntroduction = false;
+      setTimeout(() => {
+        this.isShowGreetingsHello = true;
+      }, 500);
+
+      setTimeout(() => {
+        this.isShowGreetingsName = true;
+      }, 1000);
+
+      setTimeout(() => {
+        this.isShowOtherGreetings = true;
+        this.isShowSuggestions = true;
+        this.isShowInput = true;
+      }, 1500);
+
+      setTimeout(() => {
+        this.isSuggestionsLoading = false;
+      }, 2500);
     },
   },
 };

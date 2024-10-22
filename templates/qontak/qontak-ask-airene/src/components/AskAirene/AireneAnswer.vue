@@ -45,21 +45,27 @@
         <mp-text color="blue.400"> Use response </mp-text>
       </mp-flex>
       <mp-flex gap="2">
-        <AireneFeedback id="popover-like">
-          <mp-button-icon
-            name="like"
-            :variant="isSubmitFeedback ? 'fill' : 'outline'"
-            :color="isSubmitFeedback ? 'blue.400' : 'gray.600'"
-            v-mp-tooltip="'Good response'"
-          />
-        </AireneFeedback>
-        <AireneFeedback id="popover-dislike">
-          <mp-button-icon
-            v-if="!isSubmitFeedback"
-            name="dislike"
-            v-mp-tooltip="'Bad response'"
-          />
-        </AireneFeedback>
+        <mp-box v-if="isShowLikeButton">
+          <AireneFeedback id="like" @submit="handleSubmitFeedback">
+            <mp-button-icon
+              name="like"
+              :variant="feedbackType === 'like' ? 'fill' : 'outline'"
+              :color="feedbackType === 'like' ? 'blue.400' : 'gray.600'"
+              v-mp-tooltip="'Good response'"
+            />
+          </AireneFeedback>
+        </mp-box>
+        <mp-box v-if="isShowDislikeButton">
+          <AireneFeedback id="dislike" @submit="handleSubmitFeedback">
+            <mp-button-icon
+              name="dislike"
+              :variant="feedbackType === 'dislike' ? 'fill' : 'outline'"
+              :color="feedbackType === 'dislike' ? 'blue.400' : 'gray.600'"
+              v-mp-tooltip="'Bad response'"
+              @submit="handleSubmitFeedback"
+            />
+          </AireneFeedback>
+        </mp-box>
       </mp-flex>
     </template>
     <template #source>
@@ -105,6 +111,7 @@
 
 <script>
 import {
+  MpBox,
   MpFlex,
   MpText,
   MpIcon,
@@ -119,6 +126,7 @@ import AireneFeedback from "./AireneFeedback.vue";
 export default {
   name: "AireneQuestion",
   components: {
+    MpBox,
     MpFlex,
     MpText,
     MpIcon,
@@ -157,10 +165,9 @@ export default {
       ],
 
       // FEEDBACK
-      isShowFeedbackModal: false,
-      // isSubmitFeedback: false,
-      // reasonOption: '',
-      // reasonFedback: ''
+      isShowLikeButton: true,
+      isShowDislikeButton: true,
+      feedbackType: "",
     };
   },
   methods: {
@@ -170,12 +177,18 @@ export default {
     handleShowSource() {
       this.isSourceOpen = !this.isSourceOpen;
     },
-    handleShowFeedbackModal() {
-      this.isShowFeedbackModal = !this.isShowFeedbackModal;
-    },
-    handleSubmitFeedback() {
-      this.isSubmitFeedback = true;
-      this.handleShowFeedbackModal();
+    handleSubmitFeedback(type) {
+      this.feedbackType = type;
+
+      if (type === "like") {
+        this.isShowLikeButton = true;
+        this.isShowDislikeButton = false;
+      }
+
+      if (type === "dislike") {
+        this.isShowLikeButton = false;
+        this.isShowDislikeButton = true;
+      }
     },
   },
 };

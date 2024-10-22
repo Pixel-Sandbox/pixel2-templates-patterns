@@ -17,22 +17,26 @@
       boxShadow: 'outer'
     }"
     @click="handleClick"
-  >
+  > 
+    <mp-icon v-if="isActive" name="airene-brand" size="md" />
     <img
+      v-else
       src="https://cdn.mekari.design/template-assets/mekari-ask-airene.gif"
       alt="icon ask airene"
-      style="width: 24px;"
+      style="width: 20px;"
     />
+
   </mp-flex>
 </template>
 
 <script>
-import { MpFlex } from "@mekari/pixel";
+import { MpFlex, MpIcon, } from "@mekari/pixel";
 
 export default {
   name: "AireneIcon",
   components: {
     MpFlex,
+    MpIcon,
   },
   props: {
     isActive: {

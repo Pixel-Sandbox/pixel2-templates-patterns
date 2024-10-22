@@ -1,5 +1,5 @@
 <template>
-  <mp-popover :id="id" placement="bottom-start" :use-portal="true">
+  <mp-popover :id="id" placement="bottom-start" :use-portal="true" v-slot="{ onClose }">
     <mp-popover-trigger>
       <mp-box>
         <slot></slot>
@@ -28,7 +28,7 @@
             Give feedback for Mekari Airene
           </mp-text>
 
-          <mp-button-icon name="close" />
+          <mp-button-icon name="close" @click="handleClose(onClose)" />
         </mp-flex>
 
         <mp-flex direction="column" gap="2" p="4">
@@ -58,8 +58,8 @@
 
         <mp-flex justify-content="flex-end" p="4" pt="1">
           <mp-button-group>
-            <mp-button variant="ghost"> Cancel </mp-button>
-            <mp-button> Submit </mp-button>
+            <mp-button variant="ghost" @click="handleClose(onClose)"> Cancel </mp-button>
+            <mp-button @click="handleSubmit(onClose)"> Submit </mp-button>
           </mp-button-group>
         </mp-flex>
       </mp-box>
@@ -111,10 +111,19 @@ export default {
   },
   data() {
     return {
-      isSubmitFeedback: false,
       reasonOption: "",
       reasonFedback: "",
     };
   },
+  methods: {
+    handleClose(handleClose) {
+      this.$emit('close', this.id)
+      handleClose()
+    },
+    handleSubmit(handleClose) {
+      this.$emit('submit', this.id)
+      handleClose()
+    }
+  }
 };
 </script>

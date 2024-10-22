@@ -1,5 +1,6 @@
 import AireneDrawer from './AireneDrawer.vue'
 import AireneIcon from './AireneIcon.vue'
+import AireneGreetings from './AireneGreetings.vue'
 import AireneIntro from './AireneIntro.vue'
 import AireneSuggestions from './AireneSuggestions.vue'
 import AireneInput from './AireneInput.vue'
@@ -11,9 +12,10 @@ export {
   AireneDrawer,
   AireneIcon,
   AireneIntro,
+  AireneGreetings,
   AireneSuggestions,
   AireneInput,
   AireneQuestion,
   AireneAnswer,
-  AireneFeedback
+  AireneFeedback,
 }
