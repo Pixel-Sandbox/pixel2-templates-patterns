@@ -6,7 +6,6 @@
       left="0"
       h="full"
       w="full"
-      v-if="isShowLoading"
       overflow="hidden"
     >
       <video
@@ -81,13 +80,6 @@ export default {
     MpBox,
     MpFlex,
   },
-  data() {
-    return {
-      typingAnimation: null,
-      cursorAnimation: null,
-    };
-  },
-
   mounted() {
     // Start intro animation
     this.$nextTick(() => {
