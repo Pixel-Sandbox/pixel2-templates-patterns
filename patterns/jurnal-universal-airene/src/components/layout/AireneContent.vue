@@ -32,6 +32,7 @@
         border-width="1px"
         border-color="gray.200"
         pointer-events="auto"
+        position="relative"
         v-bind="$attrs"
       >
         <slot />

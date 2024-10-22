@@ -3,8 +3,14 @@
     <AireneOverlay />
 
     <AireneContent>
-      <AireneSidebar />
-      <AireneBody @close="handleCloseContent" />
+      <AireneIntroAnimation
+        v-if="isShowLoading"
+        @finish="handleFinishIntroAnimation"
+      />
+      <template v-else>
+        <AireneSidebar />
+        <AireneBody @close="handleCloseContent" />
+      </template>
     </AireneContent>
   </AireneRoot>
 </template>
@@ -13,6 +19,7 @@
 import AireneRoot from "../components/layout/AireneRoot.vue";
 import AireneOverlay from "../components/layout/AireneOverlay.vue";
 import AireneContent from "../components/layout/AireneContent.vue";
+import AireneIntroAnimation from "../components/layout/AireneIntroAnimation.vue";
 
 import AireneSidebar from "./AireneSidebar.vue";
 import AireneBody from "./AireneBody.vue";
@@ -24,6 +31,7 @@ export default {
     AireneBody,
     AireneContent,
     AireneOverlay,
+    AireneIntroAnimation,
   },
   props: {
     isOpen: Boolean,
@@ -33,6 +41,7 @@ export default {
       isRender: false,
       isShowContent: false,
       currentActiveChat: "a1b2c3d4",
+      isShowLoading: true,
     };
   },
   provide() {
@@ -71,6 +80,13 @@ export default {
     // Set the initial state of the content to be shown or hidden based on the isOpen prop
     this.isRender = this.isOpen;
     this.isShowContent = this.isOpen;
+
+    // Start intro animation
+    if (this.isOpen) {
+      this.$nextTick(() => {
+        this.animateIcon();
+      });
+    }
   },
   methods: {
     handleShowContent() {
@@ -94,6 +110,10 @@ export default {
 
     handleSetCurrentActiveChat(chatId) {
       this.currentActiveChat = chatId;
+    },
+
+    handleFinishIntroAnimation() {
+      this.isShowLoading = false;
     },
   },
 };
