@@ -87,9 +87,7 @@ export default {
   },
   mounted() {
     // Start intro animation
-    this.$nextTick(() => {
-      this.animateIcon();
-    });
+    this.animateIcon();
   },
   methods: {
     animateIcon() {

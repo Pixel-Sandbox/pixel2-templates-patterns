@@ -3,8 +3,6 @@
     bg="white"
     position="sticky"
     bottom="0"
-    left="0"
-    right="0"
     p="4"
     pb="6"
   >
@@ -24,7 +22,6 @@
       <mp-form-error-message>You must fill in chat input</mp-form-error-message>
       <mp-form-help-text>
         Airene responses can be inaccurate or misleading.
-        {{  prompt }}
         <mp-text
           as="span"
           font-size="sm"

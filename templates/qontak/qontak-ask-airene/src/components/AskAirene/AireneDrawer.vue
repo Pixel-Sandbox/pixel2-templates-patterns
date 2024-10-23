@@ -5,12 +5,16 @@
     position="relative"
     width="316px"
     height="100%"
-    overflow="auto"
-    bg="white"
+    overflow-y="auto"
+    background="white"
   >
     <AireneIntro v-if="isShowIntroduction" @finish="handleFinishIntro" />
     <template v-else>
       <mp-flex
+        position="sticky"
+        top="0"
+        z-index="1"
+        background="white"
         justify-content="space-between"
         align-items="center"
         width="full"
@@ -29,6 +33,7 @@
 
       <!-- // CHAT CONTENT -->
       <mp-flex
+        ref="chat"
         position="relative"
         direction="column"
         :justify-content="isShowGreetings ? 'flex-end' : 'flex-start'"
@@ -48,7 +53,7 @@
             description="Is there anything Airene can help you with regarding your customer inquiries?"
             @finish="handleFinishGreetings"
           />
-          
+
           <Transition name="fade" mode="out-in">
             <AireneSuggestions
               v-if="isShowSuggestions"
@@ -126,7 +131,7 @@ export default {
       // ANSWER
       isChatContentLoading: false,
       answer:
-        "Silakan cabut dan sambungkan kembali mesin kopi Anda. Jika lampu masih berkedip merah, mohon periksa apakah tangki air sudah penuh. Apabila masalah masih berlanjut, silakan hubungi layanan pelanggan kami untuk bantuan lebih lanjut",
+        "Silakan cabut dan sambungkan kembali mesin kopi Anda. Jika lampu masih berkedip merah, mohon periksa apakah tangki air sudah penuh. Apabila masalah masih berlanjut, silakan hubungi layanan pelanggan kami untuk bantuan lebih lanjut ? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorum maiores alias ?",
 
       // INPUT
       isShowInput: false,
@@ -135,11 +140,25 @@ export default {
   },
   mounted() {},
   methods: {
+    handelScrollToBottom(el) {
+      const element = el;
+
+      this.$nextTick(() => {
+        element.scrollTo({
+          top: element.scrollHeight,
+          behavior: "smooth",
+        });
+      });
+    },
     handleCloseAirene() {
       this.$emit("close");
     },
     handleClickSuggestion(val) {
       this.prompt = val;
+
+      this.$nextTick(() => {
+        this.handelScrollToBottom(this.$refs.drawer.$el);
+      });
     },
     handleInputSubmit(val) {
       console.log("SUBMIT", val);
@@ -153,6 +172,7 @@ export default {
       // DO SOMETHING
       setTimeout(() => {
         this.isChatContentLoading = false;
+        this.handelScrollToBottom(this.$refs.chat.$el);
       }, 2000);
     },
     handleFinishIntro() {

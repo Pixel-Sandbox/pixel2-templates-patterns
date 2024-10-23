@@ -1,27 +1,15 @@
 <template>
   <mp-flex direction="column">
-    <mp-flex gap="1">
-      <mp-text
-        ref="hello"
-        class="airene_gradient_text"
-        font-size="2xl"
-        font-weight="semibold"
-        color="deepPurple"
-        mb="0.5"
-      >
-        Hello
-      </mp-text>
-      <mp-text
-        ref="name"
-        class="airene_gradient_text"
-        font-size="2xl"
-        font-weight="semibold"
-        color="deepPurple"
-        mb="0.5"
-      >
-        {{ `${name}!` }}
-      </mp-text>
-    </mp-flex>
+    <mp-text
+      class="airene_gradient_text"
+      font-size="2xl"
+      font-weight="semibold"
+      color="deepPurple"
+      mb="0.5"
+    >
+      <span ref="hello">Hello</span>
+      <span ref="name">{{ ` ${name}!` }}</span>
+    </mp-text>
 
     <mp-box ref="content" direction="column">
       <mp-text>{{ description }}</mp-text>
@@ -99,20 +87,20 @@ export default {
   },
   methods: {
     animateSection() {
-      const helloElement = this.$refs.hello.$el;
-      const nameElement = this.$refs.name.$el;
+      const helloElement = this.$refs.hello;
+      const nameElement = this.$refs.name;
       const contentElement = this.$refs.content.$el;
 
       const tl = anime.timeline({
         easing: "easeOutSine",
         duration: 300,
-        delay: 400
+        delay: 400,
       });
 
       tl.add({
         targets: helloElement,
         opacity: [0, 1],
-        delay: 200
+        delay: 200,
       })
         .add({
           targets: nameElement,
