@@ -8,7 +8,6 @@
       :is-open="isOpen"
       :is-show-intro-animation="isShowIntroAnimation"
       @close="handleClose"
-      @finish-intro-animation="handleFinishIntroAnimation"
     />
     <mp-box
       v-if="isShowAireneContextual"
@@ -76,10 +75,6 @@ export default {
     handleCloseContextual(payload) {
       console.log(payload);
       this.isShowAireneContextual = false;
-    },
-
-    handleFinishIntroAnimation() {
-      this.isShowIntroAnimation = false;
     },
   },
 };

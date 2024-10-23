@@ -8,8 +8,11 @@
         @finish="handleFinishIntroAnimation"
       />
       <template v-else>
-        <AireneSidebar :is-show-intro-animation="true" />
-        <AireneBody @close="handleCloseContent" />
+        <AireneSidebar :is-show-intro-animation="isShowIntroAnimation" />
+        <AireneBody
+          @close="handleCloseContent"
+          :is-show-intro-animation="isShowIntroAnimation"
+        />
       </template>
     </AireneContent>
   </AireneRoot>

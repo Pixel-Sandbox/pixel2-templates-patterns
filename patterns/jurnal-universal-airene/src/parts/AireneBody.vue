@@ -41,6 +41,7 @@
       <!-- Starter -->
       <AireneChatContentStarter
         v-if="chatResults.length === 0"
+        :is-show-intro-animation="isShowIntroAnimation"
         :is-loading="starterChatContent.isLoading"
         :welcome-title="starterChatContent.welcomeTitle"
         :welcome-message="starterChatContent.welcomeMessage"
@@ -209,6 +210,12 @@ export default {
     AireneChatResult,
     AireneChatTopic,
     AireneModalFeedback,
+  },
+  props: {
+    isShowIntroAnimation: {
+      type: Boolean,
+      default: false,
+    },
   },
   inject: ["$AireneContext"],
   data() {

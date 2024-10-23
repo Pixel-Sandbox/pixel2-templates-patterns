@@ -122,11 +122,17 @@ export default {
       type: Number,
       default: 1,
     },
+    isShowIntroAnimation: {
+      type: Boolean,
+      default: false,
+    },
   },
   mounted() {
-    setTimeout(() => {
-      this.handleAnimate();
-    });
+    if (this.isShowIntroAnimation) {
+      this.$nextTick(() => {
+        this.handStartAnimation();
+      });
+    }
   },
   methods: {
     // Suggested Question
@@ -144,9 +150,9 @@ export default {
     },
 
     // Animation
-    handleAnimate() {
+    handStartAnimation() {
       var tl = anime.timeline({
-        easing: "easeInSine",
+        easing: "easeOutSine",
         duration: 300,
         delay: 200,
       });
@@ -178,10 +184,7 @@ export default {
 
 <style scoped>
 .airene_gradient_text {
-  background: var(
-    --Gradient-deep-purple,
-    linear-gradient(96deg, #bd63f8 2.22%, #5f37e1 98.05%)
-  );
+  background: var(--colors-deepPurple);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

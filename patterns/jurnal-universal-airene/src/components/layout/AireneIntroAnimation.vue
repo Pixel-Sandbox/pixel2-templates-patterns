@@ -1,6 +1,7 @@
 <template>
   <mp-box ref="container">
     <mp-box
+      ref="videoContainer"
       position="absolute"
       top="0"
       left="0"
@@ -26,7 +27,13 @@
     </mp-box>
 
     <mp-box position="absolute" top="0" left="0" right="0" bottom="0">
-      <mp-flex h="full" align-items="center" max-w="60%" mx="auto">
+      <mp-flex
+        ref="contentContainer"
+        h="full"
+        align-items="center"
+        max-w="60%"
+        mx="auto"
+      >
         <mp-flex flex-direction="column">
           <svg
             id="airene-intro-icon"
@@ -46,7 +53,7 @@
             />
           </svg>
 
-          <mp-box w="300px" mt="4">
+          <mp-box mt="4">
             <mp-text font-size="2xl" font-weight="semibold">
               <span ref="typedText"></span
               ><span ref="dotSeparator" class="gradient-text" style="opacity: 0"
@@ -123,13 +130,23 @@ export default {
       typeNextChar();
     },
     animateLeaveIntroAnimation() {
-      const containerElement = this.$refs.container.$el;
+      const videoContainerElement = this.$refs.videoContainer.$el;
+      const contentContainerElement = this.$refs.contentContainer.$el;
 
       anime({
-        targets: containerElement,
+        targets: contentContainerElement,
         opacity: [1, 0],
-        duration: 2000,
-        easing: "easeInSine",
+        translateY: [0, 16],
+        duration: 300,
+        easing: "easeOutSine",
+      });
+
+      anime({
+        targets: videoContainerElement,
+        opacity: [1, 0],
+        translateY: [0, 16],
+        duration: 300,
+        easing: "easeOutSine",
         complete: () => {
           // Emit finish event
           this.$emit("finish");
