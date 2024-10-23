@@ -8,7 +8,7 @@
         @finish="handleFinishIntroAnimation"
       />
       <template v-else>
-        <AireneSidebar />
+        <AireneSidebar :is-show-intro-animation="true" />
         <AireneBody @close="handleCloseContent" />
       </template>
     </AireneContent>
@@ -35,13 +35,14 @@ export default {
   },
   props: {
     isOpen: Boolean,
+    isShowIntroAnimation: Boolean,
   },
   data() {
     return {
       isRender: false,
       isShowContent: false,
       currentActiveChat: "a1b2c3d4",
-      isShowLoading: true,
+      isShowLoading: this.isShowIntroAnimation,
     };
   },
   provide() {
@@ -80,13 +81,6 @@ export default {
     // Set the initial state of the content to be shown or hidden based on the isOpen prop
     this.isRender = this.isOpen;
     this.isShowContent = this.isOpen;
-
-    // Start intro animation
-    if (this.isOpen) {
-      this.$nextTick(() => {
-        this.animateIcon();
-      });
-    }
   },
   methods: {
     handleShowContent() {
@@ -94,6 +88,9 @@ export default {
     },
     handleCloseContent() {
       this.isShowContent = false;
+
+      // Reset the intro animation state based on prop.
+      this.isShowLoading = this.isShowIntroAnimation;
     },
     handleRender() {
       this.isRender = true;
@@ -114,6 +111,8 @@ export default {
 
     handleFinishIntroAnimation() {
       this.isShowLoading = false;
+
+      this.$emit("finish-intro-animation");
     },
   },
 };

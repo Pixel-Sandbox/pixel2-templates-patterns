@@ -8,7 +8,7 @@
     body-scroll-lock-ignore="true"
     p="2"
     :width="!isPinned || (isPinned && isHovered) ? '264px' : '56px'"
-    transition="width 600ms cubic-bezier(0.4, 0, 0.2, 1)"
+    transition="width 800ms cubic-bezier(0.4, 0, 0.2, 1)"
     height="100%"
     position="relative"
     bg="lightBlue"
@@ -35,7 +35,7 @@
         position="relative"
         :pr="!isPinned || (isPinned && isHovered) ? '2' : '0'"
       >
-        <mp-flex>
+        <mp-flex data-animation="true">
           <mp-icon
             name="airene-brand"
             position="absolute"
@@ -68,6 +68,7 @@
         >
           <mp-box
             as="button"
+            data-animation="true"
             v-show="!isPinned || (isPinned && isHovered)"
             @click="handleTogglePin"
           >
@@ -78,6 +79,7 @@
       </mp-flex>
 
       <mp-flex
+        data-animation="true"
         :visibility="
           !isPinned || (isPinned && isHovered) ? 'visible' : 'hidden'
         "
@@ -165,7 +167,7 @@
         rounded-bottom="md"
         bg="lightBlue"
       >
-        <mp-flex flex-direction="column" p="2">
+        <mp-flex data-animation="true" flex-direction="column" p="2">
           <mp-box>
             <mp-popover v-slot="{ isOpen, onClose }">
               <mp-popover-trigger>
@@ -253,6 +255,8 @@
 </template>
 
 <script>
+import anime from "animejs";
+
 import {
   MpBox,
   MpFlex,
@@ -299,10 +303,16 @@ export default {
     AireneModalRenameChat,
     AireneModalVideoTutorial,
   },
+  props: {
+    isShowIntroAnimation: {
+      type: Boolean,
+      default: false,
+    },
+  },
   inject: ["$AireneContext"],
   data() {
     return {
-      isPinned: false,
+      isPinned: this.isShowIntroAnimation, // Set to true if intro animation is shown
       isHovered: false,
 
       // Chats
@@ -321,6 +331,14 @@ export default {
   },
   mounted() {
     this.sidebarFooterHeight = this.$refs.sidebarFooter.$el.clientHeight;
+
+    // Reset the pinned state after intro animation is finished
+    this.$nextTick(() => {
+      if (this.isShowIntroAnimation) {
+        this.isPinned = false;
+        this.handleAnimateSidebarItem();
+      }
+    });
   },
   computed: {
     context() {
@@ -417,6 +435,18 @@ export default {
 
           if (textareaElement) textareaElement.focus();
         }
+      });
+    },
+
+    // Animation
+    handleAnimateSidebarItem() {
+      anime({
+        targets: '[data-animation="true"]',
+        opacity: [0, 1],
+        translateY: [-4, 0],
+        duration: 300,
+        easing: "cubicBezier(0.4, 0, 0.2, 1)",
+        delay: anime.stagger(100, { start: 500 }), // delay starts at 500ms then increase by 100ms for each elements.
       });
     },
   },

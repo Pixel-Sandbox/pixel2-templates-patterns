@@ -106,7 +106,11 @@
     </mp-flex>
 
     <AireneFooter v-if="!isShowBlankSlate">
-      <mp-form-control bg="white" control-id="airene-input-chat">
+      <mp-form-control
+        data-animation-for="airene-input-chat"
+        bg="white"
+        control-id="airene-input-chat"
+      >
         <mp-airene-chat-input v-model="prompt" @keydown="handleKeydown">
           <AireneChatTopic
             :topic="currentTopic"
@@ -242,7 +246,7 @@ export default {
        * @see AireneChatContentStarter.vue props.
        */
       starterChatContent: {
-        welcomeTitle: "Halo, Rizal Chandra!",
+        welcomeTitle: "Rizal Chandra!",
         welcomeMessage:
           "Apakah ada yang bisa dibantu oleh Airene terkait data penjualan, pembelian atau terkait akuntansi lainnya?",
         isLoading: false,

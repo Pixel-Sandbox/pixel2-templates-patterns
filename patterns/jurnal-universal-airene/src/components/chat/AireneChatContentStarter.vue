@@ -4,13 +4,28 @@
     ref="container"
     pt="var(--chat-content-body-padding-top)"
   >
-    <mp-heading class="airene_gradient_text"> {{ welcomeTitle }} </mp-heading>
+    <mp-flex gap="1">
+      <mp-heading
+        data-animation-for="welcome-title-halo"
+        class="airene_gradient_text"
+      >
+        Halo,
+      </mp-heading>
 
-    <mp-text line-height="1sm" mt="1">
+      <mp-heading
+        data-animation-for="welcome-title-name"
+        class="airene_gradient_text"
+      >
+        {{ welcomeTitle }}
+      </mp-heading>
+    </mp-flex>
+
+    <mp-text data-animation-for="welcome-message" line-height="1sm" mt="1">
       {{ welcomeMessage }}
     </mp-text>
 
     <AireneSuggestedQuestion
+      data-animation-for="suggested-question"
       v-if="suggestedQuestions.length"
       mt="4"
       title="Saran pertanyaan"
@@ -47,12 +62,16 @@
       </AireneSuggestedQuestionItem>
     </AireneSuggestedQuestion>
 
-    <AireneBannerPrivacyAndPolicy mt="4" />
+    <AireneBannerPrivacyAndPolicy
+      data-animation-for="banner-privacy-and-policy"
+      mt="4"
+    />
   </mp-box>
 </template>
 
 <script>
-import { MpBox, MpText, MpHeading } from "@mekari/pixel";
+import anime from "animejs";
+import { MpBox, MpText, MpHeading, MpFlex } from "@mekari/pixel";
 
 import AireneChatTagDropdown from "../chat/AireneChatTagDropdown.vue";
 import AireneSuggestedQuestion from "./AireneSuggestedQuestion.vue";
@@ -64,6 +83,7 @@ export default {
     MpHeading,
     MpBox,
     MpText,
+    MpFlex,
     AireneChatTagDropdown,
     AireneSuggestedQuestion,
     AireneSuggestedQuestionItem,
@@ -103,6 +123,11 @@ export default {
       default: 1,
     },
   },
+  mounted() {
+    setTimeout(() => {
+      this.handleAnimate();
+    });
+  },
   methods: {
     // Suggested Question
     handleChangeSuggestedQuestion(index, childIndex, data) {
@@ -116,6 +141,36 @@ export default {
     },
     handlePreviousSuggestion() {
       this.$emit("click-prev");
+    },
+
+    // Animation
+    handleAnimate() {
+      var tl = anime.timeline({
+        easing: "easeInSine",
+        duration: 300,
+        delay: 200,
+      });
+
+      tl.add({
+        targets: "[data-animation-for='welcome-title-halo']",
+        delay: 600,
+        opacity: [0, 1],
+        translateY: ["-16px", 0],
+      })
+        .add({
+          targets: "[data-animation-for='welcome-title-name']",
+          delay: 300,
+          opacity: [0, 1],
+        })
+        .add({
+          targets: [
+            "[data-animation-for='welcome-message']",
+            "[data-animation-for='suggested-question']",
+            "[data-animation-for='airene-input-chat']",
+          ],
+          opacity: [0, 1],
+          translateY: [8, 0],
+        });
     },
   },
 };

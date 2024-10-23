@@ -1,5 +1,5 @@
 <template>
-  <mp-box>
+  <mp-box ref="container">
     <mp-box
       position="absolute"
       top="0"
@@ -46,23 +46,13 @@
             />
           </svg>
 
-          <mp-box
-            display="flex"
-            align-items="center"
-            gap="1"
-            font-size="2xl"
-            font-weight="semibold"
-            mt="4"
-            class="text-body"
-          >
-            <span ref="typedText" style="opacity: 0">|</span>
-            <mp-box
-              class="typed-cursor"
-              w="2px"
-              h="25px"
-              bg="linear-gradient(96deg, #BD63F8 2.22%, #5F37E1 98.05%)"
-              style="opacity: 0"
-            ></mp-box>
+          <mp-box w="300px" mt="4">
+            <mp-text font-size="2xl" font-weight="semibold">
+              <span ref="typedText"></span
+              ><span ref="dotSeparator" class="gradient-text" style="opacity: 0"
+                >|
+              </span>
+            </mp-text>
           </mp-box>
         </mp-flex>
       </mp-flex>
@@ -73,12 +63,19 @@
 <script>
 import anime from "animejs";
 
-import { MpBox, MpFlex } from "@mekari/pixel";
+import { MpBox, MpFlex, MpText } from "@mekari/pixel";
 
 export default {
   components: {
     MpBox,
     MpFlex,
+    MpText,
+  },
+  data() {
+    return {
+      isAnimationFinished: false,
+      typingText: "Hello, I'm Airene, your AI assistant",
+    };
   },
   mounted() {
     // Start intro animation
@@ -87,48 +84,68 @@ export default {
     });
   },
   methods: {
-    // Intro animation
-    animateTyping() {
-      const textElement = this.$refs.typedText;
-      const cursorElement = this.$el.querySelector(".typed-cursor");
-      const text = "Hello, I'm Airene, your AI assistant";
-
-      // Show cursor and text
-      cursorElement.style.opacity = "1";
-      textElement.style.opacity = "1";
-
-      let currentText = "";
-      const typeWriter = (text, i = 0) => {
-        if (i < text.length) {
-          currentText += text.charAt(i);
-          textElement.textContent = currentText;
-          i++;
-          setTimeout(() => typeWriter(text, i), 25); // Adjust typing speed here
-        } else {
-          cursorElement.style.display = "none";
-
-          this.$emit("finish");
-        }
-      };
-
-      // Start the typewriter effect
-      typeWriter(text);
-    },
     animateIcon() {
       const iconElement = document.getElementById("airene-intro-icon");
       anime({
         targets: iconElement,
         opacity: [0, 1], // Fade in
+        translateY: [16, 0], // Slide up
+        easing: "easeOutSine",
         duration: 600,
-        easing: "easeInSine",
-        delay: 300, // Delay the start of the animation
+        delay: 600, // Delay the start of the animation
         complete: () => {
+          this.animateTyping();
+        },
+      });
+    },
+    animateTyping() {
+      const typedTextElement = this.$refs.typedText;
+      const dotSeparatorElement = this.$refs.dotSeparator;
+
+      dotSeparatorElement.style.opacity = 1;
+
+      let charIndex = 0;
+
+      const typeNextChar = () => {
+        if (charIndex < this.typingText.length) {
+          typedTextElement.textContent += this.typingText.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeNextChar, 35); // Adjust typing speed here (50ms between characters)
+        } else {
+          this.$refs.dotSeparator.style.opacity = 0; // Hide dot separator
+
           setTimeout(() => {
-            this.animateTyping();
-          }, 300);
+            this.animateLeaveIntroAnimation();
+          }, 600);
+        }
+      };
+
+      typeNextChar();
+    },
+    animateLeaveIntroAnimation() {
+      const containerElement = this.$refs.container.$el;
+
+      anime({
+        targets: containerElement,
+        opacity: [1, 0],
+        duration: 2000,
+        easing: "easeInSine",
+        complete: () => {
+          // Emit finish event
+          this.$emit("finish");
         },
       });
     },
   },
 };
 </script>
+
+<style scoped>
+.gradient-text {
+  background: var(--colors-deepPurple);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+</style>
