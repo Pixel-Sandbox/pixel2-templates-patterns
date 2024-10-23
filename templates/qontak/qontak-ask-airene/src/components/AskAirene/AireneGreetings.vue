@@ -1,36 +1,29 @@
 <template>
   <mp-flex direction="column">
-    <mp-text
-      as="h1"
-      class="airene_gradient_text"
-      font-size="2xl"
-      font-weight="semibold"
-      color="deepPurple"
-      mb="0.5"
-    >
-      <mp-box
-        as="span"
-        :visibility="isShowHello ? 'visible' : 'hidden'"
-        :opacity="isShowHello ? '1' : '0'"
-        transition="opacity 300ms"
-        >Hello,
-      </mp-box>
-      <mp-box
-        as="span"
-        :visibility="isShowName ? 'visible' : 'hidden'"
-        :opacity="isShowName ? '1' : '0'"
-        transition="opacity 300ms"
+    <mp-flex gap="1">
+      <mp-text
+        ref="hello"
+        class="airene_gradient_text"
+        font-size="2xl"
+        font-weight="semibold"
+        color="deepPurple"
+        mb="0.5"
+      >
+        Hello
+      </mp-text>
+      <mp-text
+        ref="name"
+        class="airene_gradient_text"
+        font-size="2xl"
+        font-weight="semibold"
+        color="deepPurple"
+        mb="0.5"
       >
         {{ `${name}!` }}
-      </mp-box>
-    </mp-text>
+      </mp-text>
+    </mp-flex>
 
-    <mp-box
-      direction="column"
-      :visibility="isShowOther ? 'visible' : 'hidden'"
-      :opacity="isShowOther ? '1' : '0'"
-      transition="opacity 300ms"
-    >
+    <mp-box ref="content" direction="column">
       <mp-text>{{ description }}</mp-text>
       <mp-flex direction="column" mt="3" gap="4">
         <mp-flex gap="2">
@@ -75,6 +68,8 @@
 </template>
 
 <script>
+import anime from "animejs";
+
 import { MpFlex, MpText, MpIcon, MpBox } from "@mekari/pixel";
 
 export default {
@@ -98,17 +93,40 @@ export default {
       type: String,
       default: "#",
     },
-    isShowHello: {
-      type: Boolean,
-      default: false,
-    },
-    isShowName: {
-      type: Boolean,
-      default: false,
-    },
-    isShowOther: {
-      type: Boolean,
-      default: false,
+  },
+  mounted() {
+    this.animateSection();
+  },
+  methods: {
+    animateSection() {
+      const helloElement = this.$refs.hello.$el;
+      const nameElement = this.$refs.name.$el;
+      const contentElement = this.$refs.content.$el;
+
+      const tl = anime.timeline({
+        easing: "easeOutSine",
+        duration: 300,
+        delay: 400
+      });
+
+      tl.add({
+        targets: helloElement,
+        opacity: [0, 1],
+        delay: 200
+      })
+        .add({
+          targets: nameElement,
+          opacity: [0, 1],
+          delay: 200,
+          complete: () => {
+            // Emit finish event
+            this.$emit("finish");
+          },
+        })
+        .add({
+          targets: contentElement,
+          opacity: [0, 1],
+        });
     },
   },
 };

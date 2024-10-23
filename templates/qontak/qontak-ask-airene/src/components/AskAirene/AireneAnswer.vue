@@ -1,6 +1,8 @@
 <template>
   <mp-airene-chat-bubble
     id="chat-bubble-with-other-content"
+    variant="answer"
+    title="Airene"
     :is-show-full-screen="false"
     :is-loading="isLoading"
     @click-full-screen="handleAlert('click button full screen')"

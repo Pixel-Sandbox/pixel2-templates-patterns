@@ -14,6 +14,7 @@
         id="airene-chat-input-1"
         v-model="prompt"
         maxlength="200"
+        :is-force-focus="isForceFocus"
         @input="handleInput"
         @click="handleClick"
         @keydown="handleKeydown"
@@ -105,35 +106,20 @@ export default {
   },
   data() {
     return {
-      inputWrapperHeight: 118,
       prompt: this.value,
+      isForceFocus: false,
       isShowModal: false,
     };
   },
   watch: {
     value(newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.$refs.input.currentValue = newVal; // TODO: hack way
-        this.handleForceFocusInput();
+        this.prompt = newVal;
+        this.isForceFocus = true;
       }
     },
   },
   methods: {
-    handleForceFocusInput() {
-      this.$nextTick(() => {
-        this.$refs.input.$children[0].$children[0].$children[0].$el.focus(); // TODO: hack way
-      });
-    },
-    handleForceBlurInput() {
-      this.$nextTick(() => {
-        this.$refs.input.$children[0].$children[0].$children[0].$el.blur(); // TODO: hack way
-      });
-    },
-    handleClearInput() {
-      this.prompt = "";
-      this.$refs.input.currentValue = ""; // TODO: hack way
-      this.handleForceBlurInput();
-    },
     handleShowModal() {
       this.isShowModal = !this.isShowModal;
     },
@@ -147,14 +133,14 @@ export default {
       console.log("BLUR");
     },
     handleClick(val, id) {
-      this.$emit("submit", this.prompt);
-      this.handleClearInput();
+      this.$emit("submit", val, id);
+      this.prompt = '';
     },
     handleKeydown(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault(); // Prevent the default behavior of create new line
         this.$emit("submit", this.prompt);
-        this.handleClearInput();
+        this.prompt = '';
       }
     },
   },

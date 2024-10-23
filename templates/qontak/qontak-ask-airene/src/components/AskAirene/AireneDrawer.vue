@@ -1,5 +1,6 @@
 <template>
   <mp-box
+    ref="drawer"
     flex="none"
     position="relative"
     width="316px"
@@ -35,23 +36,32 @@
         overflow-y="auto"
         transition="height 250ms ease"
       >
-        <mp-flex v-if="isShowGreetings" direction="column" gap="4" p="4">
+        <mp-flex
+          v-if="isShowGreetings || isShowSuggestions"
+          direction="column"
+          gap="4"
+          p="4"
+        >
           <AireneGreetings
+            v-if="isShowGreetings"
             name="Fajar"
             description="Is there anything Airene can help you with regarding your customer inquiries?"
-            :is-show-hello="isShowGreetingsHello"
-            :is-show-name="isShowGreetingsName"
-            :is-show-other="isShowOtherGreetings"
+            @finish="handleFinishGreetings"
           />
-          <AireneSuggestions
-            :suggestions="suggestions"
-            :is-show-suggestions="isShowSuggestions"
-            :is-loading="isSuggestionsLoading"
-            @click="handleClickSuggestion"
-          />
+          
+          <Transition name="fade" mode="out-in">
+            <AireneSuggestions
+              v-if="isShowSuggestions"
+              :suggestions="suggestions"
+              :is-loading="isSuggestionsLoading"
+              @click="handleClickSuggestion"
+            />
+            <mp-box v-if="!isShowSuggestions" height="98px" bg="white" />
+          </Transition>
         </mp-flex>
+
         <Transition name="fade">
-          <mp-flex v-if="!isShowGreetings" direction="column" gap="4" p="4">
+          <mp-flex v-if="isShowQuestion" direction="column" gap="4" p="4">
             <AireneQuestion name="Anda" :question="question" />
             <AireneAnswer :text="answer" :is-loading="isChatContentLoading" />
           </mp-flex>
@@ -102,17 +112,15 @@ export default {
       isShowIntroduction: true,
 
       // Greetings
-      isShowGreetings: true,
-      isShowGreetingsHello: false,
-      isShowGreetingsName: false,
-      isShowOtherGreetings: false,
+      isShowGreetings: false,
 
       // SUGGESTIONS
-      suggestions: "Cara memperbaiki mesin kopi dengan indikator berkedip ?",
       isShowSuggestions: false,
-      isSuggestionsLoading: true,
+      isSuggestionsLoading: false,
+      suggestions: "Cara memperbaiki mesin kopi dengan indikator berkedip",
 
       //QUESTION
+      isShowQuestion: false,
       question: "",
 
       // ANSWER
@@ -135,8 +143,11 @@ export default {
     },
     handleInputSubmit(val) {
       console.log("SUBMIT", val);
+      this.isShowGreetings = false;
+      this.isShowSuggestions = false;
+
       this.question = val;
-      this.isShowIntroduction = false;
+      this.isShowQuestion = true;
       this.isChatContentLoading = true;
 
       // DO SOMETHING
@@ -146,23 +157,16 @@ export default {
     },
     handleFinishIntro() {
       this.isShowIntroduction = false;
-      setTimeout(() => {
-        this.isShowGreetingsHello = true;
-      }, 500);
-
-      setTimeout(() => {
-        this.isShowGreetingsName = true;
-      }, 1000);
-
-      setTimeout(() => {
-        this.isShowOtherGreetings = true;
-        this.isShowSuggestions = true;
-        this.isShowInput = true;
-      }, 1500);
+      this.isShowGreetings = true;
+    },
+    handleFinishGreetings() {
+      this.isShowInput = true;
+      this.isShowSuggestions = true;
+      this.isSuggestionsLoading = true;
 
       setTimeout(() => {
         this.isSuggestionsLoading = false;
-      }, 2500);
+      }, 2000);
     },
   },
 };
@@ -171,7 +175,7 @@ export default {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 300ms;
+  transition: opacity 200ms;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

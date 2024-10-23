@@ -1,11 +1,5 @@
 <template>
-  <mp-flex
-    direction="column"
-    gap="3"
-    :visibility="isShowSuggestions ? 'visible' : 'hidden'"
-    :opacity="isShowSuggestions ? '1' : '0'"
-    transition="opacity 300ms"
-  >
+  <mp-flex ref="suggestions" direction="column" gap="3">
     <mp-text font-weight="semibold">{{ title }}</mp-text>
     <mp-flex
       v-if="isLoading"
@@ -60,6 +54,8 @@
 </template>
 
 <script>
+import anime from "animejs";
+
 import { MpFlex, MpText, MpIcon, MpSkeleton } from "@mekari/pixel";
 
 export default {
@@ -83,14 +79,24 @@ export default {
       type: Boolean,
       default: false,
     },
-    isShowSuggestions: {
-      type: Boolean,
-      default: false,
-    },
+  },
+  mounted() {
+    this.animateSection();
   },
   methods: {
     handleClick() {
       this.$emit("click", this.suggestions);
+    },
+    animateSection() {
+      const suggestionsElement = this.$refs.suggestions.$el;
+
+      anime({
+        targets: suggestionsElement,
+        easing: "easeOutSine",
+        opacity: [0, 1],
+        duration: 300,
+        delay: 200,
+      });
     },
   },
 };
