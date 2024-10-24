@@ -7,7 +7,20 @@ import {
   format,
 } from "date-fns";
 
-export function groupChatsByDate(chats) {
+/**
+ * Groups chat items by date categories.
+ * @param {Array} chats - Array of chat objects with created_at property.
+ * @param {string} [groupKey="groupName"] - The property to group by, defaults to "groupName".
+ * @returns {Array} An array of grouped chat objects, where each group contains a groupName and an array of chat items.
+ * @description This function categorizes chats into groups based on their creation date:
+ * - Today
+ * - This Week
+ * - This Month
+ * - Last Month (by name)
+ * - Two Months Ago (by name)
+ * Chats older than two months are excluded from the grouping.
+ */
+export function groupChatsByDate(chats, groupKey = "groupName") {
   const today = new Date();
   const lastMonth = subMonths(today, 1);
   const twoMonthsAgo = subMonths(today, 2);
@@ -42,11 +55,15 @@ export function groupChatsByDate(chats) {
 
   const filteredDatas = rawDatas.filter((v) => v.groupName);
   console.log("3. filteredDatas", filteredDatas);
-  return convertToGroupArray(groupBy(filteredDatas, "groupName"));
+  return convertToGroupArray(groupBy(filteredDatas, groupKey));
 }
 
-// Assuming these functions are already in your utils file
-// If not, you'll need to add them:
+/**
+ * Groups an array of objects by a specified key.
+ * @param {Array} array - The array to group.
+ * @param {string} key - The key to group by.
+ * @returns {Object} An object with keys as group names and values as arrays of grouped items.
+ */
 export function groupBy(array, key) {
   return array.reduce((result, currentValue) => {
     (result[currentValue[key]] = result[currentValue[key]] || []).push(
@@ -56,6 +73,11 @@ export function groupBy(array, key) {
   }, {});
 }
 
+/**
+ * Converts a grouped object into an array of group objects.
+ * @param {Object} groupedObject - The object with grouped data.
+ * @returns {Array} An array of objects, each containing a groupName and its corresponding data.
+ */
 export function convertToGroupArray(groupedObject) {
   return Object.entries(groupedObject).map(([groupName, datas]) => ({
     groupName,
