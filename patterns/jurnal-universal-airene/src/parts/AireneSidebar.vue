@@ -247,15 +247,6 @@
 </template>
 
 <script>
-import {
-  parseISO,
-  isToday,
-  isThisWeek,
-  isSameMonth,
-  subMonths,
-  format,
-} from "date-fns";
-
 import anime from "animejs";
 
 import {
@@ -281,7 +272,7 @@ import AireneDeleteDialog from "../components/modal/AireneDeleteDialog.vue";
 import AireneModalRenameChat from "../components/modal/AireneModalRenameChat.vue";
 import AireneModalVideoTutorial from "../components/modal/AireneModalVideoTutorial.vue";
 
-import { groupBy, convertToGroupArray } from "../utils";
+import { groupChatsByDate } from "../utils";
 export default {
   components: {
     MpBox,
@@ -411,44 +402,8 @@ export default {
       return this.$AireneContext();
     },
     getChatHistory() {
-      const today = new Date();
-      const lastMonth = subMonths(today, 1);
-      const twoMonthsAgo = subMonths(today, 2);
-
-      const rawDatas = this.SIDEBAR_DATAS.map((item) => {
-        const date = parseISO(item.created_at);
-
-        let groupName;
-        if (isToday(date)) {
-          groupName = "Today";
-        } else if (isThisWeek(date, { weekStartsOn: 1 })) {
-          // Assuming week starts on Monday
-          groupName = "This Week";
-        } else if (isSameMonth(date, today)) {
-          groupName = "This Month";
-        } else if (isSameMonth(date, lastMonth)) {
-          groupName = format(lastMonth, "MMMM");
-        } else if (isSameMonth(date, twoMonthsAgo)) {
-          groupName = format(twoMonthsAgo, "MMMM");
-        } else {
-          groupName = null; // Set groupName to null for older items
-        }
-
-        return {
-          ...item,
-          groupName,
-        };
-      });
-
-      const filteredDatas = rawDatas.filter((v) => v.groupName);
-      const groupedDatas = convertToGroupArray(
-        groupBy(filteredDatas, "groupName")
-      );
-
-      console.log("1. rawDatas", rawDatas);
-      console.log("2. filteredDatas", filteredDatas);
-      console.log("3. groupedDatas", groupedDatas);
-
+      const groupedDatas = groupChatsByDate(this.SIDEBAR_DATAS);
+      console.log("4. groupedDatas", groupedDatas);
       return groupedDatas;
     },
   },

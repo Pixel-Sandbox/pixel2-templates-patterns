@@ -9,7 +9,14 @@
     "new-pattern": "hygen generator new-pattern"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.25.8",
     "@turbo/gen": "^1.9.7",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-vue": "^8.5.0",
     "hygen": "^6.2.11",
     "prettier": "^2.5.1",
     "turbo": "^1.10.13"
