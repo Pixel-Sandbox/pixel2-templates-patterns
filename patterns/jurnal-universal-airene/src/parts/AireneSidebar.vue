@@ -130,7 +130,7 @@
             gap="5"
           >
             <AireneChatGroup
-              v-for="(group, index) in chatsHistory"
+              v-for="group in getChatHistory"
               :key="group.groupName"
               :title="group.groupName"
             >
@@ -142,16 +142,8 @@
                 @delete="handleDeleteChat(chat)"
                 @edit="handleRenameChat(chat)"
               >
-                {{ chat.name }}
+                {{ chat.label }}
               </AireneChatItem>
-
-              <mp-box
-                v-if="index === chatsHistory.length - 1"
-                data-element="chat-skeleton"
-              >
-                <MpSkeleton w="50%" h="20px" rounded="full" />
-                <MpSkeleton mt="2" w="full" h="20px" rounded="full" />
-              </mp-box>
             </AireneChatGroup>
           </mp-flex>
         </mp-flex>
@@ -255,6 +247,15 @@
 </template>
 
 <script>
+import {
+  parseISO,
+  isToday,
+  isThisWeek,
+  isSameMonth,
+  subMonths,
+  format,
+} from "date-fns";
+
 import anime from "animejs";
 
 import {
@@ -269,7 +270,6 @@ import {
   MpPopoverContent,
   MpPopoverList,
   MpPopoverListItem,
-  MpSkeleton,
 } from "@mekari/pixel";
 
 import { CHAT_HISTORY } from "../examples-datasets/chat-history";
@@ -281,6 +281,7 @@ import AireneDeleteDialog from "../components/modal/AireneDeleteDialog.vue";
 import AireneModalRenameChat from "../components/modal/AireneModalRenameChat.vue";
 import AireneModalVideoTutorial from "../components/modal/AireneModalVideoTutorial.vue";
 
+import { groupBy, convertToGroupArray } from "../utils";
 export default {
   components: {
     MpBox,
@@ -294,7 +295,6 @@ export default {
     MpPopoverContent,
     MpPopoverList,
     MpPopoverListItem,
-    MpSkeleton,
 
     // Airene components
     AireneChatItem,
@@ -327,6 +327,70 @@ export default {
 
       // Utils
       sidebarFooterHeight: 0,
+
+      // Example
+      SIDEBAR_DATAS: [
+        {
+          id: 1,
+          created_at: "2024-10-24T09:15:23.123456",
+          label: "Analisis penjualan Q3 2024",
+        },
+        {
+          id: 2,
+          created_at: "2024-10-22T14:30:45.678901",
+          label: "Proyeksi laba bersih November 2024",
+        },
+        {
+          id: 3,
+          created_at: "2024-10-18T11:05:37.246810",
+          label: "Evaluasi kinerja karyawan bulan Oktober",
+        },
+        {
+          id: 4,
+          created_at: "2024-10-10T16:45:12.135790",
+          label: "Analisis tren penjualan produk baru",
+        },
+        {
+          id: 5,
+          created_at: "2024-09-28T08:20:54.987654",
+          label: "Laporan keuangan September 2024",
+        },
+        {
+          id: 6,
+          created_at: "2024-09-15T13:40:33.246135",
+          label: "Strategi pemasaran Q4 2024",
+        },
+        {
+          id: 7,
+          created_at: "2024-08-30T10:55:18.753951",
+          label: "Analisis kompetitor Agustus 2024",
+        },
+        {
+          id: 8,
+          created_at: "2024-08-12T15:25:42.159753",
+          label: "Perencanaan anggaran 2025",
+        },
+        {
+          id: 9,
+          created_at: "2024-07-28T09:10:36.852147",
+          label: "Evaluasi kinerja tim sales Juli 2024",
+        },
+        {
+          id: 10,
+          created_at: "2024-07-15T14:50:27.369258",
+          label: "Analisis kepuasan pelanggan Q2 2024",
+        },
+        {
+          id: 11,
+          created_at: "2024-06-30T11:35:49.741852",
+          label: "Laporan keuangan semester I 2024",
+        },
+        {
+          id: 12,
+          created_at: "2024-06-18T16:05:33.159357",
+          label: "Strategi ekspansi pasar untuk Q3 2024",
+        },
+      ],
     };
   },
   mounted() {
@@ -339,10 +403,53 @@ export default {
         this.handleAnimateSidebarItem();
       }
     });
+
+    console.log("getChatHistory", this.getChatHistory);
   },
   computed: {
     context() {
       return this.$AireneContext();
+    },
+    getChatHistory() {
+      const today = new Date();
+      const lastMonth = subMonths(today, 1);
+      const twoMonthsAgo = subMonths(today, 2);
+
+      const rawDatas = this.SIDEBAR_DATAS.map((item) => {
+        const date = parseISO(item.created_at);
+
+        let groupName;
+        if (isToday(date)) {
+          groupName = "Today";
+        } else if (isThisWeek(date, { weekStartsOn: 1 })) {
+          // Assuming week starts on Monday
+          groupName = "This Week";
+        } else if (isSameMonth(date, today)) {
+          groupName = "This Month";
+        } else if (isSameMonth(date, lastMonth)) {
+          groupName = format(lastMonth, "MMMM");
+        } else if (isSameMonth(date, twoMonthsAgo)) {
+          groupName = format(twoMonthsAgo, "MMMM");
+        } else {
+          groupName = null; // Set groupName to null for older items
+        }
+
+        return {
+          ...item,
+          groupName,
+        };
+      });
+
+      const filteredDatas = rawDatas.filter((v) => v.groupName);
+      const groupedDatas = convertToGroupArray(
+        groupBy(filteredDatas, "groupName")
+      );
+
+      console.log("1. rawDatas", rawDatas);
+      console.log("2. filteredDatas", filteredDatas);
+      console.log("3. groupedDatas", groupedDatas);
+
+      return groupedDatas;
     },
   },
   methods: {

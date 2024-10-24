@@ -38,14 +38,14 @@ export default {
   },
   props: {
     isOpen: Boolean,
-    isShowIntroAnimation: Boolean,
   },
   data() {
     return {
       isRender: false,
       isShowContent: false,
       currentActiveChat: "a1b2c3d4",
-      isShowLoading: this.isShowIntroAnimation,
+      isShowLoading: true,
+      isShowIntroAnimation: true,
     };
   },
   provide() {

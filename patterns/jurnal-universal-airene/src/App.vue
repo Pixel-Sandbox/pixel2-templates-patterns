@@ -4,11 +4,7 @@
       Analisis performa penjualan
     </mp-airene-button>
 
-    <UniversalAirene
-      :is-open="isOpen"
-      :is-show-intro-animation="isShowIntroAnimation"
-      @close="handleClose"
-    />
+    <UniversalAirene :is-open="isOpen" @close="handleClose" />
     <mp-box
       v-if="isShowAireneContextual"
       position="fixed"
