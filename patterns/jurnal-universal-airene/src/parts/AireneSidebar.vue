@@ -39,8 +39,8 @@
           <mp-icon
             name="airene-brand"
             position="absolute"
-            top="4"
-            left="2"
+            top="-2"
+            left="0"
             transition-property="transform, opacity"
             transition-duration="300ms"
             transition-timing-function="cubic-bezier(0.4, 0, 0.2, 1)"
@@ -159,7 +159,7 @@
         rounded-bottom="md"
         bg="lightBlue"
       >
-        <mp-flex data-animation="true" flex-direction="column" p="2">
+        <mp-flex data-animation="true" flex-direction="column">
           <mp-box>
             <mp-popover v-slot="{ isOpen, onClose }">
               <mp-popover-trigger>
@@ -187,6 +187,7 @@
                   <mp-text
                     color="inherit"
                     :font-weight="isOpen ? 'semibold' : 'normal'"
+                    :opacity="!isPinned || (isPinned && isHovered) ? 1 : 0"
                   >
                     Bantuan
                   </mp-text>
