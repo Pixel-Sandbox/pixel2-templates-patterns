@@ -4,7 +4,12 @@
       Analisis performa penjualan
     </mp-airene-button>
 
-    <UniversalAirene :is-open="isOpen" @close="handleClose" />
+    <UniversalAirene
+      :is-open="isOpen"
+      @close="handleClose"
+      :enable-intro-animation="isShowIntroAnimation"
+      @finish-animation="handleFinishAnimation"
+    />
     <mp-box
       v-if="isShowAireneContextual"
       position="fixed"
@@ -71,6 +76,9 @@ export default {
     handleCloseContextual(payload) {
       console.log(payload);
       this.isShowAireneContextual = false;
+    },
+    handleFinishAnimation() {
+      this.isShowIntroAnimation = false;
     },
   },
 };

@@ -176,6 +176,9 @@ export default {
           ],
           opacity: [0, 1],
           translateY: [8, 0],
+          complete: () => {
+            this.$emit("finish-animation");
+          },
         });
     },
   },

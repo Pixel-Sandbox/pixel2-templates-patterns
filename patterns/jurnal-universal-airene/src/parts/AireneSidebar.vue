@@ -323,6 +323,11 @@ export default {
       // Example
       SIDEBAR_DATAS: [
         {
+          id: 0,
+          created_at: new Date().toISOString(),
+          label: "Percakapan baru",
+        },
+        {
           id: 1,
           created_at: "2024-10-24T09:15:23.123456",
           label: "Analisis penjualan Q3 2024",
@@ -510,6 +515,9 @@ export default {
         duration: 300,
         easing: "cubicBezier(0.4, 0, 0.2, 1)",
         delay: anime.stagger(100, { start: 500 }), // delay starts at 500ms then increase by 100ms for each elements.
+        complete: () => {
+          this.context.handleToggleAnimation("sidebar", true);
+        },
       });
     },
   },

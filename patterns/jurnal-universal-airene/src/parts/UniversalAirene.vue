@@ -8,10 +8,10 @@
         @finish="handleFinishIntroAnimation"
       />
       <template v-else>
-        <AireneSidebar :is-show-intro-animation="isShowIntroAnimation" />
+        <AireneSidebar :is-show-intro-animation="enableIntroAnimation" />
         <AireneBody
           @close="handleCloseContent"
-          :is-show-intro-animation="isShowIntroAnimation"
+          :is-show-intro-animation="enableIntroAnimation"
         />
       </template>
     </AireneContent>
@@ -38,14 +38,23 @@ export default {
   },
   props: {
     isOpen: Boolean,
+    enableIntroAnimation: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       isRender: false,
       isShowContent: false,
       currentActiveChat: "a1b2c3d4",
-      isShowLoading: true,
-      isShowIntroAnimation: true,
+      isShowLoading: this.enableIntroAnimation,
+      isShowIntroAnimation: this.enableIntroAnimation,
+      animationFinishedStatus: {
+        intro: false,
+        sidebar: false,
+        chatContentStarter: false,
+      },
     };
   },
   provide() {
@@ -61,12 +70,14 @@ export default {
         // State
         isShowContent: this.isShowContent,
         currentActiveChat: this.currentActiveChat,
+        enableIntroAnimation: this.enableIntroAnimation,
 
         // Method
         handleEmitClose: this.handleEmitClose,
         handleCloseContent: this.handleCloseContent,
         handleUnrender: this.handleUnrender,
         handleSetCurrentActiveChat: this.handleSetCurrentActiveChat,
+        handleToggleAnimation: this.handleToggleAnimation,
       };
     },
   },
@@ -78,6 +89,15 @@ export default {
       } else {
         this.isShowContent && this.handleCloseContent();
       }
+    },
+    animationFinishedStatus: {
+      deep: true,
+      handler(newValue) {
+        console.log("animationFinishedStatus =>", newValue);
+        if (newValue.intro && newValue.sidebar && newValue.chatContentStarter) {
+          this.$emit("finish-animation");
+        }
+      },
     },
   },
   mounted() {
@@ -91,9 +111,6 @@ export default {
     },
     handleCloseContent() {
       this.isShowContent = false;
-
-      // Reset the intro animation state based on prop.
-      this.isShowLoading = this.isShowIntroAnimation;
     },
     handleRender() {
       this.isRender = true;
@@ -115,7 +132,18 @@ export default {
     handleFinishIntroAnimation() {
       this.isShowLoading = false;
 
-      this.$emit("finish-intro-animation");
+      // Toggle the intro animation finished status to true
+      this.handleToggleAnimation("intro", true);
+    },
+
+    handleToggleAnimation(target, value) {
+      if (target === "intro") {
+        this.animationFinishedStatus.intro = value;
+      } else if (target === "sidebar") {
+        this.animationFinishedStatus.sidebar = value;
+      } else if (target === "chatContentStarter") {
+        this.animationFinishedStatus.chatContentStarter = value;
+      }
     },
   },
 };

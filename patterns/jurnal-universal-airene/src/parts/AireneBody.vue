@@ -54,6 +54,7 @@
         @click-prev="handlePrevSuggestedQuestion"
         @click-reload="handleReloadSuggestedQuestion"
         @change-suggested-question="handleChangeSuggestedQuestion"
+        @finish-animation="handleFinishAnimation"
       />
 
       <!-- Result -->
@@ -362,7 +363,7 @@ export default {
         this.handleEmptyChatInput();
 
         // Simulate blank slate.
-        if (newValue === "q7r8s9t0") {
+        if (newValue === 2) {
           this.isShowBlankSlate = true;
           return;
         }
@@ -370,7 +371,7 @@ export default {
         this.isShowBlankSlate = false;
 
         // Simulate New chat
-        if (newValue === "" || newValue === "a1b2c3d4") {
+        if (newValue === "" || newValue === 0) {
           this.chatResults = [];
           return;
         }
@@ -524,6 +525,11 @@ export default {
         textareaElement.value = "";
         textareaElement.dispatchEvent(new Event("input", { bubbles: true }));
       }
+    },
+
+    // Animation
+    handleFinishAnimation() {
+      this.context.handleToggleAnimation("chatContentStarter", true);
     },
   },
 };
