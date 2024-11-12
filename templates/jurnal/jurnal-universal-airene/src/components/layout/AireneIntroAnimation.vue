@@ -1,40 +1,36 @@
 <template>
   <mp-box ref="container">
     <mp-box
-      ref="videoContainer"
+      ref="backgroundContainer"
       position="absolute"
       top="0"
       left="0"
       h="full"
       w="full"
       overflow="hidden"
+      class="airene-intro-bg-gradient-animation"
     >
-      <video
-        autoplay
-        loop
-        muted
-        playsinline
-        style="
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transform: scale(1.1);
-        "
-      >
-        <source src="/airene-intro.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
     </mp-box>
 
     <mp-box position="absolute" top="0" left="0" right="0" bottom="0">
       <mp-flex
         ref="contentContainer"
+        flex-direction="column"
+        justify-content="end"
         h="full"
-        align-items="center"
-        max-w="60%"
+        w="full"
+        max-w="550px"
         mx="auto"
+        pb="4"
       >
-        <mp-flex flex-direction="column">
+        <mp-flex
+          ref="introContainer"
+          flex-direction="column"
+          :style="{
+            transition: 'transform 0.3s ease-out',
+            transform: 'translateY(200px)',
+          }"
+        >
           <svg
             id="airene-intro-icon"
             width="54"
@@ -60,6 +56,104 @@
                 >|
               </span>
             </mp-text>
+
+            <mp-box ref="termsAndConditions" opacity="0" mt="2">
+              <mp-box>
+                <mp-text font-weight="semibold" line-height="md">
+                  Iam here to help you generate insights, summaries, and data
+                  analysis from your Jurnal.
+                </mp-text>
+
+                <mp-text mt="4" font-weight="semibold">
+                  Before we start, here's what you need to know:
+                </mp-text>
+
+                <mp-box p="4" rounded="md" bg="white" mt="3">
+                  <mp-flex>
+                    <mp-flex
+                      flex="none"
+                      mr="4"
+                      align-items="center"
+                      justify-content="center"
+                      w="10"
+                      h="10"
+                      bg="blue.50"
+                      rounded="md"
+                    >
+                      <mp-icon name="policy" size="sm" />
+                    </mp-flex>
+
+                    <mp-box>
+                      <mp-text font-weight="semibold"> Data Access </mp-text>
+
+                      <mp-text line-height="md">
+                        Airene can read and process data across Talenta
+                        features. Your data access is governed by Role-Based
+                        Access Control (RBAC), ensuring Airene only accesses the
+                        information you are authorized to use based on your role
+                        within the organization.
+                      </mp-text>
+                    </mp-box>
+                  </mp-flex>
+
+                  <mp-flex mt="4">
+                    <mp-flex
+                      flex="none"
+                      mr="4"
+                      align-items="center"
+                      justify-content="center"
+                      w="10"
+                      h="10"
+                      bg="blue.50"
+                      rounded="md"
+                    >
+                      <mp-icon name="chat" size="sm" />
+                    </mp-flex>
+
+                    <mp-box>
+                      <mp-text font-weight="semibold">
+                        Conversation Review
+                      </mp-text>
+
+                      <mp-text line-height="md">
+                        To improve your experience and enhance our answers,
+                        flagged conversations may be periodically reviewed for
+                        quality checks. Any review will be conducted with
+                        privacy in mind.
+                      </mp-text>
+                    </mp-box>
+                  </mp-flex>
+
+                  <mp-text mt="4">
+                    Learn about Mekari's
+                    <mp-text
+                      as="a"
+                      is-link
+                      href="https://mekari.com"
+                      target="_blank"
+                    >
+                      Privacy Policy
+                    </mp-text>
+                    and
+                    <mp-text
+                      as="a"
+                      is-link
+                      href="https://mekari.com/lega"
+                      target="_blank"
+                    >
+                      Terms of Service
+                    </mp-text>
+                    .
+                  </mp-text>
+                </mp-box>
+              </mp-box>
+
+              <mp-flex justify-content="flex-end" mt="3">
+                <mp-button @click="animateLeaveIntroAnimation">
+                  Continue
+                </mp-button>
+              </mp-flex>
+            </mp-box>
           </mp-box>
         </mp-flex>
       </mp-flex>
@@ -70,13 +164,15 @@
 <script>
 import anime from "animejs";
 
-import { MpBox, MpFlex, MpText } from "@mekari/pixel";
+import { MpBox, MpFlex, MpText, MpIcon, MpButton } from "@mekari/pixel";
 
 export default {
   components: {
     MpBox,
     MpFlex,
     MpText,
+    MpIcon,
+    MpButton,
   },
   data() {
     return {
@@ -87,12 +183,22 @@ export default {
   mounted() {
     // Start intro animation
     this.$nextTick(() => {
-      this.animateIcon();
+      this.animateIcon({
+        onComplete: () => {
+          this.animateTyping({
+            onComplete: () => {
+              this.animateContainer();
+              this.animateTermsAndConditions();
+            },
+          });
+        },
+      });
     });
   },
   methods: {
-    animateIcon() {
+    animateIcon({ onComplete }) {
       const iconElement = document.getElementById("airene-intro-icon");
+
       anime({
         targets: iconElement,
         opacity: [0, 1], // Fade in
@@ -101,36 +207,62 @@ export default {
         duration: 600,
         delay: 600, // Delay the start of the animation
         complete: () => {
-          this.animateTyping();
+          onComplete?.();
         },
       });
     },
-    animateTyping() {
+    animateTyping({ onComplete }) {
       const typedTextElement = this.$refs.typedText;
       const dotSeparatorElement = this.$refs.dotSeparator;
 
-      dotSeparatorElement.style.opacity = 1;
+      if (dotSeparatorElement) {
+        dotSeparatorElement.style.opacity = 1;
+      }
 
       let charIndex = 0;
 
       const typeNextChar = () => {
         if (charIndex < this.typingText.length) {
-          typedTextElement.textContent += this.typingText.charAt(charIndex);
-          charIndex++;
-          setTimeout(typeNextChar, 35); // Adjust typing speed here (50ms between characters)
-        } else {
-          this.$refs.dotSeparator.style.opacity = 0; // Hide dot separator
+          if (typedTextElement) {
+            typedTextElement.textContent += this.typingText.charAt(charIndex);
 
-          setTimeout(() => {
-            this.animateLeaveIntroAnimation();
-          }, 600);
+            charIndex++;
+            setTimeout(typeNextChar, 35); // Adjust typing speed here (50ms between characters)
+          }
+        } else {
+          if (dotSeparatorElement) {
+            dotSeparatorElement.style.opacity = 0; // Hide dot separator
+          }
+
+          onComplete?.();
         }
       };
 
       typeNextChar();
     },
+    animateContainer() {
+      const introContainer = this.$refs.introContainer.$el;
+
+      anime({
+        targets: introContainer,
+        translateY: 0,
+        easing: "easeOutSine",
+        duration: 300,
+      });
+    },
+    animateTermsAndConditions() {
+      const termsAndConditionsElement = this.$refs.termsAndConditions.$el;
+
+      anime({
+        targets: termsAndConditionsElement,
+        opacity: [0, 1],
+        translateY: [16, 0],
+        easing: "easeOutSine",
+        duration: 300,
+      });
+    },
     animateLeaveIntroAnimation() {
-      const videoContainerElement = this.$refs.videoContainer.$el;
+      const backgroundContainerElement = this.$refs.backgroundContainer.$el;
       const contentContainerElement = this.$refs.contentContainer.$el;
 
       anime({
@@ -140,9 +272,8 @@ export default {
         duration: 300,
         easing: "easeOutSine",
       });
-
       anime({
-        targets: videoContainerElement,
+        targets: backgroundContainerElement,
         opacity: [1, 0],
         translateY: [0, 16],
         duration: 300,
@@ -164,5 +295,25 @@ export default {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+}
+
+/* Keyframes for the gradient animation */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Applying the animated background to the body or any div */
+.airene-intro-bg-gradient-animation {
+  background: linear-gradient(270deg, #ede6ff, #f1f3fb, #dae2ff);
+  background-size: 400% 400%; /* Large background size to allow smooth movement */
+  animation: gradientAnimation 6s ease infinite; /* Animation settings */
 }
 </style>

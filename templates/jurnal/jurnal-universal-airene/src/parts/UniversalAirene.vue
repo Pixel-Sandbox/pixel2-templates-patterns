@@ -131,7 +131,6 @@ export default {
 
     handleFinishIntroAnimation() {
       this.isShowLoading = false;
-
       // Toggle the intro animation finished status to true
       this.handleToggleAnimation("intro", true);
     },
