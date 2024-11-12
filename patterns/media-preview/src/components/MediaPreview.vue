@@ -99,6 +99,7 @@
 
         <!-- Content -->
         <component
+          v-if="isFinishAnimating"
           :key="currentFileIndex"
           :is="getMediaPreview.component"
           v-bind="getMediaPreview.props"
@@ -157,6 +158,7 @@ export default {
   data() {
     return {
       currentFileIndex: 0,
+      isFinishAnimating: false,
     };
   },
   computed: {
@@ -193,6 +195,13 @@ export default {
       }
     },
   },
+
+  mounted() {
+    setTimeout(() => {
+      this.isFinishAnimating = true;
+    }, 600); // Wait for the modal animation to finish
+  },
+
   methods: {
     handleClose() {
       this.$emit("close");
@@ -270,8 +279,14 @@ export default {
     },
 
     // Utils
+    // Size in kb.
     formatFileSize(size) {
-      if (size > 1000) {
+      if (size >= 1000000) {
+        return `${(size / 1048576)
+          .toFixed(2)
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} GB`;
+      }
+      if (size >= 1000) {
         return `${(size / 1024)
           .toFixed(2)
           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} MB`;
@@ -290,7 +305,7 @@ export default {
     handleDownload(fileUrl) {
       const link = document.createElement("a");
       link.href = fileUrl;
-      link.download = "";
+      link.download = this.files[this.currentFileIndex].name;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

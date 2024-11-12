@@ -7,6 +7,7 @@
       minWidth: `${800 * getCurrentScale}px`,
     }"
   >
+    <!-- Canvas container -->
     <mp-flex
       ref="canvasContainer"
       flex-direction="column"
@@ -17,6 +18,7 @@
       <mp-box
         v-for="pageNum in totalPages"
         :key="pageNum"
+        position="relative"
         display="flex"
         align-items="center"
         justify-content="center"
@@ -24,13 +26,49 @@
         overflow="hidden"
         :data-page="pageNum"
       >
+        <!-- Loading per page -->
+        <mp-box
+          v-if="isRendering[pageNum]"
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          display="flex"
+          flex-direction="column"
+          align-items="center"
+          justify-content="center"
+          color="white"
+        >
+          <mp-box
+            bg="dark"
+            display="flex"
+            flex-direction="column"
+            align-items="center"
+            shadow="lg"
+            rounded="full"
+            p="2"
+          >
+            <mp-spinner color="white" />
+          </mp-box>
+        </mp-box>
+
+        <!-- Canvas element (PDF will be rendered here as canvas using pdf.js) -->
         <canvas
           :ref="'pdfCanvas' + pageNum"
-          :style="{ borderRadius: '6px' }"
+          :data-page="pageNum"
+          :style="{
+            borderRadius: '6px',
+            height: `${height}px`,
+            width: `${width}px`,
+            backgroundColor: 'var(--colors-white)',
+          }"
+          v-intersection="handleCanvasIntersection"
         ></canvas>
       </mp-box>
     </mp-flex>
 
+    <!-- Loading -->
     <mp-flex
       v-if="isLoading"
       align-items="center"
@@ -44,6 +82,7 @@
       <mp-spinner color="white" />
     </mp-flex>
 
+    <!-- Password input -->
     <mp-flex
       v-if="pdfHasPassword && showPasswordInput"
       align-items="center"
@@ -91,6 +130,7 @@
       </mp-flex>
     </mp-flex>
 
+    <!-- Controls -->
     <mp-box
       v-if="!isLoading && totalPages > 0 && !showPasswordInput"
       display="flex"
@@ -254,7 +294,13 @@ export default {
 
       // Debug
       isLoading: false,
-      isRendering: false,
+      isRendered: [],
+
+      // Page attributes
+      height: 0,
+      width: 0,
+
+      isRendering: {}, // Add this to track rendering state for each page
     };
   },
   mounted() {
@@ -304,7 +350,9 @@ export default {
     async submitPassword() {
       try {
         await this.loadPdfDocument(this.pdfPassword);
-        await this.renderAllPages();
+
+        // Render first page
+        await this.renderPage(1);
         this.showPasswordInput = false;
       } catch (error) {
         if (error.name === "PasswordException") {
@@ -322,7 +370,10 @@ export default {
       try {
         this.isLoading = true;
         await this.loadPdfDocument(this.pdfPassword);
-        await this.renderAllPages();
+        // await this.renderAllPages();
+
+        // Render first page
+        await this.renderPage(1);
       } catch (error) {
         if (error.name === "PasswordException") {
           this.pdfPassword = "";
@@ -345,18 +396,21 @@ export default {
       });
     },
 
-    renderAllPages() {
+    async renderAllPages() {
       for (let pageNum = 1; pageNum <= this.totalPages; pageNum++) {
-        this.renderPage(pageNum);
+        await this.renderPage(pageNum);
       }
     },
 
     async renderPage(pageNum) {
       try {
-        this.isRendering = true;
+        // Set rendering state to true at the start
+        this.$set(this.isRendering, pageNum, true);
+
         // Get the specific page
         const page = await this.pdfDoc.getPage(pageNum);
         const canvas = this.$refs["pdfCanvas" + pageNum][0];
+
         const ctx = canvas.getContext("2d");
 
         // Get device pixel ratio
@@ -389,6 +443,10 @@ export default {
         canvas.style.height = `${scaledViewport.height}px`;
         canvas.style.width = `${scaledViewport.width}px`;
 
+        // Update page attributes
+        this.height = scaledViewport.height;
+        this.width = scaledViewport.width;
+
         // Scale context for sharper rendering
         ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
@@ -402,9 +460,14 @@ export default {
 
         await page.render(renderContext).promise;
 
-        this.isRendering = false;
+        // Set rendering state to false after completion
+        this.$nextTick(() => {
+          this.isRendering[pageNum] = false;
+        });
       } catch (error) {
         console.error("Error rendering page:", error);
+        // Make sure to set rendering to false even if there's an error
+        this.$set(this.isRendering, pageNum, false);
       }
     },
 
@@ -440,9 +503,12 @@ export default {
     },
 
     // Zoom methods
-    handleChangeScale(value) {
+    async handleChangeScale(value) {
       this.currentScaleOption = value;
-      this.renderAllPages();
+
+      // Render current / visible page only.
+      await this.renderPage(this.currentPage);
+      this.scrollToPage(this.currentPage, true);
     },
 
     async zoomIn() {
@@ -452,7 +518,10 @@ export default {
       if (currentIndex < this.SCALE_OPTIONS.length - 1) {
         this.currentScaleOption = this.SCALE_OPTIONS[currentIndex + 1];
       }
-      this.renderAllPages();
+
+      // Render current / visible page only.
+      await this.renderPage(this.currentPage);
+      this.scrollToPage(this.currentPage, true);
     },
 
     async zoomOut() {
@@ -469,18 +538,23 @@ export default {
           this.currentScaleOption = previousOption;
         }
       }
-      this.renderAllPages();
+
+      // Render current / visible page only.
+      await this.renderPage(this.currentPage);
+      this.scrollToPage(this.currentPage, true);
     },
 
     // Scroll methods
-    async scrollToPage(pageNum) {
+    async scrollToPage(pageNum, disableAnimation = false) {
       const containerEl = document.getElementById("media-preview-body");
       if (containerEl) {
         const targetPage = containerEl.querySelector(
           `[data-page="${pageNum}"]`
         );
         if (targetPage) {
-          targetPage.scrollIntoView({ behavior: "smooth" });
+          targetPage.scrollIntoView({
+            behavior: disableAnimation ? "instant" : "smooth",
+          });
         }
       }
     },
@@ -519,6 +593,44 @@ export default {
           this.currentPage = maxVisiblePage;
         }
       }, 100); // Debounce time of 100ms
+    },
+
+    handleCanvasIntersection(entry, element) {
+      if (entry.isIntersecting) {
+        const pageNum = parseInt(element.getAttribute("data-page"));
+
+        this.renderPage(pageNum);
+      }
+    },
+  },
+  directives: {
+    intersection: {
+      bind(el, binding) {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              // Call the handler => handleCanvasIntersection.
+              binding.value(entry, el);
+
+              // Disconnect after first visibility
+              observer.disconnect();
+              delete el._observer;
+            }
+          },
+          {
+            root: document.getElementById("media-preview-body"),
+            threshold: 0.1,
+          }
+        );
+        observer.observe(el);
+        el._observer = observer;
+      },
+      unbind(el) {
+        if (el._observer) {
+          el._observer.disconnect();
+          delete el._observer;
+        }
+      },
     },
   },
 };

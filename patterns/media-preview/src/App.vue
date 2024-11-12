@@ -50,7 +50,7 @@ export default {
        * @typedef {Object} FilePreview
        * @property {string} name - The name of the file.
        * @property {string} type - The MIME type of the file.
-       * @property {number} size - The size of the file in bytes.
+       * @property {number} size - The size of the file in kilo-bytes.
        * @property {string} url - The URL to access the file.
        */
 
@@ -91,7 +91,7 @@ export default {
         {
           name: "Introducing our AI, Mekari Airene on Qontak - Mekari Qontak",
           type: "video/mp4",
-          size: 6000,
+          size: 1000,
           url: "/video/Introducing our AI, Mekari Airene on Qontak - Mekari Qontak.mp4",
           videoQualitySources: {
             "360p":
@@ -113,13 +113,13 @@ export default {
       this.isOpen = false;
     },
     handleUploadChange(e) {
-      this.images = e.target.files;
-      console.log("IMAGE: ", this.images);
+      const files = e.target.files;
+      console.log("FILES: ", e.target.files);
 
-      const extractedFiles = Array.from(e.target.files).map((file) => ({
+      const extractedFiles = Array.from(files).map((file) => ({
         name: file.name,
         type: file.type,
-        size: file.size,
+        size: Math.round(file.size / 1024), // convert bytes to KB
         url: URL.createObjectURL(file),
       }));
 

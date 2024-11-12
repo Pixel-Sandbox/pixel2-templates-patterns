@@ -2,6 +2,7 @@
   <mp-flex min-height="100vh" justify-content="center" align-items="center">
     <mp-box
       class="video-player"
+      role="group"
       :class="{ fullscreen: isFullscreen }"
       transition="width 0.3s ease-in-out, height 0.3s ease-in-out"
       position="relative"
@@ -14,17 +15,6 @@
       overflow="hidden"
       bg="black"
     >
-      <mp-box
-        position="absolute"
-        top="5"
-        left="5"
-        bg="red.400"
-        color="white"
-        z-index="100"
-      >
-        {{ currentTime }}
-      </mp-box>
-
       <!-- Loading -->
       <mp-box
         v-if="isLoading"
@@ -35,6 +25,7 @@
       >
         <mp-spinner color="white" />
       </mp-box>
+
       <!-- Thumbnail Image -->
       <img
         v-if="thumbnailUrl"
@@ -63,8 +54,8 @@
         Your browser does not support the video element.
       </video>
 
+      <!-- Play and Pause -->
       <mp-box
-        v-if="!isPlaying"
         as="button"
         position="absolute"
         top="50%"
@@ -73,27 +64,27 @@
         cursor="pointer"
         @click="togglePlay"
       >
-        <svg
-          width="72"
-          height="72"
-          viewBox="0 0 72 72"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        <IconVideoPlay
+          v-if="!isPlaying"
           v-pixel="{
-            transition: 'transform 0.2s ease-in-out',
+            transition: 'transform 0.2s ease',
             _groupHover: {
               transform: 'scale(1.05)',
             },
           }"
-        >
-          <circle cx="36" cy="36" r="18" fill="white" />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M3.65991 36C3.65991 18.1889 18.0987 3.75003 35.9099 3.75003C53.7211 3.75003 68.1599 18.1889 68.1599 36C68.1599 53.8112 53.7211 68.25 35.9099 68.25C18.0987 68.25 3.65991 53.8112 3.65991 36ZM27.9739 23.3869C30.689 21.8174 34.0394 22.2611 37.1556 24.0616L45.8556 29.1016C48.9719 30.9024 51.03 33.5843 51.03 36.7198C51.03 39.8555 48.9726 42.5369 45.856 44.3378L37.1578 49.3767C34.0416 51.1772 30.689 51.6223 27.9739 50.0528C25.2597 48.4838 23.97 45.3592 23.97 41.7598V31.6798C23.97 28.0804 25.2597 24.9558 27.9739 23.3869Z"
-            fill="#4B61DD"
-          />
-        </svg>
+        />
+
+        <IconVideoPause
+          v-if="isPlaying"
+          v-pixel="{
+            transition: 'transform 0.2s ease',
+            opacity: '0',
+            _groupHover: {
+              opacity: '1',
+              transform: 'scale(1.05)',
+            },
+          }"
+        />
       </mp-box>
 
       <!-- Controls Container -->
@@ -104,7 +95,7 @@
         right="0"
         bg="#2329334D"
         color="white"
-        p="2"
+        p="3"
       >
         <mp-flex gap="4" align-items="center">
           <mp-flex gap="4" align-items="center" width="100%">
@@ -318,7 +309,10 @@ import {
   MpButtonIcon,
   MpSpinner,
 } from "@mekari/pixel";
+
 import VolumeProgressBar from "./VolumeProgressBar.vue";
+import IconVideoPlay from "./icons/IconVideoPlay.vue";
+import IconVideoPause from "./icons/IconVideoPause.vue";
 
 export default {
   name: "VideoPlayer",
@@ -334,6 +328,8 @@ export default {
     MpButtonIcon,
     MpSpinner,
     VolumeProgressBar,
+    IconVideoPlay,
+    IconVideoPause,
   },
   props: {
     src: {
@@ -483,11 +479,7 @@ export default {
       const video = this.$refs.videoPlayer;
       this.duration = video.duration;
 
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 2000);
-
-      // this.captureThumbnail();
+      this.isLoading = false;
     },
     onEnded() {
       this.isPlaying = false;
@@ -619,30 +611,6 @@ export default {
         this.togglePlay();
       }
     },
-
-    captureThumbnail() {
-      const video = this.$refs.videoPlayer;
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-
-      // Set canvas dimensions to the video dimensions
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      // Seek to 1 second and draw the frame on the canvas
-      video.currentTime = video.duration < 2 ? 0 : 2; // Seek to 0 if duration is less than 2 seconds
-      video.addEventListener(
-        "seeked",
-        () => {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          this.thumbnailUrl = canvas.toDataURL("image/png"); // Store the thumbnail URL
-
-          // Reset video time
-          video.currentTime = 0;
-        },
-        { once: true }
-      );
-    },
   },
 };
 </script>
@@ -668,6 +636,7 @@ export default {
 .video-element {
   height: 100%;
   object-fit: contain;
+  cursor: pointer;
 }
 
 .video-player.fullscreen .video-element {
