@@ -7,6 +7,7 @@
     bg="white"
   >
     <mp-chart
+      v-if="!isOnlyShowInFullView || showInFullView"
       legend-position="right"
       type="pie"
       :data="chartData"
@@ -61,6 +62,23 @@
         </mp-flex>
       </template>
     </mp-chart>
+
+    <mp-flex
+      v-if="isOnlyShowInFullView && !showInFullView"
+      height="300px"
+      width="full"
+      align-items="center"
+      justify-content="center"
+    >
+      <mp-text
+        color="gray.600"
+        font-size="sm"
+        text-align="center"
+        max-w="197px"
+      >
+        To view table or chart please see in full page
+      </mp-text>
+    </mp-flex>
   </mp-box>
 </template>
 
@@ -76,6 +94,10 @@ export default {
     MpText,
   },
   props: {
+    isOnlyShowInFullView: {
+      type: Boolean,
+      default: false,
+    },
     showInFullView: {
       type: Boolean,
       default: false,

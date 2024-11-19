@@ -55,6 +55,7 @@
             v-bind="{
               ...tableVisualizationData,
               ...chartVisualizationData,
+              isOnlyShowInFullView: isFloating,
             }"
           />
         </template>
@@ -211,6 +212,10 @@ export default {
     chartVisualizationData: {
       type: Object,
       default: () => {},
+    },
+    isFloating: {
+      type: Boolean,
+      default: false,
     },
     isAnswerLoading: {
       type: Boolean,

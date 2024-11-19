@@ -11,6 +11,7 @@
     justify-content="flex-end"
     z-index="50"
   >
+    <mp-button-icon name="minimize" @click="handleMinimize" />
     <mp-button-icon name="close" @click="handleClose" />
   </mp-flex>
 </template>
@@ -26,6 +27,9 @@ export default {
   methods: {
     handleClose() {
       this.$emit("close");
+    },
+    handleMinimize() {
+      this.$emit("minimize");
     },
   },
 };

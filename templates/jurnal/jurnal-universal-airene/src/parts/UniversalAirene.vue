@@ -1,24 +1,34 @@
 <template>
-  <AireneRoot :is-open="isRender">
-    <AireneOverlay />
+  <mp-box>
+    <AireneRoot :is-open="isRender">
+      <AireneOverlay />
 
-    <AireneContent>
-      <AireneIntroAnimation
-        v-if="isShowLoading"
-        @finish="handleFinishIntroAnimation"
-      />
-      <template v-else>
-        <AireneSidebar :is-show-intro-animation="enableIntroAnimation" />
-        <AireneBody
-          @close="handleCloseContent"
-          :is-show-intro-animation="enableIntroAnimation"
+      <AireneContent>
+        <AireneIntroAnimation
+          v-if="isShowLoading"
+          @finish="handleFinishIntroAnimation"
         />
-      </template>
-    </AireneContent>
-  </AireneRoot>
+        <template v-else>
+          <AireneSidebar :is-show-intro-animation="enableIntroAnimation" />
+          <AireneBody
+            @close="handleCloseContent"
+            @minimize="handleMinimize"
+            :is-show-intro-animation="enableIntroAnimation"
+          />
+        </template>
+      </AireneContent>
+    </AireneRoot>
+
+    <AireneFloating
+      v-if="isFloating"
+      @click-close="handleClickCloseFloating"
+      @click-maximize="handleClickMaximizeFloating"
+    />
+  </mp-box>
 </template>
 
 <script>
+import { MpBox } from "@mekari/pixel";
 import AireneRoot from "../components/layout/AireneRoot.vue";
 import AireneOverlay from "../components/layout/AireneOverlay.vue";
 import AireneContent from "../components/layout/AireneContent.vue";
@@ -26,15 +36,18 @@ import AireneIntroAnimation from "../components/layout/AireneIntroAnimation.vue"
 
 import AireneSidebar from "./AireneSidebar.vue";
 import AireneBody from "./AireneBody.vue";
+import AireneFloating from "./AireneFloating.vue";
 
 export default {
   components: {
+    MpBox,
     AireneRoot,
     AireneSidebar,
     AireneBody,
     AireneContent,
     AireneOverlay,
     AireneIntroAnimation,
+    AireneFloating,
   },
   props: {
     isOpen: Boolean,
@@ -55,6 +68,7 @@ export default {
         sidebar: false,
         chatContentStarter: false,
       },
+      isFloating: false,
     };
   },
   provide() {
@@ -143,6 +157,22 @@ export default {
       } else if (target === "chatContentStarter") {
         this.animationFinishedStatus.chatContentStarter = value;
       }
+    },
+
+    // Floating
+    handleMinimize() {
+      this.handleCloseContent();
+
+      this.isFloating = true;
+    },
+    handleClickCloseFloating() {
+      this.isFloating = false;
+      this.handleCloseContent();
+    },
+    handleClickMaximizeFloating() {
+      this.isFloating = false;
+      this.handleShowContent();
+      this.handleRender();
     },
   },
 };

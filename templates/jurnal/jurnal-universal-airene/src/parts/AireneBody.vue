@@ -2,21 +2,16 @@
   <mp-box
     id="airene-body"
     data-component="AireneBody"
-    body-scroll-lock-ignore="true"
     as="main"
-    bg="white"
-    rounded-top-left="xl"
-    w="full"
-    h="full"
-    border-left-width="1px"
-    border-top-width="1px"
-    border-color="gray.400"
-    position="relative"
-    overflow="auto"
-    v-bind="$attrs"
+    body-scroll-lock-ignore="true"
+    v-bind="{ ...bodyAttrs, ...$attrs }"
   >
     <!-- Content header -->
-    <AireneHeader @close="handleClose" />
+    <AireneHeader
+      v-if="!isFloating"
+      @close="handleClose"
+      @minimize="handleMinimize"
+    />
 
     <!-- Blank slate -->
     <AireneBlankSlate
@@ -32,11 +27,8 @@
       position="relative"
       flex-direction="column"
       gap="4"
-      max-w="50%"
-      mx="auto"
-      min-h="calc(100% - 63px - 108px)"
-      pt="6"
-      style="--chat-content-body-padding-top: 140px"
+      min-h="full"
+      v-bind="mainContentAttrs"
     >
       <!-- Starter -->
       <AireneChatContentStarter
@@ -82,6 +74,7 @@
           :data-sources="chatResult.dataSources"
           :is-show-followup-questions="chatResult.isShowFollowupQuestions"
           :followup-questions-datas="chatResult.followupQuestionsDatas"
+          :is-floating="isFloating"
           @export-answer="handleExportAnswer"
           @click-button-suggestion="handleClickButtonSuggestion"
           @click-thumb-up="handleClickThumbUp"
@@ -107,7 +100,7 @@
       />
     </mp-flex>
 
-    <AireneFooter v-if="!isShowBlankSlate">
+    <AireneFooter v-if="!isShowBlankSlate" :is-floating="isFloating">
       <mp-form-control
         data-animation-for="airene-input-chat"
         bg="white"
@@ -122,9 +115,10 @@
           />
         </mp-airene-chat-input>
 
-        <mp-form-error-message
-          >You must fill in chat input</mp-form-error-message
-        >
+        <mp-form-error-message>
+          You must fill in chat input
+        </mp-form-error-message>
+
         <mp-form-help-text>
           Tanggapan Airene dapat tidak akurat atau kurang tepat.
 
@@ -214,6 +208,10 @@ export default {
   },
   props: {
     isShowIntroAnimation: {
+      type: Boolean,
+      default: false,
+    },
+    isFloating: {
       type: Boolean,
       default: false,
     },
@@ -353,6 +351,42 @@ export default {
     context() {
       return this.$AireneContext();
     },
+    bodyAttrs() {
+      if (!this.isFloating) {
+        return {
+          bg: "white",
+          roundedTopLeft: "xl",
+          w: "full",
+          h: "full",
+          borderLeftWidth: "1px",
+          borderTopWidth: "1px",
+          borderColor: "gray.400",
+          position: "relative",
+          overflow: "auto",
+        };
+      }
+
+      return {
+        bg: "white",
+        w: "full",
+        h: "full",
+        position: "relative",
+        overflow: "auto",
+      };
+    },
+    mainContentAttrs() {
+      if (!this.isFloating) {
+        return {
+          maxWidth: "50%",
+          marginX: "auto",
+          minHeight: "calc(100% - 63px - 108px)",
+          paddingTop: "6",
+          style: { "--chat-content-body-padding-top": "140px" },
+        };
+      }
+
+      return {};
+    },
   },
   watch: {
     "context.currentActiveChat": {
@@ -388,6 +422,9 @@ export default {
   methods: {
     handleClose() {
       this.$emit("close");
+    },
+    handleMinimize() {
+      this.$emit("minimize");
     },
 
     // Chat Input handler

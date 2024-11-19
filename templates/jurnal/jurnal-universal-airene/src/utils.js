@@ -84,3 +84,14 @@ export function convertToGroupArray(groupedObject) {
     datas,
   }));
 }
+
+/**
+ * Generates a date relative to current date
+ * @param {number} daysOffset - Number of days to subtract from current date (negative for past)
+ * @returns {string} ISO date string
+ */
+export const generateRelativeDate = (daysOffset) => {
+  const date = new Date();
+  date.setDate(date.getDate() + daysOffset);
+  return date.toISOString();
+};

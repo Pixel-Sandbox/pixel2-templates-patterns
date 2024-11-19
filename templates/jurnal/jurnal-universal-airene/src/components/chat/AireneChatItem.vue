@@ -7,7 +7,7 @@
     pl="2"
     pr="0"
     rounded="md"
-    :bg="isActive ? 'blue.50' : '#F5F9FF'"
+    :bg="isActive ? 'blue.50' : defaultBackground"
     cursor="pointer"
     transition="all 0.3s ease-in-out"
     :_hover="{ pr: '5', bg: 'blue.50' }"
@@ -23,6 +23,7 @@
       <mp-popover-trigger>
         <mp-box
           as="button"
+          data-element="button-menu-kebab"
           transition="all 0.3s ease-in-out"
           position="absolute"
           top="2"
@@ -91,6 +92,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    defaultBackground: {
+      type: String,
+      default: "#F5F9FF",
+    },
   },
   methods: {
     handleEdit() {
@@ -99,7 +104,15 @@ export default {
     handleDelete() {
       this.$emit("delete");
     },
-    handleSelect() {
+    handleSelect(e) {
+      const srcElement = e.srcElement;
+      const kebabMenuButton = this.$el.querySelector(
+        '[data-element="button-menu-kebab"]'
+      );
+
+      // If click on kebabMenuButton, do nothing. Expect only show popover.
+      if (kebabMenuButton.contains(srcElement)) return;
+
       this.$emit("select");
     },
   },
