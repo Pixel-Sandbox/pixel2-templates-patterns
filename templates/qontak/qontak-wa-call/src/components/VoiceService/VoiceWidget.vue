@@ -1,5 +1,5 @@
 <template>
-  <mp-box>
+  <mp-box ref="voiceWidget" position="relative">
     <!-- // DEFAULT WIDGET -->
     <mp-flex
       v-if="!isMiniSize"
@@ -26,7 +26,6 @@
           cursor="move"
         />
       </mp-box>
-
       <mp-flex justify="space-between" px="4" width="full">
         <mp-text :color="title.color" font-weight="semibold" font-size="lg">
           {{ title.text }}</mp-text
@@ -73,21 +72,25 @@
           rounded="md"
           p="4"
         >
-          <mp-flex
-            v-if="isShowSoundEqualizer"
-            position="absolute"
-            top="3"
-            right="3"
-            justify="center"
-            align-items="center"
-            width="6"
-            height="6"
+          <mp-box position="absolute" top="3" right="3">
+            <VoiceWaveIcon
+              v-if="isShowVoiceWaveIcon"
+              :is-start="isShowWaveAnimation"
+            />
+          </mp-box>
+          <mp-avatar :name="name" size="lg" z-index="1" />
+          <mp-box
+            v-if="isShowPulseAnimation"
+            ref="pulseCircle"
+            id="pulseCircle"
+            width="50px"
+            height="50px"
             rounded="full"
-            bg="blue.100"
-            shadow="sm"
+            top="15px"
+            background="white"
+            position="absolute"
           >
-          </mp-flex>
-          <mp-avatar name="I" size="lg" background-color="green" />
+          </mp-box>
           <mp-flex direction="column" width="full">
             <mp-text
               color="white"
@@ -174,7 +177,9 @@
             @click="handleStopCalling"
           />
         </mp-flex>
-        <mp-button v-if="!isCalling" left-icon="phone">Call Again</mp-button>
+        <mp-button v-if="!isCalling" left-icon="phone" @click="handleCallAgain"
+          >Call Again</mp-button
+        >
       </mp-flex>
     </mp-flex>
 
@@ -230,17 +235,10 @@
 
           <mp-text color="gray.100" font-size="sm">{{ name }}</mp-text>
         </mp-flex>
-        <mp-flex
-          v-if="isShowSoundEqualizer"
-          justify="center"
-          align-items="center"
-          width="6"
-          height="6"
-          rounded="full"
-          bg="blue.100"
-          shadow="sm"
-        >
-        </mp-flex>
+        <VoiceWaveIcon
+          v-if="isShowVoiceWaveIcon"
+          :is-start="isShowWaveAnimation"
+        />
       </mp-flex>
       <mp-flex
         v-if="isShowActionButton"
@@ -275,6 +273,7 @@ import { useDraggable } from "@vueuse/core";
 import { isClient } from "@vueuse/shared";
 import VoiceButton from "./VoiceButton";
 import VoiceButtonDropdown from "./VoiceButtonDropdown";
+import VoiceWaveIcon from "./VoiceWaveIcon";
 
 export default {
   name: "VoiceWidget",
@@ -289,6 +288,7 @@ export default {
     MpDivider,
     VoiceButton,
     VoiceButtonDropdown,
+    VoiceWaveIcon,
   },
   data() {
     return {
@@ -297,9 +297,9 @@ export default {
       containerEl: null,
       handleEl: null,
       title: {
-        text: "Calling...",
-        color: "white",
-        icon: "rotate(0deg)",
+        text: "",
+        color: "",
+        icon: "",
       },
       duration: "00:00",
       seconds: 0,
@@ -307,33 +307,102 @@ export default {
       phoneNumber: "+6285167276576",
       isMicrophoneDetected: true,
       isSpeakerDetected: false,
-      isCalling: true,
-      isShowSoundEqualizer: false,
+      isCalling: false,
+      isShowPulseAnimation: false,
+      isShowWaveAnimation: false,
       isMute: true,
       isMiniSize: false,
       widthDefaultWidget: "360px",
       widthMiniWidget: "220px",
       isShowActionButton: false,
+      isShowVoiceWaveIcon: false,
     };
   },
   mounted() {
+    this.animateWidget();
     this.dragWidget();
-    this.startTimer();
 
-    // START CALLING
-    setTimeout(() => {
-      this.isShowSoundEqualizer = true;
-      this.title = {
-        text: "On call",
-        color: "green.400",
-        icon: "rotate(0deg)",
-      };
-    }, 2000);
+    // START ON CALL
+    this.mockStartCalling();
   },
   beforeDestroy() {
     this.stopTimer();
   },
   methods: {
+    mockStartCalling() {
+      this.title = {
+        text: "Calling...",
+        color: "white",
+        icon: "rotate(0deg)",
+      },
+      this.duration = "00:00";
+      this.seconds = 0;
+      this.isCalling = true;
+      this.isShowPulseAnimation = true;
+      this.$nextTick(() => {
+        this.startPulseAnimation();
+      });
+      this.startTimer();
+
+      // START ON CALL
+      setTimeout(() => {
+        this.isShowPulseAnimation = false;
+        this.isShowVoiceWaveIcon = true;
+        this.isShowWaveAnimation = true;
+        this.title = {
+          text: "On call",
+          color: "green.400",
+          icon: "rotate(0deg)",
+        };
+      }, 4000);
+
+      setTimeout(() => {
+        this.isShowWaveAnimation = false;
+      }, 8000);
+
+      setTimeout(() => {
+        this.isShowWaveAnimation = true;
+      }, 12000);
+
+      setTimeout(() => {
+        this.handleStopCalling();
+      }, 16000);
+    },
+    handleStopCalling() {
+      this.isCalling = false;
+      this.isShowVoiceWaveIcon = false;
+      this.isShowWaveAnimation = false;
+      this.title = {
+        text: "Call ended",
+        color: "red.400",
+        icon: "rotate(135deg)",
+      };
+
+      this.stopTimer();
+    },
+    startPulseAnimation() {
+      anime({
+        targets: this.$refs.pulseCircle.$el,
+        scale: [0.5, 1.5], // Start smaller and grow larger
+        opacity: [1, 0], // Fade out as it grows
+        easing: "easeOutSine",
+        duration: 1500,
+        loop: true, // Make the animation loop
+      });
+    },
+    animateWidget() {
+      anime({
+        targets: this.$refs.widget.$el,
+        opacity: [0, 1], // Fade in
+        translateY: this.isMiniSize ? [-80, 0] : [160, 0], // Slide up
+        width: this.isMiniSize // Change Width
+          ? [this.widthDefaultWidget, this.widthMiniWidget]
+          : [this.widthMiniWidget, this.widthDefaultWidget],
+        easing: "easeOutSine",
+        duration: 200,
+        delay: 50,
+      });
+    },
     dragWidget() {
       this.dragEl = document.querySelector("#drag-element");
       this.containerEl = document.querySelector("#drag-container");
@@ -344,21 +413,6 @@ export default {
         axis: "both",
         handle: this.handleEl,
         bounds: this.containerEl,
-      });
-    },
-    animateWidget() {
-      const widgetEl = this.$refs.widget.$el;
-
-      anime({
-        targets: widgetEl,
-        opacity: [0, 1], // Fade in
-        translateY: this.isMiniSize ? [-80, 0] : [160, 0], // Slide up
-        width: this.isMiniSize // Change Width
-          ? [this.widthDefaultWidget, this.widthMiniWidget]
-          : [this.widthMiniWidget, this.widthDefaultWidget],
-        easing: "easeOutSine",
-        duration: 200,
-        delay: 50,
       });
     },
     startTimer() {
@@ -378,17 +432,6 @@ export default {
         "0"
       )}`;
     },
-    handleStopCalling() {
-      this.isCalling = false;
-      this.isShowSoundEqualizer = false;
-      this.title = {
-        text: "Declined",
-        color: "red.400",
-        icon: "rotate(135deg)",
-      };
-
-      this.stopTimer();
-    },
     handleMuteUnmute() {
       this.isMute = !this.isMute;
       this.$emit("mute", this.isMute);
@@ -407,6 +450,9 @@ export default {
     },
     handleClickClose() {
       this.$emit("close");
+    },
+    handleCallAgain() {
+      this.mockStartCalling();
     },
   },
 };

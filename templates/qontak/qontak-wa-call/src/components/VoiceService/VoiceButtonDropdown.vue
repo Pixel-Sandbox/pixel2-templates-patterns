@@ -129,7 +129,7 @@ import {
 } from "@mekari/pixel";
 
 export default {
-  name: "VoiceButtonPopover",
+  name: "VoiceButtonDropdown",
   components: {
     MpFlex,
     MpText,

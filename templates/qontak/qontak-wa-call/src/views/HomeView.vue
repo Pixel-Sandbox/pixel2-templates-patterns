@@ -11,7 +11,7 @@
       <LeftPanel />
       <ChatPanel />
       <Transition name="fade" mode="out-in">
-        <InfoPanel />
+        <InfoPanel @call="handleWaCall" />
       </Transition>
       <mp-flex
         flex="none"
@@ -43,7 +43,10 @@
         />
       </mp-flex>
     </mp-flex>
-    <VoiceWidget />
+    <VoiceWidget 
+      v-if="isShowVoiceWidget"
+      @close="handleWaCall"
+    />
   </mp-box>
 </template>
 
@@ -71,6 +74,16 @@ export default {
     InfoPanel,
     VoiceWidget,
   },
+  data() {
+    return {
+      isShowVoiceWidget: false
+    }
+  },
+  methods: {
+    handleWaCall() {
+      this.isShowVoiceWidget = !this.isShowVoiceWidget
+    }
+  }
 };
 </script>
 
