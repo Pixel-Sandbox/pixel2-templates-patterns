@@ -43,10 +43,7 @@
         />
       </mp-flex>
     </mp-flex>
-    <VoiceWidget 
-      v-if="isShowVoiceWidget"
-      @close="handleWaCall"
-    />
+    <VoiceWidget v-if="isShowVoiceWidget" @close="handleWaCall" />
   </mp-box>
 </template>
 
@@ -76,14 +73,14 @@ export default {
   },
   data() {
     return {
-      isShowVoiceWidget: false
-    }
+      isShowVoiceWidget: false,
+    };
   },
   methods: {
     handleWaCall() {
-      this.isShowVoiceWidget = !this.isShowVoiceWidget
-    }
-  }
+      this.isShowVoiceWidget = !this.isShowVoiceWidget;
+    },
+  },
 };
 </script>
 

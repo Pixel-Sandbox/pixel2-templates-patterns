@@ -34,7 +34,7 @@ export default {
   props: {
     isStart: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   watch: {
@@ -51,21 +51,21 @@ export default {
     };
   },
   mounted() {
-    this.startWaveAnimation();
+    this.startWaveAnimation(true);
   },
   methods: {
-    startWaveAnimation(isStart = true) {
+    startWaveAnimation(isStart) {
       this.dots.forEach((_, i) => {
         const dotElement = this.$refs[`dot${i}`][0].$el;
         const animation = anime({
           autoplay: false,
           targets: dotElement,
-          height: [2, 10], // Animate height between 2px and 100px
-          easing: "easeInOutSine", // Smooth oscillation
-          direction: "alternate", // Go back and forth
-          duration: 300, // Duration of one cycle
-          loop: true, // Loop indefinitely
-          delay: i * 100, // Add delay for wave effect
+          height: [2, 10],
+          easing: "easeInOutSine",
+          direction: "alternate",
+          duration: 300,
+          loop: true,
+          delay: i * 100,
         });
 
         this.waveAnimations.push(animation);

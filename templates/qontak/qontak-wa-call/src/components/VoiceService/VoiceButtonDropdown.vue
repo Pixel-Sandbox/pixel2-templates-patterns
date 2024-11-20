@@ -23,26 +23,75 @@
       >
         <mp-flex
           transition="all 250ms"
+          rounded="full"
+          :background="color.default.background"
           :color="color.default.icon"
           :_hover="{
+            background: color.hover.background,
             color: color.hover.icon,
           }"
         >
-          <svg
-            v-if="variant === 'mute'"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          <mp-flex
+            v-show="variant === 'mute'"
+            position="relative"
+            width="20px"
+            height="20px"
+            overflow="hidden"
+            rounded="full"
           >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M6.75 6.5C6.75 3.60051 9.1005 1.25 12 1.25C14.8995 1.25 17.25 3.60051 17.25 6.5V12C17.25 14.8995 14.8995 17.25 12 17.25C9.1005 17.25 6.75 14.8995 6.75 12V6.5ZM4.60607 9.25754C5.01612 9.31612 5.30105 9.69602 5.24247 10.1061C4.77487 13.3793 5.79115 15.5049 7.20572 16.8271C8.65597 18.1826 10.587 18.75 11.9839 18.75C13.3813 18.75 15.321 18.1823 16.7796 16.8258C18.202 15.5029 19.2249 13.3775 18.7575 10.1061C18.699 9.69602 18.9839 9.31612 19.3939 9.25754C19.804 9.19896 20.1839 9.48388 20.2425 9.89393C20.7751 13.6225 19.6044 16.2471 17.8011 17.9242C16.2785 19.3402 14.347 20.0426 12.7339 20.21V22C12.7339 22.4142 12.3981 22.75 11.9839 22.75C11.5697 22.75 11.2339 22.4142 11.2339 22V20.21C9.62232 20.0425 7.69724 19.3397 6.18147 17.9229C4.38633 16.2451 3.22514 13.6207 3.75754 9.89393C3.81612 9.48388 4.19602 9.19896 4.60607 9.25754Z"
-              fill="currentColor"
-            />
-          </svg>
+            <mp-box
+              position="absolute"
+              top="0"
+              left="0"
+              width="20px"
+              height="20px"
+            >
+              <svg
+                id="full"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6.75 6.5C6.75 3.60051 9.1005 1.25 12 1.25C14.8995 1.25 17.25 3.60051 17.25 6.5V12C17.25 14.8995 14.8995 17.25 12 17.25C9.1005 17.25 6.75 14.8995 6.75 12V6.5ZM4.60607 9.25754C5.01612 9.31612 5.30105 9.69602 5.24247 10.1061C4.77487 13.3793 5.79115 15.5049 7.20572 16.8271C8.65597 18.1826 10.587 18.75 11.9839 18.75C13.3813 18.75 15.321 18.1823 16.7796 16.8258C18.202 15.5029 19.2249 13.3775 18.7575 10.1061C18.699 9.69602 18.9839 9.31612 19.3939 9.25754C19.804 9.19896 20.1839 9.48388 20.2425 9.89393C20.7751 13.6225 19.6044 16.2471 17.8011 17.9242C16.2785 19.3402 14.347 20.0426 12.7339 20.21V22C12.7339 22.4142 12.3981 22.75 11.9839 22.75C11.5697 22.75 11.2339 22.4142 11.2339 22V20.21C9.62232 20.0425 7.69724 19.3397 6.18147 17.9229C4.38633 16.2451 3.22514 13.6207 3.75754 9.89393C3.81612 9.48388 4.19602 9.19896 4.60607 9.25754Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </mp-box>
+            <mp-box
+              ref="mic"
+              position="absolute"
+              top="0"
+              left="0"
+              width="20px"
+              height="20px"
+              :background="color.default.background"
+              :_hover="{
+                background: color.hover.background,
+              }"
+            >
+              <svg
+                id="empty"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6.75 6.5C6.75 3.60051 9.1005 1.25 12 1.25C14.8995 1.25 17.25 3.60051 17.25 6.5V12C17.25 14.8995 14.8995 17.25 12 17.25C9.1005 17.25 6.75 14.8995 6.75 12V6.5ZM12 2.75C9.92893 2.75 8.25 4.42893 8.25 6.5V12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12V6.5C15.75 4.42893 14.0711 2.75 12 2.75ZM4.60607 9.25754C5.01612 9.31612 5.30105 9.69602 5.24247 10.1061C4.77487 13.3793 5.79115 15.5049 7.20572 16.8271C8.65597 18.1826 10.587 18.75 11.9839 18.75C13.3813 18.75 15.321 18.1823 16.7796 16.8258C18.202 15.5029 19.2249 13.3775 18.7575 10.1061C18.699 9.69602 18.9839 9.31612 19.3939 9.25754C19.804 9.19896 20.1839 9.48388 20.2425 9.89393C20.7751 13.6225 19.6044 16.2471 17.8011 17.9242C16.2785 19.3402 14.347 20.0426 12.7339 20.21V22C12.7339 22.4142 12.3981 22.75 11.9839 22.75C11.5697 22.75 11.2339 22.4142 11.2339 22V20.21C9.62232 20.0425 7.69724 19.3397 6.18147 17.9229C4.38633 16.2451 3.22514 13.6207 3.75754 9.89393C3.81612 9.48388 4.19602 9.19896 4.60607 9.25754Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </mp-box>
+          </mp-flex>
+
           <svg
             v-if="variant === 'unmute'"
             width="20"
@@ -68,9 +117,7 @@
           </svg>
         </mp-flex>
       </mp-flex>
-      <mp-popover 
-        placement="top-end"
-      >
+      <mp-popover placement="top-end">
         <mp-popover-trigger>
           <mp-flex
             as="button"
@@ -116,6 +163,7 @@
 </template>
 
 <script>
+import anime from "animejs";
 import {
   MpFlex,
   MpText,
@@ -134,6 +182,7 @@ export default {
     MpFlex,
     MpText,
     MpIcon,
+    MpBox,
     MpPopover,
     MpPopoverTrigger,
     MpPopoverContent,
@@ -151,9 +200,22 @@ export default {
       type: Boolean,
       default: false,
     },
+    isSpeaking: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    isSpeaking(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.startMicAnimation(newVal);
+      }
+    },
   },
   data() {
-    return {};
+    return {
+      micAnimation: null,
+    };
   },
   computed: {
     color() {
@@ -246,7 +308,25 @@ export default {
       return color;
     },
   },
+  mounted() {
+    this.startMicAnimation(false);
+  },
   methods: {
+    startMicAnimation(isStart) {
+      const micElement = this.$refs.mic.$el;
+      this.micAnimation = anime({
+        autoplay: false,
+        targets: micElement,
+        height: [24, 0],
+        easing: "easeInOutSine",
+        direction: "normal",
+        duration: 2000,
+        loop: true,
+        delay: 0,
+      });
+
+      isStart ? this.micAnimation.play() : this.micAnimation.pause();
+    },
     handleClick() {
       if (this.isDisabled) {
         return;

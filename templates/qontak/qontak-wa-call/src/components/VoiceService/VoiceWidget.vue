@@ -109,6 +109,7 @@
           <VoiceButtonDropdown
             :variant="isMute ? 'mute' : 'unmute'"
             :label="isMute ? 'Mute' : 'Unmute'"
+            :is-speaking="isShowMicAnimation"
             @click="handleMuteUnmute"
           >
             <mp-flex direction="column" width="full">
@@ -296,6 +297,8 @@ export default {
       dragEl: null,
       containerEl: null,
       handleEl: null,
+      widthDefaultWidget: "360px",
+      widthMiniWidget: "220px",
       title: {
         text: "",
         color: "",
@@ -308,14 +311,13 @@ export default {
       isMicrophoneDetected: true,
       isSpeakerDetected: false,
       isCalling: false,
-      isShowPulseAnimation: false,
-      isShowWaveAnimation: false,
       isMute: true,
       isMiniSize: false,
-      widthDefaultWidget: "360px",
-      widthMiniWidget: "220px",
       isShowActionButton: false,
       isShowVoiceWaveIcon: false,
+      isShowPulseAnimation: false,
+      isShowWaveAnimation: false,
+      isShowMicAnimation: false,
     };
   },
   mounted() {
@@ -334,7 +336,7 @@ export default {
         text: "Calling...",
         color: "white",
         icon: "rotate(0deg)",
-      },
+      };
       this.duration = "00:00";
       this.seconds = 0;
       this.isCalling = true;
@@ -358,6 +360,7 @@ export default {
 
       setTimeout(() => {
         this.isShowWaveAnimation = false;
+        this.isShowMicAnimation = true;
       }, 8000);
 
       setTimeout(() => {
@@ -366,12 +369,13 @@ export default {
 
       setTimeout(() => {
         this.handleStopCalling();
-      }, 16000);
+      }, 20000);
     },
     handleStopCalling() {
       this.isCalling = false;
       this.isShowVoiceWaveIcon = false;
       this.isShowWaveAnimation = false;
+      this.isShowMicAnimation = false;
       this.title = {
         text: "Call ended",
         color: "red.400",
