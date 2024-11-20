@@ -178,9 +178,35 @@
             @click="handleStopCalling"
           />
         </mp-flex>
-        <mp-button v-if="!isCalling" left-icon="phone" @click="handleCallAgain"
-          >Call Again</mp-button
+        <mp-flex
+          v-if="!isCalling"
+          as="button"
+          justify="center"
+          align-items="center"
+          gap="2"
+          width="full"
+          height="38px"
+          px="3"
+          rounded="md"
+          background="green.400"
+          transition="box-shadow 250ms ease"
+          :_hover="{
+            background: 'green.500',
+          }"
+          :_focus="{
+            outline: 'none',
+            background: 'green.400',
+            border: '1px solid var(--colors-green-50)',
+            boxShadow: '0px 0px 0px 2px var(--colors-green-400)',
+          }"
+          :_active="{
+            background: 'green.700',
+          }"
+          @click="handleCallAgain"
         >
+          <mp-icon name="phone" variant="fill" size="sm" color="white" />
+          <mp-text font-weight="semibold" color="white">Call again</mp-text>
+        </mp-flex>
       </mp-flex>
     </mp-flex>
 
@@ -262,7 +288,6 @@ import anime from "animejs";
 import {
   MpFlex,
   MpBox,
-  MpButton,
   MpIcon,
   MpText,
   MpDivider,
@@ -281,7 +306,6 @@ export default {
   components: {
     MpFlex,
     MpBox,
-    MpButton,
     MpIcon,
     MpText,
     MpAvatar,

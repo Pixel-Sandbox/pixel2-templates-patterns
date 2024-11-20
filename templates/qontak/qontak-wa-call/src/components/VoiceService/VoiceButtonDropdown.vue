@@ -234,8 +234,7 @@ export default {
           boxShadow: "0px 0px 0px 2px #313642",
         },
         active: {
-          icon: "white",
-          background: "#3a3f4b",
+          background: "#313642",
         },
       };
 
@@ -277,8 +276,7 @@ export default {
             boxShadow: "0px 0px 0px 2px #313642",
           },
           active: {
-            icon: "white",
-            background: "#3a3f4b",
+            background: "#313642",
           },
         };
       }
@@ -299,8 +297,7 @@ export default {
             boxShadow: "0px 0px 0px 2px #313642",
           },
           active: {
-            icon: "white",
-            background: "#3a3f4b",
+            background: "#313642",
           },
         };
       }

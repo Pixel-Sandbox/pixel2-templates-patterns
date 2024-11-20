@@ -18,6 +18,9 @@
         border: color.focus.border,
         boxShadow: color.focus.boxShadow,
       }"
+      :_active="{
+        background: color.active.background
+      }"
       @click="handleClick"
     >
       <mp-flex
@@ -146,8 +149,7 @@ export default {
           boxShadow: "0px 0px 0px 2px #313642",
         },
         active: {
-          icon: "white",
-          background: "#3a3f4b",
+          background: "#313642",
         },
       };
 
@@ -189,8 +191,7 @@ export default {
             boxShadow: "0px 0px 0px 2px var(--colors-green-400)",
           },
           active: {
-            icon: "white",
-            background: "green.400",
+            background: "green.700",
           },
         };
       }
@@ -211,8 +212,7 @@ export default {
             boxShadow: "0px 0px 0px 2px var(--colors-red-400)",
           },
           active: {
-            icon: "white",
-            background: "red.400",
+            background: "red.700",
           },
         };
       }
@@ -233,8 +233,7 @@ export default {
             boxShadow: "0px 0px 0px 2px #313642",
           },
           active: {
-            icon: "white",
-            background: "#3a3f4b",
+            background: "#313642",
           },
         };
       }
@@ -255,8 +254,7 @@ export default {
             boxShadow: "0px 0px 0px 2px #313642",
           },
           active: {
-            icon: "white",
-            background: "#3a3f4b",
+            background: "#313642",
           },
         };
       }
