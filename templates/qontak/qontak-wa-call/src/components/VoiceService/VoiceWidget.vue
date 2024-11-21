@@ -35,6 +35,7 @@
             name="minus"
             color="white"
             cursor="pointer"
+            variant="fill"
             @click.native="handleClickMinimize"
           />
           <mp-icon
@@ -108,7 +109,7 @@
         <mp-flex v-if="isCalling" justify="center" gap="4">
           <VoiceButtonDropdown
             :variant="isMute ? 'mute' : 'unmute'"
-            :label="isMute ? 'Mute' : 'Unmute'"
+            :label="isMute ? 'Unmute' : 'Mute'"
             :is-speaking="isShowMicAnimation"
             @click="handleMuteUnmute"
           >
@@ -277,7 +278,7 @@
           :variant="isMute ? 'mute' : 'unmute'"
           @click="handleMuteUnmute"
         />
-        <VoiceButton icon="blank" @click="handleClickMinimize" />
+        <VoiceButton icon="full-screen" @click="handleClickMinimize" />
       </mp-flex>
     </mp-flex>
   </mp-box>
@@ -335,7 +336,7 @@ export default {
       isMicrophoneDetected: true,
       isSpeakerDetected: false,
       isCalling: false,
-      isMute: true,
+      isMute: false,
       isMiniSize: false,
       isShowActionButton: false,
       isShowVoiceWaveIcon: false,
@@ -411,19 +412,19 @@ export default {
     startPulseAnimation() {
       anime({
         targets: this.$refs.pulseCircle.$el,
-        scale: [0.5, 1.5], // Start smaller and grow larger
-        opacity: [1, 0], // Fade out as it grows
+        scale: [0.5, 1.5],
+        opacity: [1, 0],
         easing: "easeOutSine",
         duration: 1500,
-        loop: true, // Make the animation loop
+        loop: true,
       });
     },
     animateWidget() {
       anime({
         targets: this.$refs.widget.$el,
-        opacity: [0, 1], // Fade in
-        translateY: this.isMiniSize ? [-80, 0] : [160, 0], // Slide up
-        width: this.isMiniSize // Change Width
+        opacity: [0, 1],
+        translateY: this.isMiniSize ? [-80, 0] : [160, 0],
+        width: this.isMiniSize
           ? [this.widthDefaultWidget, this.widthMiniWidget]
           : [this.widthMiniWidget, this.widthDefaultWidget],
         easing: "easeOutSine",

@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      isShowVoiceWidget: true,
+      isShowVoiceWidget: false,
     };
   },
   methods: {
