@@ -184,125 +184,135 @@
             </mp-flex>
           </mp-flex>
 
-          <mp-table-container width="full" max-width="full" overflow="scroll">
-            <mp-table-lite>
-              <mp-table-head-lite>
-                <mp-table-row-lite>
-                  <mp-table-cell-lite colspan="8" as="th">
-                    Jakarta
-                  </mp-table-cell-lite>
-                </mp-table-row-lite>
-              </mp-table-head-lite>
-              <mp-table-head-lite>
-                <mp-table-row-lite>
-                  <mp-table-cell-lite colspan="8" as="th">
-                    Customer Experience
-                  </mp-table-cell-lite>
-                </mp-table-row-lite>
-              </mp-table-head-lite>
-              <mp-table-head-lite>
-                <mp-table-row-lite>
-                  <mp-table-cell-lite colspan="8" as="th">
-                    Customer Support
-                  </mp-table-cell-lite>
-                </mp-table-row-lite>
-              </mp-table-head-lite>
-              <mp-table-head-lite>
-                <mp-table-row-lite cursor="pointer">
-                  <mp-table-cell-lite width="100px" min-width="150px" as="th">
-                    Job level
-                    <mp-icon name="sort-default" />
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite width="100px" min-width="100px" as="th">
-                    Salary benchmark
-                    <mp-icon name="sort-default" />
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite width="100px" min-width="100px" as="th">
-                    Actual min. salary
-                    <mp-icon name="sort-default" />
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite width="100px" min-width="100px" as="th">
-                    Target min. salary (Rp)
-                    <mp-icon name="sort-default" />
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite width="100px" min-width="100px" as="th">
-                    Actual mid. salary
-                    <mp-icon name="sort-default" />
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite width="100px" min-width="100px" as="th">
-                    Target mid. salary (Rp)
-                    <mp-icon name="sort-default" />
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite width="100px" min-width="100px" as="th">
-                    Actual max. salary
-                    <mp-icon name="sort-default" />
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite width="100px" min-width="100px" as="th">
-                    Target max. salary (Rp)
-                    <mp-icon name="sort-default" />
-                  </mp-table-cell-lite>
-                </mp-table-row-lite>
-              </mp-table-head-lite>
-              <mp-table-body-lite>
-                <mp-table-row-lite v-for="(_, index) in 5" :key="index">
-                  <mp-table-cell-lite as="td">
-                    Head
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite text-align="right" as="td">
-                    Rp15.000.000
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite text-align="right" background-color="green.50" as="td">
-                    Rp16.000.000
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite v-if="option === 'option-2'" as="td">
-                    <mp-input-group>
-                      <mp-input type="number" :value="minTargetValue" :is-disabled="isMinTargetChecked" />
-                      <mp-input-right-addon>
-                        <mp-text font-weight="bold" padding-x="3">
-                          %
-                        </mp-text>
-                      </mp-input-right-addon>
-                    </mp-input-group>
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite v-else text-align="right" background-color="green.50" as="td">
-                    Rp16.000.000
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite text-align="right" background-color="orange.50" as="td">
-                    Rp18.500.000
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite v-if="option === 'option-2'" as="td">
-                    <mp-input-group>
-                      <mp-input type="number" :value="midTargetValue" :is-disabled="isMidTargetChecked"  />
-                      <mp-input-right-addon>
-                        <mp-text font-weight="bold" padding-x="3">
-                          %
-                        </mp-text>
-                      </mp-input-right-addon>
-                    </mp-input-group>
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite v-else text-align="right" background-color="orange.50" as="td">
-                    Rp18.500.000
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite text-align="right" background-color="red.50" as="td">
-                    Rp20.000.000
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite v-if="option === 'option-2'" as="td">
-                    <mp-input-group>
-                      <mp-input type="number" :value="maxTargetValue" :is-disabled="isMaxTargetChecked"  />
-                      <mp-input-right-addon>
-                        <mp-text font-weight="bold" padding-x="3">
-                          %
-                        </mp-text>
-                      </mp-input-right-addon>
-                    </mp-input-group>
-                  </mp-table-cell-lite>
-                  <mp-table-cell-lite v-else text-align="right" background-color="red.50" as="td">
-                    Rp20.000.000
-                  </mp-table-cell-lite>
-                </mp-table-row-lite>
-              </mp-table-body-lite>
-            </mp-table-lite>
-          </mp-table-container>
+          <mp-accordion allow-toggle allow-multiple :default-index="[0]">
+            <mp-accordion-item 
+              v-for="(item, index) in items" 
+              :key="index" 
+              border-bottom-width="0px!important"
+            >
+              <mp-accordion-header border-bottom="1px solid" border-color="gray.100">
+                <mp-accordion-icon />
+                <mp-box flex="1" text-align="left">
+                  {{ item.name }}
+                  <mp-badge variant="subtle" variant-color="blue" margin-left="1">
+                    Criteria 1
+                  </mp-badge>
+                </mp-box>
+              </mp-accordion-header>
+              <mp-accordion-panel padding-y="0">
+                <AccordionNestedLevel 
+                  v-if="item.child && item.child.length > 0" 
+                  :items="item.child" 
+                  :level="1"
+                >
+                  <template #table="{ level }">
+                    <mp-table-container :margin-x="`${8 * level}px`" :width="`calc(100% - ${8 * level}px)!important`" :max-width="`calc(100% - ${8 * level}px)!important`" overflow="scroll">
+                      <mp-table-lite>
+                        <mp-table-head-lite>
+                          <mp-table-row-lite cursor="pointer">
+                            <mp-table-cell-lite width="100px" min-width="150px" as="th">
+                              Job level
+                              <mp-icon name="sort-default" />
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite width="100px" min-width="100px" as="th">
+                              Salary benchmark
+                              <mp-icon name="sort-default" />
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite width="100px" min-width="100px" as="th">
+                              Actual min. salary
+                              <mp-icon name="sort-default" />
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite width="100px" min-width="100px" as="th">
+                              Target min. salary (Rp)
+                              <mp-icon name="sort-default" />
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite width="100px" min-width="100px" as="th">
+                              Actual mid. salary
+                              <mp-icon name="sort-default" />
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite width="100px" min-width="100px" as="th">
+                              Target mid. salary (Rp)
+                              <mp-icon name="sort-default" />
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite width="100px" min-width="100px" as="th">
+                              Actual max. salary
+                              <mp-icon name="sort-default" />
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite width="100px" min-width="100px" as="th">
+                              Target max. salary (Rp)
+                              <mp-icon name="sort-default" />
+                            </mp-table-cell-lite>
+                          </mp-table-row-lite>
+                        </mp-table-head-lite>
+                        <mp-table-body-lite>
+                          <mp-table-row-lite v-for="(_, index) in 5" :key="index">
+                            <mp-table-cell-lite as="td">
+                              Head
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite text-align="right" as="td">
+                              Rp15.000.000
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite text-align="right" background-color="green.50" as="td">
+                              Rp16.000.000
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite v-if="option === 'option-2'" as="td">
+                              <mp-input-group>
+                                <mp-input type="number" :value="minTargetValue" :is-disabled="isMinTargetChecked" />
+                                <mp-input-right-addon>
+                                  <mp-text font-weight="bold" padding-x="3">
+                                    %
+                                  </mp-text>
+                                </mp-input-right-addon>
+                              </mp-input-group>
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite v-else text-align="right" background-color="green.50" as="td">
+                              Rp16.000.000
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite text-align="right" background-color="orange.50" as="td">
+                              Rp18.500.000
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite v-if="option === 'option-2'" as="td">
+                              <mp-input-group>
+                                <mp-input type="number" :value="midTargetValue" :is-disabled="isMidTargetChecked"  />
+                                <mp-input-right-addon>
+                                  <mp-text font-weight="bold" padding-x="3">
+                                    %
+                                  </mp-text>
+                                </mp-input-right-addon>
+                              </mp-input-group>
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite v-else text-align="right" background-color="orange.50" as="td">
+                              Rp18.500.000
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite text-align="right" background-color="red.50" as="td">
+                              Rp20.000.000
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite v-if="option === 'option-2'" as="td">
+                              <mp-input-group>
+                                <mp-input type="number" :value="maxTargetValue" :is-disabled="isMaxTargetChecked"  />
+                                <mp-input-right-addon>
+                                  <mp-text font-weight="bold" padding-x="3">
+                                    %
+                                  </mp-text>
+                                </mp-input-right-addon>
+                              </mp-input-group>
+                            </mp-table-cell-lite>
+                            <mp-table-cell-lite v-else text-align="right" background-color="red.50" as="td">
+                              Rp20.000.000
+                            </mp-table-cell-lite>
+                          </mp-table-row-lite>
+                        </mp-table-body-lite>
+                      </mp-table-lite>
+                    </mp-table-container>
+
+                    <mp-box :margin-left="`${8 * level}px`">
+                      <Pagination />
+                    </mp-box>
+                  </template>
+                </AccordionNestedLevel>
+              </mp-accordion-panel>
+            </mp-accordion-item>
+          </mp-accordion>
 
           <mp-flex gap="2" justify-content="flex-end" margin-top="12">
             <mp-button variant="ghost" as="router-link" to="/">Cancel</mp-button>
@@ -325,6 +335,7 @@
 import {
   MpBox,
   MpFlex,
+  MpBadge,
   MpHeading,
   MpText,
   MpButton,
@@ -348,18 +359,26 @@ import {
   MpTableBodyLite,
   MpTableRowLite,
   MpTableCellLite,
+  MpAccordion,
+  MpAccordionItem,
+  MpAccordionHeader,
+  MpAccordionIcon,
+  MpAccordionPanel,
 } from "@mekari/pixel";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Step from "../components/Step";
 import StepItem from "../components/StepItem";
 import CreateSalaryStructure3Modal from './CreateSalaryStructure3Modal.vue'
+import AccordionNestedLevel from '../components/AccordionNestedLevel.vue'
+import Pagination from '../components/Pagination.vue'
 
 export default {
   name: "CreateSalaryStructure3",
   components: {
     MpBox,
     MpFlex,
+    MpBadge,
     MpHeading,
     MpText,
     MpButton,
@@ -383,10 +402,17 @@ export default {
     MpTableBodyLite,
     MpTableRowLite,
     MpTableCellLite,
+    MpAccordion,
+    MpAccordionItem,
+    MpAccordionHeader,
+    MpAccordionIcon,
+    MpAccordionPanel,
     Header,
     Sidebar,
     Step,
     StepItem,
+    AccordionNestedLevel,
+    Pagination,
     CreateSalaryStructure3Modal
   },
   data: function () {
@@ -400,7 +426,37 @@ export default {
       midTargetValue: 0,
       isMaxTargetChecked: true,
       maxTargetValue: 0,
-      isOpen: false
+      isOpen: false,
+      items: [
+        {
+          name: 'Jakarta',
+          criteria: 'Criteria 1',
+          child: [
+            {
+              name: 'Jakarta selatan',
+              criteria: 'Criteria 2',
+              child: [
+                {
+                  name: 'Customer experience',
+                  criteria: 'Criteria 3',
+                  child: [
+                    {
+                      name: 'Customer support',
+                      criteria: 'Criteria 4',
+                      // Add other object key for table data
+                    },
+                    {
+                      name: 'Customer marketing',
+                      criteria: 'Criteria 4',
+                      // Add other object key for table data
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     }
   },
   methods: {
