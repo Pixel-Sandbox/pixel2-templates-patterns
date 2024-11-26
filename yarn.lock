@@ -1970,6 +1970,11 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@neodrag/vanilla@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@neodrag/vanilla/-/vanilla-2.0.5.tgz#011b8c1d4eb1d693eba66daf0a9cab51a035f278"
+  integrity sha512-wgrqnFCTNj9uVNRnFR68CdP2jityT2CCgpDC1M45cIbn6s9phFmOc16LgqfFAlmQsH7wXwk/zq41BO89idCmqA==
+
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/eslint-scope-5-internals/-/eslint-scope-5-internals-5.1.1-v1.tgz#dbf733a965ca47b1973177dc0bb6c889edcfb129"
@@ -2859,6 +2864,7 @@
   integrity sha512-L2RPSAwUFbgZH20etwrXyVyCBu9OxRSi8T/38QsvnkJyvq2LufW2lDCOzm7t/U9C1mkhJGWYfCuFBCmIuNivrg==
 
 "@vue/vue-loader-v15@npm:vue-loader@^15.9.7", vue-loader@^15.7.2:
+  name "@vue/vue-loader-v15"
   version "15.11.1"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.11.1.tgz#dee91169211276ed43c5715caef88a56b1f497b0"
   integrity sha512-0iw4VchYLePqJfJu9s62ACWUXeSqM30SQqlIftbYWM3C+jpPcEHKSPUZBLjSF9au4HTHQ/naF6OGnO3Q/qGR3Q==
