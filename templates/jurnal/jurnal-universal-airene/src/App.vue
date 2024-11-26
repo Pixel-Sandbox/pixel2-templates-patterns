@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      isShowIntroAnimation: false,
+      isShowIntroAnimation: true,
       isShowAireneContextual: true,
 
       contextOptionLists: [
