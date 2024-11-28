@@ -264,8 +264,6 @@ import {
   MpPopoverListItem,
 } from "@mekari/pixel";
 
-import { CHAT_HISTORY } from "../examples-datasets/chat-history";
-
 // Airene components
 import AireneChatItem from "../components/chat/AireneChatItem.vue";
 import AireneChatGroup from "../components/chat/AireneChatGroup.vue";
@@ -309,7 +307,6 @@ export default {
 
       // Chats
       currentChatActive: "a1b2c3d4",
-      chatsHistory: CHAT_HISTORY,
 
       // Assertion
       isOpenDeleteDialog: false,

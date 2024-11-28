@@ -7,7 +7,10 @@
     bg="white"
     overflow="hidden"
   >
-    <mp-table-container overflow="auto">
+    <mp-table-container
+      v-if="!isOnlyShowInFullView || showInFullView"
+      overflow="auto"
+    >
       <mp-table-lite :is-hoverable="false">
         <mp-table-head-lite>
           <mp-table-row-lite>
@@ -29,12 +32,31 @@
         </mp-table-body-lite>
       </mp-table-lite>
     </mp-table-container>
+
+    <mp-flex
+      v-if="isOnlyShowInFullView && !showInFullView"
+      height="300px"
+      width="full"
+      align-items="center"
+      justify-content="center"
+    >
+      <mp-text
+        color="gray.600"
+        font-size="sm"
+        text-align="center"
+        max-w="197px"
+      >
+        To view table or chart please see in full page
+      </mp-text>
+    </mp-flex>
   </mp-box>
 </template>
 
 <script>
 import {
   MpBox,
+  MpFlex,
+  MpText,
   MpTableContainer,
   MpTableLite,
   MpTableHeadLite,
@@ -46,6 +68,8 @@ import {
 export default {
   components: {
     MpBox,
+    MpFlex,
+    MpText,
     MpTableContainer,
     MpTableLite,
     MpTableHeadLite,
@@ -54,6 +78,10 @@ export default {
     MpTableCellLite,
   },
   props: {
+    isOnlyShowInFullView: {
+      type: Boolean,
+      default: false,
+    },
     showInFullView: {
       type: Boolean,
       default: false,

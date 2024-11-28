@@ -6,29 +6,54 @@
     :p="showInFullView ? 0 : 2"
     bg="white"
   >
-    <mp-chart
-      v-if="chartData.labels.length > 0 && chartData.datasets.length > 0"
-      type="bar"
-      width-container="full"
-      :width-chart="getChartWidth"
-      :height-chart="showInFullView ? '70vh' : '308px'"
-      :data="chartData"
-      :options="chartOptions"
-      :is-show-legend="false"
-    />
+    <template v-if="!isOnlyShowInFullView || showInFullView">
+      <mp-chart
+        v-if="chartData.labels.length > 0 && chartData.datasets.length > 0"
+        type="bar"
+        width-container="full"
+        :width-chart="getChartWidth"
+        :height-chart="showInFullView ? '70vh' : '308px'"
+        :data="chartData"
+        :options="chartOptions"
+        :is-show-legend="false"
+      />
+    </template>
+
+    <mp-flex
+      v-if="isOnlyShowInFullView && !showInFullView"
+      height="300px"
+      width="full"
+      align-items="center"
+      justify-content="center"
+    >
+      <mp-text
+        color="gray.600"
+        font-size="sm"
+        text-align="center"
+        max-w="197px"
+      >
+        To view table or chart please see in full page
+      </mp-text>
+    </mp-flex>
   </mp-box>
 </template>
 
 <script>
-import { MpChart, MpBox } from "@mekari/pixel";
+import { MpChart, MpBox, MpFlex, MpText } from "@mekari/pixel";
 
 export default {
   name: "DoughnutChart",
   components: {
     MpChart,
     MpBox,
+    MpFlex,
+    MpText,
   },
   props: {
+    isOnlyShowInFullView: {
+      type: Boolean,
+      default: false,
+    },
     showInFullView: {
       type: Boolean,
       default: false,

@@ -1,6 +1,6 @@
 <template>
   <mp-box p="4">
-    <mp-airene-button @click="handleOpen">
+    <mp-airene-button @click="handleOpen()">
       Analisis performa penjualan
     </mp-airene-button>
 

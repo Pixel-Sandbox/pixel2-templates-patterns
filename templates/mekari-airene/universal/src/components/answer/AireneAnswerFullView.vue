@@ -5,6 +5,7 @@
     :on-close="handleClose"
     is-centered
     scroll-behavior="auto"
+    :return-focus-on-close="false"
   >
     <mp-modal-content>
       <mp-modal-header
