@@ -1,5 +1,5 @@
 <template>
-  <mp-popover :id="id" placement="bottom-start" :use-portal="true" :is-keep-alive="false" v-slot="{ onClose }">
+  <mp-popover :id="id" placement="bottom-start" :use-portal="true" v-slot="{ onClose }">
     <mp-popover-trigger>
       <mp-box>
         <slot></slot>
