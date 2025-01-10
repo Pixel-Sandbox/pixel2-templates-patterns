@@ -5,25 +5,10 @@
         <slot></slot>
       </mp-box>
     </mp-popover-trigger>
-    <mp-popover-content
-      width="360px"
-      bg="white"
-      rounded="md"
-      shadow="lg"
-      border-width="1px"
-      border-color="gray.400"
-    >
+    <mp-popover-content width="360px" bg="white" rounded="md" shadow="lg" border-width="1px" border-color="gray.400">
       <mp-box>
-        <mp-flex
-          align-items="center"
-          justify-content="space-between"
-          py="3"
-          px="4"
-          bg="background"
-          rounded-top="md"
-          border-bottom-width="1px"
-          border-color="gray.100"
-        >
+        <mp-flex align-items="center" justify-content="space-between" py="3" px="4" bg="background" rounded-top="md"
+          border-bottom-width="1px" border-color="gray.100">
           <mp-text font-weight="semibold" font-size="md">
             Give feedback for Mekari Airene
           </mp-text>
@@ -35,11 +20,7 @@
           <mp-text>What is the main reason of your feedback?</mp-text>
           <mp-form-control control-id="reason-option">
             <mp-form-label>Please select one option</mp-form-label>
-            <mp-radio-group
-              v-model="reasonOption"
-              name="reason-option"
-              spacing="1"
-            >
+            <mp-radio-group v-model="reasonOption" name="reason-option" spacing="1">
               <mp-radio id="1" value="response_accuracy">
                 Response accuracy
               </mp-radio>
@@ -49,10 +30,7 @@
           </mp-form-control>
           <mp-form-control control-id="input-feedback">
             <mp-form-label>Give feedback</mp-form-label>
-            <mp-textarea
-              v-model="reasonFedback"
-              placeholder="Enter your feedback"
-            />
+            <mp-textarea v-model="reasonFedback" placeholder="Enter your feedback" />
           </mp-form-control>
         </mp-flex>
 
