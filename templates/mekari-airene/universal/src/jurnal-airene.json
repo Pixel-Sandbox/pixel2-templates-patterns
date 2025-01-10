@@ -1,0 +1,103 @@
+{
+  "message": "Success",
+  "status": 200,
+  "data": {
+    "company_id": 679,
+    "question_id": "5ce1cff095fe4",
+    "question_text": "karyawan yang sering telat taun ini siapa?",
+    "session_id": "3a3119aa51434",
+    "suggested_question": [
+      "Berapa total menit keterlambatan setiap karyawan tahun ini?",
+      "Apakah ada karyawan yang sering keluar lebih awal tahun ini?",
+      "Siapa karyawan yang paling sering tidak hadir tanpa alasan tahun ini?",
+      "Berapa total jam kerja aktual setiap karyawan tahun ini?"
+    ],
+    "table_context": 2,
+    "table_result": {
+      "full_name": {
+        "0": "Devi K Dummy",
+        "1": "DANI NUGRAHA",
+        "10": "GARIN ABADI",
+        "11": "HENDRI HERMANSYAH",
+        "12": "Kim Jong Gun",
+        "13": "KRISTIANAKA ",
+        "14": "ALIF YAHYA PRASTYA",
+        "15": "DEVI CANADIANTI",
+        "2": "ZADHIRA GILLRANDRI PRAMUDITA",
+        "3": "Devi K Dummy 5 ",
+        "4": "Devi K Dummy 3 ",
+        "5": "Vera Winter ",
+        "6": "AKMAL ",
+        "7": "ACHMAD TAUFIK,SE",
+        "8": "AA SUKRIADI. SKM",
+        "9": "Dummy 9999"
+      },
+      "total_late_days": {
+        "0": 15,
+        "1": 3,
+        "10": 1,
+        "11": 1,
+        "12": 1,
+        "13": 1,
+        "14": 1,
+        "15": 1,
+        "2": 3,
+        "3": 2,
+        "4": 2,
+        "5": 2,
+        "6": 1,
+        "7": 1,
+        "8": 1,
+        "9": 1
+      }
+    },
+    "visualization_result": {
+      "title": "Employees with Most Late Days This Year",
+      "type": "bar",
+      "x_axis": [
+        "AA SUKRIADI. SKM",
+        "ACHMAD TAUFIK,SE",
+        "AKMAL ",
+        "ALIF YAHYA PRASTYA",
+        "DANI NUGRAHA",
+        "DEVI CANADIANTI",
+        "Devi K Dummy",
+        "Devi K Dummy 3 ",
+        "Devi K Dummy 5 ",
+        "Dummy 9999",
+        "GARIN ABADI",
+        "HENDRI HERMANSYAH",
+        "KRISTIANAKA ",
+        "Kim Jong Gun",
+        "Vera Winter ",
+        "ZADHIRA GILLRANDRI PRAMUDITA"
+      ],
+      "y_axis": [
+        {
+          "labels": "full_name",
+          "data": [1, 1, 1, 1, 3, 1, 15, 2, 2, 1, 1, 1, 1, 1, 2, 3]
+        }
+      ]
+    },
+    "wrap_result": "__Overall Trend__: \n\nDari data yang diberikan, Devi K Dummy adalah karyawan yang paling sering terlambat tahun ini dengan total 15 hari keterlambatan. Karyawan lainnya memiliki jumlah hari terlambat yang jauh lebih sedikit, dengan sebagian besar hanya terlambat 1 hingga 3 hari.\n\n<br/>\n \n\n__Summary__ : \n\n- Devi K Dummy: 15 hari keterlambatan\n- DANI NUGRAHA: 3 hari keterlambatan\n- ZADHIRA GILLRANDRI PRAMUDITA: 3 hari keterlambatan\n- Devi K Dummy 5: 2 hari keterlambatan\n- Devi K Dummy 3: 2 hari keterlambatan\n- Vera Winter: 2 hari keterlambatan\n- AKMAL: 1 hari keterlambatan\n- ACHMAD TAUFIK,SE: 1 hari keterlambatan\n- AA SUKRIADI. SKM: 1 hari keterlambatan\n- Dummy 9999: 1 hari keterlambatan\n- GARIN ABADI: 1 hari keterlambatan\n- HENDRI HERMANSYAH: 1 hari keterlambatan\n- Kim Jong Gun: 1 hari keterlambatan\n- KRISTIANAKA: 1 hari keterlambatan\n- ALIF YAHYA PRASTYA: 1 hari keterlambatan\n- DEVI CANADIANTI: 1 hari keterlambatan\n\n<br/>\n \n\n__Recommendation__ : \n\n- Rekomendasi umum: HR harus memantau lebih dekat perilaku keterlambatan karyawan dan mencari tahu penyebab utama keterlambatan, kemudian memberikan sanksi atau solusi yang sesuai untuk mengurangi keterlambatan.\n\n- Rekomendasi spesifik: Devi K Dummy memerlukan perhatian khusus mengingat jumlah hari keterlambatannya yang jauh lebih tinggi dibandingkan karyawan lainnya. Disarankan untuk melakukan sesi konseling dan menetapkan tindakan korektif yang tepat untuk Devi K Dummy.",
+    "reference_data": [
+      {
+        "label": "Laporan penjualan September 2024",
+        "report_type": "sales",
+        "payload": {
+          "start_date": "2024-09-01",
+          "end_date": "2024-09-31",
+          "page": 1,
+          "compare_type": "day",
+          "transaction_type_id": "1",
+          "report_layout_id": "1",
+          "tag_logic": "and",
+          "detail": "1",
+          "deposit_account_id": "all",
+          "aged_by": "transaction_date",
+          "z": "1728461798"
+        }
+      }
+    ]
+  }
+}
