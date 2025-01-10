@@ -27,6 +27,7 @@
     "templates/mekari-account/*",
     "templates/mekari-stream/*",
     "templates/layout/*",
+    "templates/mekari-airene/*",
     "patterns/*"
   ]
 }
