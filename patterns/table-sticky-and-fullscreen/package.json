@@ -1,0 +1,54 @@
+{
+  "name": "pattern-table-sticky-and-fullscreen",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build:web-component": "env BUILD_TYPE=\"web-component\" vue-cli-service build --target lib --inline-vue --formats umd-min --name web-component src/navigation/web-component/builder.js --dest dist-wc",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@emotion/css": "^11.11.2",
+    "@fontsource/inter": "^5.0.8",
+    "@mekari/pixel": "*",
+    "core-js": "^3.8.3",
+    "document-register-element": "^1.14.10",
+    "portal-vue": "2",
+    "vue": "^2.6.14",
+    "vue-custom-element": "^3.3.0",
+    "vue-router": "3.6.5",
+    "vuex": "3.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "keywords": [],
+  "description": ""
+}
