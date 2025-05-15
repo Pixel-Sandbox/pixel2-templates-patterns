@@ -52,82 +52,103 @@
 
     <PixelPageContent ref="pageContent" variant="card" :is-full-screen="isFullScreen">
       <mp-collapse :is-open="!isFullScreen">
-        <mp-flex justify-content="space-between" mb="6">
-          <mp-flex align-items="center" gap="3">
-            <mp-form-control width="140px">
-              <mp-form-label>
-                Tanggal awal
-              </mp-form-label>
-              <mp-date-picker placeholder="Pilih tanggal" />
-            </mp-form-control>
+        <mp-box>
+          <mp-flex justify-content="space-between" mb="6">
+            <mp-flex align-items="center" gap="3">
+              <mp-form-control width="140px">
+                <mp-form-label>
+                  Tanggal awal
+                </mp-form-label>
+                <mp-date-picker placeholder="Pilih tanggal" />
+              </mp-form-control>
 
-            <mp-form-control width="140px">
-              <mp-form-label>
-                Tanggal akhir
-              </mp-form-label>
-              <mp-date-picker placeholder="Pilih tanggal" />
-            </mp-form-control>
+              <mp-form-control width="140px">
+                <mp-form-label>
+                  Tanggal akhir
+                </mp-form-label>
+                <mp-date-picker placeholder="Pilih tanggal" />
+              </mp-form-control>
 
-            <mp-form-control width="140px">
-              <mp-form-label>
-                Periode
-              </mp-form-label>
-              <mp-autocomplete placeholder="Pilih periode" value="Bulan lalu"
-                :data="['Hari ini', 'Mingguan', 'Bulanan', 'Triwulanan', 'Tahunan', 'Bulan lalu', 'Tahun lalu', 'Per bulan tahun ini, Custom']" />
-            </mp-form-control>
+              <mp-form-control width="140px">
+                <mp-form-label>
+                  Periode
+                </mp-form-label>
+                <mp-autocomplete placeholder="Pilih periode" value="Bulan lalu"
+                  :data="['Hari ini', 'Mingguan', 'Bulanan', 'Triwulanan', 'Tahunan', 'Bulan lalu', 'Tahun lalu', 'Per bulan tahun ini, Custom']" />
+              </mp-form-control>
 
-            <mp-flex gap="3" mt="21px">
-              <mp-button> Tampilkan </mp-button>
+              <mp-flex gap="3" mt="21px">
+                <mp-button> Tampilkan </mp-button>
 
-              <mp-button variant="outline">
-                <mp-icon name="filter" variant="duotone" mr="2" />
-                Filter
+                <mp-button variant="outline">
+                  <mp-icon name="filter" variant="duotone" mr="2" />
+                  Filter
+                </mp-button>
+              </mp-flex>
+            </mp-flex>
+
+            <mp-flex align-items="center" gap="3">
+              <mp-popover>
+                <mp-popover-trigger>
+                  <mp-button-icon v-mp-tooltip="'Kepadatan tabel'" name="table-view-column" />
+                </mp-popover-trigger>
+
+                <mp-popover-content max-width="64" bg="white" rounded="md" shadow="lg" border-width="1px"
+                  border-color="gray.400" px="3" py="4">
+                  <mp-box pt="2">
+                    <mp-text color="gray.400">
+                      K E P A D A T A N
+                    </mp-text>
+                    <mp-radio-group v-model="density" mt="2" @change="onChangeDensity">
+                      <mp-radio id="default" value="default">
+                        Default
+                        <template #description>
+                          Tampilan ini memberikan lebih banyak ruang antarakun transaksi untuk kemudahan membaca.
+                        </template>
+                      </mp-radio>
+
+                      <mp-radio id="compact" value="compact">
+                        Rapat
+                        <template #description>
+                          Tampilan ini memuat lebih banyak akun transaksi di layar, sehingga ideal untuk memeriksa
+                          data lebih
+                          cepat.
+                        </template>
+                      </mp-radio>
+                    </mp-radio-group>
+                  </mp-box>
+                </mp-popover-content>
+              </mp-popover>
+
+              <mp-button-icon v-mp-tooltip="'Perluas'" name="full-screen" @click="setFullscreen(true)" />
+
+              <mp-button variant="outline" right-icon="caret-down">
+                Template
+              </mp-button>
+
+              <mp-button variant="outline" right-icon="caret-down">
+                Ekspor
               </mp-button>
             </mp-flex>
           </mp-flex>
+        </mp-box>
 
-          <mp-flex align-items="center" gap="3">
-            <mp-popover>
-              <mp-popover-trigger>
-                <mp-button-icon v-mp-tooltip="'Kepadatan tabel'" name="table-view-column" />
-              </mp-popover-trigger>
+        <mp-flex justify="space-between" align-items="center" mb="6">
+          <mp-flex align-items="center" gap="2">
+            <mp-text>
+              Terakhir diperbarui: 19 Nov 2023 pada 19:19 (GMT+7)
+            </mp-text>
+            <mp-icon v-mp-tooltip="{
+              position: 'right',
+              label: 'Untuk mendapat laporan terbaru, Anda dapat memuat ulang halaman ini atau menghubungi tim support kami',
+            }" size="sm" name="info" />
+          </mp-flex>
 
-              <mp-popover-content max-width="64" bg="white" rounded="md" shadow="lg" border-width="1px"
-                border-color="gray.400" px="3" py="4">
-                <mp-box pt="2">
-                  <mp-text color="gray.400">
-                    K E P A D A T A N
-                  </mp-text>
-                  <mp-radio-group v-model="density" mt="2" @change="onChangeDensity">
-                    <mp-radio id="default" value="default">
-                      Default
-                      <template #description>
-                        Tampilan ini memberikan lebih banyak ruang antarakun transaksi untuk kemudahan membaca.
-                      </template>
-                    </mp-radio>
-
-                    <mp-radio id="compact" value="compact">
-                      Rapat
-                      <template #description>
-                        Tampilan ini memuat lebih banyak akun transaksi di layar, sehingga ideal untuk memeriksa
-                        data lebih
-                        cepat.
-                      </template>
-                    </mp-radio>
-                  </mp-radio-group>
-                </mp-box>
-              </mp-popover-content>
-            </mp-popover>
-
-            <mp-button-icon v-mp-tooltip="'Perluas'" name="full-screen" @click="setFullscreen(true)" />
-
-            <mp-button variant="outline" right-icon="caret-down">
-              Template
-            </mp-button>
-
-            <mp-button variant="outline" right-icon="caret-down">
-              Ekspor
-            </mp-button>
+          <mp-flex align-items="center" gap="2">
+            <mp-icon name="pdf-document" />
+            <mp-text is-link>
+              Lihat contoh
+            </mp-text>
           </mp-flex>
         </mp-flex>
       </mp-collapse>
@@ -162,10 +183,13 @@
                     </mp-flex>
                   </mp-table-cell-lite>
 
-                  <mp-table-cell-lite v-for="head in heads" :key="head" as="th" scope="col" height="auto"
-                    py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right" width="132px"
-                    min-width="132px">
-                    {{ head }}
+                  <mp-table-cell-lite v-for="head in generatedHeads" :key="head" as="th" scope="col" height="auto"
+                    py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right"
+                    :width="head.includes('compare') ? '60px' : '132px'"
+                    :min-width="head.includes('compare') ? '60px' : '132px'">
+                    <span v-if="!head.includes('compare')">
+                      {{ head }}
+                    </span>
                   </mp-table-cell-lite>
                 </mp-table-row-lite>
               </mp-table-head-lite>
@@ -194,16 +218,19 @@
                     </button>
                   </mp-flex>
                 </mp-table-cell-lite>
-                <mp-table-cell-lite v-for="head in heads" :key="head" as="th" scope="col" height="auto"
-                  py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right" width="132px"
-                  min-width="132px">
-                  {{ head }}
+                <mp-table-cell-lite v-for="head in generatedHeads" :key="head" as="th" scope="col" height="auto"
+                  py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right"
+                  :width="head.includes('compare') ? '60px' : '132px'"
+                  :min-width="head.includes('compare') ? '60px' : '132px'">
+                  <span v-if="!head.includes('compare')">
+                    {{ head }}
+                  </span>
                 </mp-table-cell-lite>
               </mp-table-row-lite>
             </mp-table-head-lite>
 
             <mp-table-body-lite>
-              <template v-for="(data, index) in datas">
+              <template v-for="(data, index) in generatedDatas">
                 <mp-table-row-lite v-if="data.type === 'title'" :key="`header-${index}`" data-row-type="title">
                   <mp-table-cell-lite as="td" scope="row" height="auto" width="300px" py="var(--pnl-table-padding)"
                     px="var(--pnl-table-padding)" left="0" box-shadow="inset -2px 0px #D0D6DD" is-fixed
@@ -223,6 +250,7 @@
                     :border-bottom-width="datas[index + 1].type === 'sub-total' ? '0px' : '1px'" />
                 </mp-table-row-lite>
 
+                <!-- Account row -->
                 <mp-table-row-lite v-else-if="data.type === 'account'" :key="`account-${index}`"
                   data-row-type="account">
                   <mp-table-cell-lite as="td" scope="row" height="auto" width="300px" py="var(--pnl-table-padding)"
@@ -241,14 +269,24 @@
                     </mp-flex>
                   </mp-table-cell-lite>
 
-                  <mp-table-cell-lite v-for="(head, headIndex) in heads" :key="head" as="td" scope="row" height="auto"
-                    py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right"
+                  <mp-table-cell-lite v-for="(head, headIndex) in generatedHeads" :key="head" as="td" scope="row"
+                    height="auto" py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right"
                     :border-bottom-width="datas[index + 1].type === 'sub-total' ? '0px' : '1px'"
-                    border-bottom-color="gray.100" width="132px" min-width="132px">
-                    {{ data.values[headIndex] }}
+                    border-bottom-color="gray.100" :width="head.includes('compare') ? '60px' : '132px'"
+                    :min-width="head.includes('compare') ? '60px' : '132px'">
+                    <MpText v-if="data.values[headIndex].type === 'value'" as="span">
+                      {{ data.values[headIndex].formattedValue }}
+                    </MpText>
+
+                    <MpText
+                      v-else-if="data.values[headIndex].type === 'percentage' && data.values[headIndex].value !== 0"
+                      as="span" :color="data.values[headIndex].value > 0 ? 'green' : 'red'" font-size="xs">
+                      {{ data.values[headIndex].formattedValue }}
+                    </MpText>
                   </mp-table-cell-lite>
                 </mp-table-row-lite>
 
+                <!-- Sub-total row -->
                 <mp-table-row-lite v-else-if="data.type === 'sub-total'" :key="`sub-total-${index}`"
                   data-row-type="sub-total">
                   <mp-table-cell-lite as="td" scope="row" height="auto" width="300px" py="var(--pnl-table-padding)"
@@ -261,13 +299,24 @@
                     </mp-flex>
                   </mp-table-cell-lite>
 
-                  <mp-table-cell-lite v-for="(head, headIndex) in heads" :key="head" as="td" scope="row" height="auto"
-                    py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right"
-                    border-top-width="1px" border-top-color="dark" border-bottom-width="1px" border-bottom-color="dark">
-                    {{ data.values[headIndex] }}
+                  <mp-table-cell-lite v-for="(head, headIndex) in generatedHeads" :key="head" as="td" scope="row"
+                    height="auto" py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right"
+                    border-top-width="1px" border-top-color="dark" border-bottom-width="1px" border-bottom-color="dark"
+                    :width="head.includes('compare') ? '60px' : '132px'"
+                    :min-width="head.includes('compare') ? '60px' : '132px'">
+                    <MpText v-if="data.values[headIndex].type === 'value'" as="span">
+                      {{ data.values[headIndex].formattedValue }}
+                    </MpText>
+
+                    <MpText
+                      v-else-if="data.values[headIndex].type === 'percentage' && data.values[headIndex].value !== 0"
+                      as="span" font-size="xs">
+                      {{ data.values[headIndex].formattedValue }}
+                    </MpText>
                   </mp-table-cell-lite>
                 </mp-table-row-lite>
 
+                <!-- Total row -->
                 <mp-table-row-lite v-else-if="data.type === 'total'" :key="`total-${index}`" data-row-type="total">
                   <mp-table-cell-lite as="td" scope="row" height="auto" width="300px" py="var(--pnl-table-padding)"
                     px="var(--pnl-table-padding)" left="0" box-shadow="inset -2px 0px #D0D6DD" is-fixed
@@ -279,12 +328,18 @@
                     </mp-flex>
                   </mp-table-cell-lite>
 
-                  <mp-table-cell-lite v-for="(head, headIndex) in heads" :key="head" as="td" scope="row" height="auto"
-                    py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right"
+                  <mp-table-cell-lite v-for="(head, headIndex) in generatedHeads" :key="head" as="td" scope="row"
+                    height="auto" py="var(--pnl-table-padding)" px="var(--pnl-table-padding)" text-align="right"
                     :pb="datas.length === index + 1 ? '1' : '28px'">
-                    <mp-text font-weight="semibold">
-                      {{ data.values[headIndex] }}
-                    </mp-text>
+                    <MpText v-if="data.values[headIndex].type === 'value'" as="span" font-weight="semibold">
+                      {{ data.values[headIndex].formattedValue }}
+                    </MpText>
+
+                    <MpText
+                      v-else-if="data.values[headIndex].type === 'percentage' && data.values[headIndex].value !== 0"
+                      as="span" font-weight="semibold" font-size="xs">
+                      {{ data.values[headIndex].formattedValue }}
+                    </MpText>
                   </mp-table-cell-lite>
                 </mp-table-row-lite>
               </template>
@@ -391,6 +446,17 @@ export default {
     isStickyHeaderVisible() {
       if (this.isHeaderAboveThreshold && this.isTableVisible) return true
       return false
+    },
+    generatedHeads() {
+      return this.generateCompareableHeads(this.heads)
+    },
+    generatedDatas() {
+      return this.datas.map((data) => {
+        return {
+          ...data,
+          values: this.generateCompareableDatas(data.values),
+        }
+      })
     },
   },
   mounted() {
@@ -590,6 +656,60 @@ export default {
       return Array.from(node.children).map(
         child => child.getBoundingClientRect().width,
       )
+    },
+
+    generateCompareableHeads(heads) {
+      const result = []
+
+      for (let i = 0; i < heads.length; i++) {
+        result.push(heads[i])
+
+        // Add comparison entry between current and next month
+        if (i < heads.length - 1) {
+          result.push(`compare:${heads[i]}:${heads[i - 1]}`)
+        }
+      }
+
+      return result
+    },
+    generateCompareableDatas(datas) {
+      const result = []
+
+      for (let i = 0; i < datas.length; i++) {
+        // Format the value if it's a number
+        const rawCurrentValue = typeof datas[i] === 'number' ? datas[i] : 0
+        const currentValue = { type: 'value', formattedValue: this.formatCurrency(rawCurrentValue), value: rawCurrentValue }
+        result.push(currentValue)
+
+        if (i < datas.length - 1) {
+          // Format next value if it's a number
+          const rawPreviousValue = typeof datas[i - 1] === 'number' ? datas[i - 1] : 0
+          let percentage = 0
+          const rawPercentage = Number(((rawCurrentValue - rawPreviousValue) / rawPreviousValue) * 100)
+          if (rawCurrentValue !== 0) {
+            percentage = rawPercentage.toFixed(1)
+          }
+
+          const finalPercentage = i === 0 ? '' : percentage
+
+          result.push({
+            type: 'percentage',
+            formattedValue: finalPercentage,
+            value: rawPercentage || 0,
+          })
+        }
+      }
+
+      return result
+    },
+    formatCurrency(value, decimals = 2) {
+      if (value === null || value === undefined) return ''
+
+      // Use Intl.NumberFormat with Indonesian locale
+      return new Intl.NumberFormat('id-ID', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      }).format(value)
     },
   },
 }
