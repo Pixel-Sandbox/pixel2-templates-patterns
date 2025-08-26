@@ -1,0 +1,193 @@
+{
+  "heads": [
+    "Desember 2024",
+    "November 2024",
+    "Oktober 2024",
+    "September 2024",
+    "Agustus 2024",
+    "Juli 2024",
+    "Juni 2024",
+    "Mei 2024",
+    "April 2024",
+    "Maret 2024",
+    "Februari 2024",
+    "Januari 2024"
+  ],
+  "datas": [
+    {
+      "type": "title",
+      "title": "Pendapatan",
+      "values": []
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "1-10001",
+      "accountName": "Pendapatan Penjualan",
+      "level": 0,
+      "values": [
+        1250000.0, 1345600.0, 987500.0, 1125000.0, 1450000.0, 1275800.0,
+        1100000.0, 1325000.0, 1200000.0, 1175000.0, 950000.0, 1050000.0
+      ]
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "1-10002",
+      "accountName": "Pendapatan Jasa",
+      "level": 0,
+      "values": [
+        750000.0, 825000.0, 675000.0, 700000.0, 850000.0, 775000.0, 725000.0,
+        800000.0, 725000.0, 650000.0, 600000.0, 625000.0
+      ]
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "1-10003",
+      "accountName": "Pendapatan Bunga",
+      "level": 0,
+      "values": [
+        125000.0, 135000.0, 115000.0, 120000.0, 140000.0, 130000.0, 125000.0,
+        135000.0, 120000.0, 110000.0, 105000.0, 115000.0
+      ]
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "1-10004",
+      "accountName": "Pendapatan Sewa",
+      "level": 0,
+      "values": [
+        500000.0, 500000.0, 500000.0, 500000.0, 500000.0, 500000.0, 500000.0,
+        500000.0, 500000.0, 500000.0, 500000.0, 500000.0
+      ]
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "1-10005",
+      "accountName": "Keuntungan Selisih Kurs",
+      "level": 0,
+      "values": [
+        75000.0, 85000.0, 65000.0, 70000.0, 90000.0, 80000.0, 75000.0, 85000.0,
+        70000.0, 65000.0, 60000.0, 70000.0
+      ]
+    },
+    {
+      "type": "sub-total",
+      "title": "Total dari pendapatan",
+      "values": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    },
+
+    {
+      "type": "title",
+      "title": "Beban pokok pendapatan",
+      "values": []
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "1-10001",
+      "accountName": "Biaya Produksi",
+      "level": 0,
+      "values": [
+        1250000.0, 1345600.0, 987500.0, 1125000.0, 1450000.0, 1275800.0,
+        1100000.0, 1325000.0, 1200000.0, 1175000.0, 950000.0, 1050000.0
+      ]
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "1-10002",
+      "accountName": "Biaya Bahan Baku",
+      "level": 0,
+      "values": [
+        750000.0, 825000.0, 675000.0, 700000.0, 850000.0, 775000.0, 725000.0,
+        800000.0, 725000.0, 650000.0, 600000.0, 625000.0
+      ]
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "1-10003",
+      "accountName": "Biaya Tenaga Kerja Langsung",
+      "level": 0,
+      "values": [
+        125000.0, 135000.0, 115000.0, 120000.0, 140000.0, 130000.0, 125000.0,
+        135000.0, 120000.0, 110000.0, 105000.0, 115000.0
+      ]
+    },
+    {
+      "type": "sub-total",
+      "title": "Total dari beban pokok penjualan",
+      "values": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    },
+    {
+      "type": "total",
+      "title": "Laba kotor",
+      "values": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    },
+
+    {
+      "type": "title",
+      "title": "Beban operasional",
+      "values": []
+    },
+    {
+      "type": "sub-total",
+      "title": "Total dari beban operasional",
+      "values": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    },
+    {
+      "type": "total",
+      "title": "Laba operasional",
+      "values": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    },
+
+    {
+      "type": "title",
+      "title": "Pendapatan (beban lain-lain)",
+      "values": []
+    },
+    {
+      "type": "title",
+      "title": "Pendapatan lain-lain",
+      "level": 1,
+      "values": []
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "7-70-099",
+      "accountName": "Other Incomes",
+      "level": 0,
+      "values": [
+        750000.0, 825000.0, 675000.0, 700000.0, 850000.0, 775000.0, 725000.0,
+        800000.0, 725000.0, 650000.0, 600000.0, 625000.0
+      ]
+    },
+    {
+      "type": "title",
+      "title": "Beban lain-lain",
+      "level": 1,
+      "values": []
+    },
+    {
+      "type": "account",
+      "title": "",
+      "account": "8-80005",
+      "accountName": "Foreign Exchange (Profit)/Loss - Realised",
+      "level": 0,
+      "values": [
+        750000.0, 825000.0, 675000.0, 700000.0, 850000.0, 775000.0, 725000.0,
+        800000.0, 725000.0, 650000.0, 600000.0, 625000.0
+      ]
+    },
+    {
+      "type": "total",
+      "title": "Laba (rugi)",
+      "values": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    }
+  ]
+}
